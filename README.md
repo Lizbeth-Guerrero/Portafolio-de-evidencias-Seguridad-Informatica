@@ -16,8 +16,7 @@ CNO IV: Seguridad Informática — Portafolio de Evidencias
 
 ```text
 ├── Unidades/
-│   ├── Unidad_1/     # Conceptos generales y auditoría
-│   ├── Unidad_2/     # Análisis de vulnerabilidades
-│   └── Unidad_3/     # Forense y respuesta a incidentes
-├── Practicas/        # Reportes y scripts de prácticas
-└── Laboratorios/     # Evidencias de labs
+│   ├── Unidad_1/     # Fundamentos de ciberseguridad
+│   ├── Unidad_2/     # 
+│   └── Unidad_3/     # 
+├── Certificaciones/  #
