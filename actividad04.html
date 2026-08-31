@@ -357,8 +357,8 @@
   <header>
     <div class="kicker">// ACTIVIDAD 04 · PARCIAL I</div>
     <h1>Una página demasiado convincente</h1>
-    <p>Simulación de ingeniería social en laboratorio mediante Social-Engineer Toolkit (SET) y Credential Harvester para el análisis técnico de captura de información e identificación de phishing.</p>
-    
+    <p>Simulación de ingeniería social en laboratorio mediante Social-Engineer Toolkit (SET) en modo consola (CLI), importación de plantilla personalizada (UMSLP) e intercepción de credenciales HTTP POST.</p>
+
     <nav class="back">
       <a href="index.html"><i class="fa-solid fa-arrow-left"></i> // VOLVER AL PORTAFOLIO</a>
     </nav>
@@ -369,22 +369,28 @@
     <section>
       <div class="card">
         <h2><i class="fa-solid fa-crosshairs"></i> 01 // Objetivo de la Práctica</h2>
-        <p>Implementar y analizar, en un entorno de laboratorio controlado, una simulación de ingeniería social mediante Social-Engineer Toolkit (SET), utilizando una página web ficticia para comprender el funcionamiento de una técnica de captura de información y reconocer los elementos técnicos y visuales que permiten identificar un intento de phishing.</p>
+        <p>Implementar y analizar, en un entorno de laboratorio controlado y mediante la interfaz de línea de comandos (CLI), una simulación de ingeniería social con Social-Engineer Toolkit (SET). La práctica utiliza una plantilla clonada del portal institucional de la Universidad Mapache de San Luis Potosí (UMSLP) importada a Kali Linux para comprender el funcionamiento técnico del robo de credenciales y determinar los controles defensivos requeridos.</p>
       </div>
     </section>
 
     <!-- 02 ENTORNO DE LABORATORIO -->
     <section>
       <div class="card">
-        <h2><i class="fa-solid fa-flask"></i> 02 // Entorno de Laboratorio</h2>
+        <h2><i class="fa-solid fa-flask"></i> 02 // Entorno de Laboratorio y Optimización CLI</h2>
+        <p style="margin-bottom: 1rem;">Para optimizar el uso de recursos de memoria RAM (asignación de 960 MB), la máquina virtual Kali Linux fue operada exclusivamente en <strong>Modo Consola (Línea de comandos / CLI)</strong>. Se estableció una red interna privada de tipo <em>Host-Only</em> entre la máquina virtual y el sistema anfitrión.</p>
         <div class="grid" style="margin-top: 1rem;">
           <div class="card" style="background: rgba(0,0,0,0.5);">
-            <h3><i class="fa-solid fa-terminal"></i> Máquina Atacante</h3>
-            <p><strong>OS:</strong> Kali Linux 2026.x (IP: <code>192.168.1.50</code>)<br><strong>Herramienta:</strong> Social-Engineer Toolkit (SET) v8.0+ escuchando en puerto 80 HTTP.</p>
+            <h3><i class="fa-solid fa-terminal"></i> Máquina Atacante (Servidor SET)</h3>
+            <p><strong>OS:</strong> Kali Linux 2026.x (Modo CLI sin GUI)<br>
+            <strong>IP Asignada:</strong> <code>192.168.56.101</code><br>
+            <strong>Servidor Web:</strong> SET (Credential Harvester) escuchando en puerto 80 HTTP.<br>
+            <strong>Ruta Plantilla:</strong> <code>/home/kali/phish_lab/index.html</code></p>
           </div>
           <div class="card" style="background: rgba(0,0,0,0.5);">
-            <h3><i class="fa-solid fa-user-shield"></i> Máquina Víctima / Cliente</h3>
-            <p><strong>OS:</strong> Workstation en red aislada (IP: <code>192.168.1.100</code>)<br><strong>Enfoque:</strong> Navegación en el portal fraudulento e ingreso de datos de prueba.</p>
+            <h3><i class="fa-solid fa-desktop"></i> Sistema Anfitrión / Víctima</h3>
+            <p><strong>OS:</strong> Windows Host (IP: <code>192.168.56.1</code>)<br>
+            <strong>Servidor Transferencia:</strong> Python HTTP Server en puerto 8000 (<code>python -m http.server 8000</code>).<br>
+            <strong>Cliente:</strong> Navegador web interactuando con la IP del atacante.</p>
           </div>
         </div>
       </div>
@@ -393,54 +399,62 @@
     <!-- 03 DETALLE DE IMPLEMENTACIÓN -->
     <section>
       <div class="card">
-        <h2><i class="fa-solid fa-gears"></i> 03 // Detalle de la Configuración en SET</h2>
+        <h2><i class="fa-solid fa-gears"></i> 03 // Detalle de la Configuración en Consola (CLI)</h2>
 
-        <h3>1. Inicialización y Selección de Vectores</h3>
-        <p>Invocación de SET con privilegios elevados y navegación en el menú para configurar el módulo de escucha de credenciales:</p>
+        <h3>1. Preparación del Directorio e Importación de Plantilla UMSLP</h3>
+        <p>Desde la terminal de Kali Linux, se creó la estructura de carpetas limpia y se transfirió la plantilla HTML institucional servida desde el sistema anfitrión Windows:</p>
+        <pre><code># Creación del directorio de trabajo
+ mkdir -p ~/phishing_lab && cd ~/phishing_lab
+
+# Descarga de la plantilla HTML personalizada (Portal UMSLP)
+wget http://192.168.56.1:8000/index.html
+
+# Verificación de integridad del archivo importado
+ls -la</code></pre>
+
+        <h3>2. Configuración del Módulo Credential Harvester en SET</h3>
+        <p>Invocación de Social-Engineer Toolkit mediante privilegios administrativos e importación de la ruta raíz local:</p>
         <pre><code>sudo setoolkit
-// Menú: 1) Social-Engineering Attacks -> 2) Website Attack Vectors -> 3) Credential Harvester Attack Method</code></pre>
 
-        <h3>2. Escucha HTTP y Modificación de Parámetros POST</h3>
-        <p>Se especifica la dirección IP de la máquina atacante para la captura de peticiones y se despliega el servidor web interno:</p>
-        <pre><code>set:webattack> IP address for the POST back in Harvester: 192.168.1.50
-[*] SET is running the Web Server on port 80...
-[*] Information will be logged to /root/.set/reports/</code></pre>
+// Navegación de menú:
+// 1) Social-Engineering Attacks
+// 2) Website Attack Vectors
+// 3) Credential Harvester Attack Method
+// 3) Custom Import
+
+[-] IP address for the harvester: 192.168.56.101
+[-] Path to root directory: /home/kali/phishing_lab
+[*] WEBSERVER ON PORT 80 STARTED</code></pre>
       </div>
     </section>
 
     <!-- 04 EVIDENCIAS DE EJECUCIÓN -->
     <section>
       <div class="card">
-        <h2><i class="fa-solid fa-camera-retro"></i> 04 // Evidencias de Ejecución</h2>
+        <h2><i class="fa-solid fa-camera-retro"></i> 04 // Evidencias de Ejecución y Capturas</h2>
         <div class="grid" style="margin-top: 1rem;">
-          
+
           <figure class="img-container">
-            <img src="setoolkit_menu.PNG" alt="Menú Principal SET" onclick="openModal(this.src)">
-            <figcaption><i class="fa-solid fa-camera"></i> Figura 1: Menú Principal de SET (`setoolkit`)</figcaption>
-            <button class="btn btn-sm" onclick="openModal('setoolkit_menu.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
+            <img src="setoolkit_menu.PNG" alt="Verificación de plantilla index.html" onclick="openModal(this.src)">
+            <figcaption><i class="fa-solid fa-camera"></i> Figura 1: Confirmación de `index.html` en `/home/kali/phishing_lab` (`ls -la`)</figcaption>
+            <button class="btn btn-sm" onclick="openModal('ls_phish_lab.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
           </figure>
 
           <figure class="img-container">
-            <img src="harvester_config.PNG" alt="Configuración Harvester" onclick="openModal(this.src)">
-            <figcaption><i class="fa-solid fa-camera"></i> Figura 2: Selección Credential Harvester</figcaption>
-            <button class="btn btn-sm" onclick="openModal('harvester_config.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
+            <img src="harvester_config.PNG" alt="Servidor Web SET Activo" onclick="openModal(this.src)">
+            <figcaption><i class="fa-solid fa-camera"></i> Figura 2: Inicialización de SET Harvester en puerto 80 (`192.168.56.101`)</figcaption>
+            <button class="btn btn-sm" onclick="openModal('set_listener.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
           </figure>
 
           <figure class="img-container">
-            <img src="webserver_listener.PNG" alt="Servidor Web Escuchando" onclick="openModal(this.src)">
-            <figcaption><i class="fa-solid fa-camera"></i> Figura 3: Servidor Web activo en Puerto 80</figcaption>
-            <button class="btn btn-sm" onclick="openModal('webserver_listener.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
+            <img src="portal.PNG" alt="Portal UMSLP cargado en navegador" onclick="openModal(this.src)">
+            <figcaption><i class="fa-solid fa-camera"></i> Figura 3: Despliegue del portal institucional UMSLP en el navegador</figcaption>
+            <button class="btn btn-sm" onclick="openModal('portal_umsnlp_login.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
           </figure>
 
           <figure class="img-container">
-            <img src="login_victim.PNG" alt="Portal Ficticio de Autenticación" onclick="openModal(this.src)">
-            <figcaption><i class="fa-solid fa-camera"></i> Figura 4: Portal ficticio "Sesión Expirada"</figcaption>
-            <button class="btn btn-sm" onclick="openModal('login_victim.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
-          </figure>
-
-          <figure class="img-container">
-            <img src="credentials_captured.PNG" alt="Credenciales Capturadas" onclick="openModal(this.src)">
-            <figcaption><i class="fa-solid fa-camera"></i> Figura 5: Intercepción de usuario y password</figcaption>
+            <img src="datos.PNG" alt="Intercepción de credenciales en Kali" onclick="openModal(this.src)">
+            <figcaption><i class="fa-solid fa-camera"></i> Figura 4: Intercepción de credenciales en texto plano (`PARAMETER: username=...`)</figcaption>
             <button class="btn btn-sm" onclick="openModal('credentials_captured.PNG')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
           </figure>
 
@@ -452,7 +466,7 @@
     <section>
       <div class="card">
         <h2><i class="fa-solid fa-folder-open"></i> 05 // Recursos e Informe Completo</h2>
-        <p>Puedes consultar el informe formal generado en PDF con el análisis de tráfico HTTP POST y controles organizacionales:</p>
+        <p>Puedes consultar el informe formal generado en PDF con el análisis detallado de tráfico HTTP POST, transferencia de archivos por línea de comandos y controles defensivos:</p>
         <div style="margin-top: 0.5rem;">
           <a class="btn btn-magenta" href="reporte_actividad04.pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i> Descargar Informe PDF</a>
         </div>
@@ -464,30 +478,30 @@
       <div class="card">
         <h2><i class="fa-solid fa-shield-halved"></i> 06 // Indicadores de Phishing y Controles</h2>
         <div class="conclusiones-box">
-          
+
           <div class="conclusion-item conclusion-item-magenta">
-            <strong>1. Ausencia de HTTPS / SSL</strong>
-            <p>Uso del protocolo HTTP inseguro sin candado de seguridad digital ni certificación SSL/TLS explícita.</p>
+            <strong>1. Ausencia de Cifrado SSL/TLS (HTTP Inseguro)</strong>
+            <p>La conexión se realiza a través de HTTP en el puerto 80 sin certificado digital validado por una Autoridad Certificadora (CA) ni esquema HTTPS.</p>
           </div>
 
           <div class="conclusion-item conclusion-item-magenta">
-            <strong>2. Dirección IP Directa o Typosquatting</strong>
-            <p>Acceso a través de una IP numérica directa (ej. <code>http://192.168.1.50</code>) en lugar de un dominio institucional verificado.</p>
+            <strong>2. Dirección IP Directa en la Barra de Navegación</strong>
+            <p>Acceso mediante dirección IP numérica (<code>http://192.168.56.101</code>) carente de un FQDN o dominio institucional verificado (ej. <code>login.umsnlp.mx</code>).</p>
           </div>
 
           <div class="conclusion-item conclusion-item-magenta">
-            <strong>3. Coacción Psicológica</strong>
-            <p>Mensajes orientados a infundir urgencia como <em>"Su sesión ha expirado"</em> para forzar una respuesta rápida sin verificación previa.</p>
+            <strong>3. Transferencia de Credenciales en Texto Plano</strong>
+            <p>El formulario envía las solicitudes `POST` de forma expuesta hacia el servidor de escucha de SET, permitiendo su lectura inmediata en la consola.</p>
           </div>
 
           <div class="conclusion-item">
-            <strong>Control Recomendado: Autenticación Multi-Factor (MFA / FIDO2)</strong>
-            <p>Implementación de tokens por hardware o claves FIDO2; impiden el acceso incluso si la contraseña en texto plano es interceptada.</p>
+            <strong>Control Recomendado: Autenticación de Doble Factor (MFA / FIDO2)</strong>
+            <p>Despliegue de tokens dinámicos o llaves de seguridad físicas; invalidan el acceso aun cuando el usuario y la contraseña hayan sido interceptados.</p>
           </div>
 
           <div class="conclusion-item">
-            <strong>Control Recomendado: Políticas DMARC / SPF / DKIM</strong>
-            <p>Validación de firmas criptográficas en correos para impedir el spoofing de dominios corporativos.</p>
+            <strong>Control Recomendado: Filtrado Web y Certificados HSTS</strong>
+            <p>Forzar políticas HTTP Strict Transport Security (HSTS) y bloqueo preventivo de IPs numéricas o sitios no categorizados en la red corporativa.</p>
           </div>
 
         </div>
@@ -499,20 +513,20 @@
       <div class="card">
         <h2><i class="fa-solid fa-brain"></i> 07 // Conclusiones Técnico-Éticas</h2>
         <div class="conclusiones-box">
-          
+
           <div class="conclusion-item">
-            <strong>Sencillez del Vector de Ataque</strong>
-            <p>Herramientas automatizadas como SET facilitan la clonación e intercepción de solicitudes HTTP POST en cuestión de minutos, demostrando que la complejidad técnica ya no es una barrera para los atacantes.</p>
+            <strong>Eficiencia Operativa en Modo Consola (CLI)</strong>
+            <p>El uso de la línea de comandos en Kali Linux reduce sustancialmente la carga de hardware, permitiendo desplegar servicios defensivos y ofensivos de prueba con un consumo mínimo de memoria RAM.</p>
           </div>
 
           <div class="conclusion-item">
-            <strong>Riesgo del Tráfico Inseguro (HTTP)</strong>
-            <p>La falta de cifrado en la transmisión web expone las credenciales ingresadas directamente en la carga útil del paquete de red, permitiendo su registro directo sin necesidad de ataques complejos.</p>
+            <strong>Facilidad de Clonación de Portales Institucionales</strong>
+            <p>Mediante herramientas de importación personalizada en SET, cualquier interfaz visual HTML/CSS puede convertirse en un vector de captura en minutos, resaltando la necesidad de no confiar únicamente en la apariencia visual.</p>
           </div>
 
           <div class="conclusion-item">
-            <strong>Enfoque en Defensa en Profundidad</strong>
-            <p>La mitigación del phishing requiere la articulación de controles de red (filtrado DNS/MFA) combinados con programas permanentes de concientización para el personal de la organización.</p>
+            <strong>Defensa en Profundidad y Concientización</strong>
+            <p>La prevención efectiva del phishing combina controles de red automatizados (MFA/DMARC) con el entrenamiento continuo de los usuarios para la identificación de anomalías en URL y protocolos.</p>
           </div>
 
         </div>
