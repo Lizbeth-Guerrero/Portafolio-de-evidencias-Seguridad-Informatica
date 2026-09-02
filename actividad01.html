@@ -1,0 +1,545 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 01 — Análisis en grupo de un ciberataque real y su impacto empresarial | Portafolio CNO IV</title>
+ 
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+ 
+  <style>
+    :root {
+      --bg-color: #030308;
+      --panel-bg: rgba(10, 8, 20, 0.90);
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff0055;
+      --goth-purple: #8a2be2;
+      --text-main: #e0e0e0;
+      --font-cyber: 'Orbitron', sans-serif;
+      --font-goth: 'Cinzel', serif;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+ 
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+ 
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-cyber);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+ 
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px; z-index: 100; pointer-events: none;
+    }
+ 
+    header {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 2px solid var(--neon-magenta);
+      box-shadow: 0 0 20px var(--neon-magenta);
+      background: rgba(5, 5, 12, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 90; width: 100%;
+      text-align: center;
+    }
+ 
+    header .kicker {
+      color: var(--neon-magenta);
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+ 
+    header h1 {
+      font-family: var(--font-goth);
+      font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--neon-magenta);
+      margin: 0.5rem 0;
+      word-break: break-word;
+    }
+ 
+    header p {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+    }
+ 
+    nav.back { margin-top: 1.2rem; }
+ 
+    nav.back a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--goth-purple);
+      background: rgba(0,0,0,0.6);
+      transition: all 0.3s ease;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+ 
+    nav.back a:hover {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.15);
+    }
+ 
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+ 
+    section { margin-bottom: 2rem; }
+ 
+    .card {
+      background: var(--panel-bg);
+      border: 1px solid var(--goth-purple);
+      padding: clamp(1.2rem, 3vw, 1.8rem);
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      transition: all 0.4s ease;
+      width: 100%;
+    }
+ 
+    .card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
+    }
+ 
+    h2 {
+      font-family: var(--font-goth);
+      color: var(--neon-cyan);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed var(--goth-purple);
+      padding-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+ 
+    h3 {
+      font-family: var(--font-cyber);
+      color: var(--neon-magenta);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      margin: 1.2rem 0 0.5rem;
+    }
+ 
+    p, ul {
+      font-family: var(--font-mono);
+      font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+      line-height: 1.6;
+      color: #ccc;
+    }
+ 
+    ul { padding-left: 1.2rem; }
+    li { margin-bottom: 0.4rem; }
+ 
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1.2rem;
+    }
+ 
+    /* ESTILOS DE TABLA CYBERPUNK */
+    .table-container {
+      width: 100%;
+      overflow-x: auto;
+      margin-top: 1rem;
+      border: 1px solid var(--goth-purple);
+    }
+ 
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-family: var(--font-mono);
+      font-size: clamp(0.8rem, 2vw, 0.9rem);
+      text-align: left;
+    }
+ 
+    th {
+      background: rgba(138, 43, 226, 0.3);
+      color: var(--neon-cyan);
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--goth-purple);
+      font-family: var(--font-cyber);
+    }
+ 
+    td {
+      padding: 0.8rem;
+      border-bottom: 1px solid rgba(138, 43, 226, 0.2);
+      color: #ccc;
+    }
+ 
+    tr:hover {
+      background: rgba(0, 243, 255, 0.05);
+    }
+ 
+    /* ESTILOS DE UNIFORMIDAD PARA IMÁGENES */
+    .img-container {
+      margin: 1rem 0;
+      border: 1px solid var(--neon-magenta);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+ 
+    .img-container img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border: 1px solid var(--goth-purple);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+ 
+    .img-container img:hover {
+      transform: scale(1.02);
+    }
+ 
+    .img-container figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--neon-cyan);
+      text-align: center;
+      padding-top: 8px;
+      width: 100%;
+    }
+ 
+    /* BOTONES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      font-family: var(--font-cyber);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 0.8rem;
+      margin-right: 0.5rem;
+    }
+ 
+    .btn:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+ 
+    .btn-magenta {
+      color: var(--neon-magenta);
+      border-color: var(--neon-magenta);
+    }
+ 
+    .btn-magenta:hover {
+      background: var(--neon-magenta);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-magenta);
+    }
+ 
+    .btn-sm {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+      margin-right: 0;
+      width: 100%;
+    }
+ 
+    /* FORMATO DE LECCIONES / CONCLUSIONES EN PÁRRAFOS */
+    .conclusiones-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+ 
+    .conclusion-item {
+      background: rgba(10, 8, 20, 0.6);
+      border-left: 3px solid var(--neon-cyan);
+      padding: 1rem 1.2rem;
+      border-radius: 0 4px 4px 0;
+    }
+ 
+    .conclusion-item p {
+      color: #e0e0e0;
+      font-family: var(--font-mono);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+    }
+ 
+    .conclusion-item strong {
+      color: var(--neon-magenta);
+      font-family: var(--font-cyber);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+ 
+    /* BADGE DE COSTO */
+    .cost-badge {
+      display: inline-block;
+      background: rgba(255, 0, 85, 0.15);
+      border: 1px solid var(--neon-magenta);
+      color: #fff;
+      padding: 0.5rem 1rem;
+      font-size: 1.1rem;
+      font-family: var(--font-mono);
+      margin-top: 0.5rem;
+      box-shadow: 0 0 10px rgba(255, 0, 85, 0.3);
+    }
+ 
+    /* MODAL DE IMAGEN (LIGHTBOX) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 200;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(3, 3, 8, 0.95);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+ 
+    .modal-content {
+      max-width: 90%;
+      max-height: 80vh;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 30px var(--neon-cyan);
+      object-fit: contain;
+    }
+ 
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: var(--neon-magenta);
+      font-size: 2.5rem;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s;
+    }
+ 
+    .modal-close:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px var(--neon-cyan);
+    }
+ 
+    footer {
+      text-align: center;
+      padding: 1.8rem 1rem;
+      margin-top: 2rem;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      color: #888;
+      border-top: 1px solid var(--goth-purple);
+      font-family: var(--font-mono);
+      width: 100%;
+      background: rgba(5, 5, 12, 0.95);
+    }
+ 
+    @media(max-width: 600px) {
+      .btn { width: 100%; margin-right: 0; }
+      .img-container img { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <header>
+    <div class="kicker">// ACTIVIDAD 01 · PARCIAL I</div>
+    <h1>Análisis en grupo de un ciberataque real y su impacto empresarial</h1>
+    <p>Estudio de caso sobre la amenaza avanzada que combinó un malware destructivo como cortina de humo para ejecutar transferencias fraudulentas masivas a través del sistema bancario SWIFT.</p>
+    
+    <nav class="back">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> // VOLVER AL PORTAFOLIO</a>
+    </nav>
+  </header>
+ 
+  <main>
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-users"></i> 01 // / Objetivo de la Práctica</h2>
+	<p>Analizar de manera técnica, económica y estratégica un ciberataque real ocurrido en una empresa o infrestructura crítica, identificando sus causas, desarrollo, impacto y consecuencias, con el fin de comprender la importancia de la ciberseguridad y su relación directacon la sostenibilidad económioca y operativa de las organizaciones.</p>
+	<p><strong>Esta práctica contribuirá en la comprensión de los principios básicos de la ciberseguridad y su importancia.</strong></p>
+      </div>
+    </section>
+ 
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-building-columns"></i> 02 // Contexto General</h2>
+        <p>El 24 de mayo de 2018, el Banco de Chile fue víctima de un ciberataque de alta complejidad que afectó a miles de equipos operativos. Mientras un malware destructivo provocaba fallas masivas en la red interna para desviar la atención de los equipos de respuesta, los atacantes realizaron transferencias fraudulentas no autorizadas mediante la red internacional <strong>SWIFT</strong> por un monto aproximado de <strong>US$10 millones</strong>.</p>
+      </div>
+    </section>
+ 
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-timeline"></i> 03 // Cronología del Ataque</h2>
+        <div class="table
+ 
+<div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Fecha</th>
+                <th>Etapa</th>
+                <th>Hecho Clave</th>
+                <th>Debilidad Explotada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>24 mayo 2018</td>
+                <td>Malware destructivo</td>
+                <td>Numerosos equipos e infraestructura informática totalmente afectados.</td>
+                <td>Segmentación insuficiente de la red.</td>
+              </tr>
+              <tr>
+                <td>24-25 mayo 2018</td>
+                <td>Distracción / Fraude</td>
+                <td>El despliegue de malware ocultó la exfiltración financiera en SWIFT.</td>
+                <td>Falta de correlación de incidentes y monitoreo unificado.</td>
+              </tr>
+              <tr>
+                <td>Junio 2018</td>
+                <td>Confirmación</td>
+                <td>El Banco confirma formalmente el robo de US$10 millones.</td>
+                <td>Deficiencia de visibilidad integral del ecosistema operativo.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+ 
+<section>
+      <div class="card">
+        <h2><i class="fa-solid fa-shield-halved"></i> 04 // Impacto y Consecuencias</h2>
+        
+        <h3>Triada de Ciberseguridad (Modelo CIA)</h3>
+        <div class="grid" style="margin-top: 1rem;">
+          <div class="card" style="background: rgba(0,0,0,0.5);">
+            <h3><i class="fa-solid fa-key"></i> Confidencialidad</h3>
+            <p>Compromiso y filtración de credenciales administrativas y de acceso al entorno bancario.</p>
+          </div>
+          <div class="card" style="background: rgba(0,0,0,0.5);">
+            <h3><i class="fa-solid fa-file-invoice-dollar"></i> Integridad</h3>
+            <p>Alteración ilegítima de transacciones y operaciones financieras dentro de la red SWIFT.</p>
+          </div>
+          <div class="card" style="background: rgba(0,0,0,0.5);">
+            <h3><i class="fa-solid fa-server"></i> Disponibilidad</h3>
+            <p>Paralización inmediata y de denegación de servicio en más de 9,000 equipos institucionales.</p>
+          </div>
+        </div>
+ 
+        <h3 style="margin-top: 1.5rem;">Impacto Económico Estimado</h3>
+        <p>El impacto financiero derivado de los daños a la infraestructura, el fraude transaccional y la remediación fue estimado en:</p>
+        <div class="cost-badge">
+          <i class="fa-solid fa-money-bill-wave"></i> $356,108,480 MXN
+        </div>
+      </div>
+    </section>
+ 
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-brain"></i> 05 // Lecciones Aprendidas y Recomendaciones</h2>
+        <div class="conclusiones-box">
+          
+          <div class="conclusion-item">
+            <strong>Arquitectura de Red Deficiente</strong>
+            <p>La segmentación insuficiente de la red permitió la propagación lateral del malware y el acceso crítico a terminales bancarias desde segmentos expuestos.</p>
+          </div>
+ 
+          <div class="conclusion-item">
+            <strong>Falla en la Estrategia de Respuesta</strong>
+            <p>La respuesta inicial se enfocó erróneamente solo en la mitigación del malware (distractor), perdiendo de vista la actividad anómala paralela de fraude financiero.</p>
+          </div>
+ 
+          <div class="conclusion-item">
+            <strong>Adopción del Modelo Zero Trust</strong>
+            <p>Es indispensable implementar arquitecturas de Cero Confianza (Zero Trust) junto con capacidades de monitoreo y análisis correlacionado de eventos en tiempo real (SIEM / SOC).</p>
+          </div>
+ 
+          <div class="conclusion-item">
+            <strong>Cooperación e Inteligencia Compartida</strong>
+            <p>Se demostró la urgencia de fortalecer la cooperación sectorial interbancaria para compartir indicadores de compromiso (IoC) y amenazas emergentes.</p>
+          </div>
+ 
+        </div>
+      </div>
+    </section>
+ 
+     <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-folder-open"></i> 06 // Informe</h2>
+        <p>Consulta el código fuente completo e informe técnico generado para esta actividad:</p>
+        <div style="margin-top: 0.5rem;">
+          <a class="btn btn-magenta" href="Equipo2-act01.pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i> Ver informe PDF</a>
+        </div>
+      </div>
+    </section> 
+  </main>
+ 
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg" alt="Vista ampliada">
+  </div>
+ 
+  <footer>
+    <p>Parcial I: Fundamentos de Ciberseguridad · CNO IV — Seguridad Informática</p>
+    <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Equipo de Investigación | UPSLP</p>
+  </footer>
+ 
+  <script>
+    function openModal(src) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImg');
+      modal.style.display = 'flex';
+      modalImg.src = src;
+    }
+ 
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+ 
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+ 
+</body>
+</html>
+ 
