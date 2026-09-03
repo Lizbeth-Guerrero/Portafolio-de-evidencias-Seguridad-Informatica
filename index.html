@@ -746,108 +746,90 @@
       </div>
     </article>
     
-        <!-- SECCIÓN DE EVIDENCIAS Y ENTREGAS LABORATORIOS -->
-    <article class="card" id="parcial1">
-      <h2><i class="fa-solid fa-folder-closed"></i> 05 // Evidencias de Laboratorios</h2>
-      <p>A continuación se detallan las actividades académicas desarrolladas durante el primer bloque:</p>
+    <!-- ======================================================= -->
+    <!-- NUEVA SECCIÓN ACTIVIDAD 06: ROAD TO HALL OF FAME         -->
+    <!-- ======================================================= -->
+    <article class="card" id="hall-of-fame">
+      <h2><i class="fa-solid fa-trophy"></i> 05 // ROAD TO HALL OF FAME</h2>
+      <p>Módulo interactivo tipo ruta de aprendizaje (*roadmap*) que recopila la resolución, procedimientos técnicos y evidencias visuales de los 18 laboratorios del curso.</p>
+      
+      <!-- BOTÓN PRINCIPAL DE DESCARGA PDF REQUERIDO POR LA RÚBRICA -->
+      <div style="margin: 1.5rem 0; text-align: center;">
+        <a href="documentos/Road_To_Hall_Of_Fame_Completo.pdf" download class="btn btn-secondary" style="display: inline-flex; width: auto; padding: 0.8rem 1.5rem; font-size: 0.9rem;">
+          <i class="fa-solid fa-file-pdf"></i> DESCARGAR DOCUMENTO COMPLETO (PDF)
+        </a>
+      </div>
 
-      <div class="evidencias-grid">
-<!-- 
-        <!-- ACTIVIDAD 01 -->
-        <div class="evidencia-item">
-          <div>
-            <div class="evidencia-header">
+      <!-- LÍNEA DE TIEMPO INTERACTIVA / ROADMAP -->
+      <div class="cyber-roadmap">
+
+        <!-- LABORATORIO 01 -->
+        <div class="roadmap-node">
+          <div class="node-icon">01</div>
+          <div class="node-content">
+            <div class="node-header">
               <span class="badge">LABORATORIO 01</span>
               <span class="badge-status">COMPLETADO</span>
             </div>
-            <h3>Laboratorio 01</h3>
-            <p>DE QUE TRATA.</p>
+            <h3>Análisis de Protocolos y Tráfico de Red</h3>
+            <p class="node-description">
+              Captura e inspección profunda de paquetes HTTP/DNS utilizando Wireshark en un entorno local para identificar fugas de credenciales en texto claro.
+            </p>
             <div class="tech-tags">
-              <span class="tag">----</span>
-              <span class="tag">----</span>
-              <span class="tag">-----</span>
+              <span class="tag">WIRESHARK</span>
+              <span class="tag">TCP/IP</span>
+              <span class="tag">PACKET ANALYSIS</span>
             </div>
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-secondary" onclick="previewPDF('Equipo2-act01.pdf', 'Actividad 01 - Análisis Ciberataque Banco de Chile')"><i class="fa-solid fa-eye"></i> Ver</button>
-            <a href="Equipo2-act01.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+            <div class="node-image">
+              <img src="img/lab01_evidencia.png" alt="Evidencia Lab 01" onerror="this.src='https://via.placeholder.com/600x300/030308/00f3ff?text=EVIDENCIA+LABORATORIO+01';">
+            </div>
+            <div class="btn-group" style="margin-top: 1rem;">
+              <button class="btn btn-secondary" onclick="previewPDF('documentos/lab01.pdf', 'Laboratorio 01 - Análisis de Tráfico')">
+                <i class="fa-solid fa-eye"></i> Reporte
+              </button>
+              <a href="documentos/lab01.pdf" download class="btn">
+                <i class="fa-solid fa-download"></i> Evidencia
+              </a>
+            </div>
           </div>
         </div>
 
-        <!-- ACTIVIDAD 02 -->
-        <div class="evidencia-item">
-          <div>
-            <div class="evidencia-header">
+        <!-- LABORATORIO 02 -->
+        <div class="roadmap-node">
+          <div class="node-icon">02</div>
+          <div class="node-content">
+            <div class="node-header">
               <span class="badge">LABORATORIO 02</span>
-              <span class="badge-status">EN LÍNEA</span>
+              <span class="badge-status">COMPLETADO</span>
             </div>
-            <h3>Laboratorio 02</h3>
-            <p>DE QUE TRATA.</p>
+            <h3>Escaneo de Vulnerabilidades con Nmap</h3>
+            <p class="node-description">
+              Auditoría de puertos abiertos, fingerprinting de S.O. y detección de versiones de servicio sobre máquinas virtuales vulnerables.
+            </p>
             <div class="tech-tags">
-              <span class="tag">----</span>
-              <span class="tag">----</span>
-              <span class="tag">---</span>
-              <span class="tag">----</span>
+              <span class="tag">NMAP</span>
+              <span class="tag">KALI LINUX</span>
+              <span class="tag">RECONNAISSANCE</span>
             </div>
-          </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="#" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Evidencia Actual</a>
+            <div class="node-image">
+              <img src="img/lab02_evidencia.png" alt="Evidencia Lab 02" onerror="this.src='https://via.placeholder.com/600x300/030308/ff0055?text=EVIDENCIA+LABORATORIO+02';">
+            </div>
+            <div class="btn-group" style="margin-top: 1rem;">
+              <button class="btn btn-secondary" onclick="previewPDF('documentos/lab02.pdf', 'Laboratorio 02 - Escaneo Nmap')">
+                <i class="fa-solid fa-eye"></i> Reporte
+              </button>
+              <a href="documentos/lab02.pdf" download class="btn">
+                <i class="fa-solid fa-download"></i> Evidencia
+              </a>
+            </div>
           </div>
         </div>
 
-       <!-- ACTIVIDAD 03 -->
-<div class="evidencia-item">
-  <div>
-    <div class="evidencia-header">
-      <span class="badge">LABORATORIO 03</span>
-      <span class="badge-status">COMPLETADO</span>
-    </div>
-    <h3>Laboratorio 03</h3>
-    <p>DE QUE TRATA</p>
-    <div class="tech-tags">
-      <span class="tag">----</span>
-      <span class="tag">----</span>
-      <span class="tag">----</span>
-      <span class="tag">---</span>
-    </div>
-  </div>
+        <!-- DUPLICAR ESTRUCTURA <div class="roadmap-node"> DEL 03 AL 18 PARA COMPLETAR LOS 18 LABS -->
 
-  <div class="btn-group">
-    <!-- Botón 1: Abre la página HTML propia de la actividad -->
-    <a href="actividad03.html" class="btn btn-secondary" target="_blank">
-      <i class="fa-solid fa-code"></i> Ver Reporte HTML
-    </a>
-  </div>
-</div>
-
-        <!-- ACTIVIDAD 04 -->
-<div class="evidencia-item">
-  <div>
-    <div class="evidencia-header">
-      <span class="badge">LABORATORIO 04</span>
-      <span class="badge-status">COMPLETADO</span>
-    </div>
-    <h3>Laboratorio 04</h3>
-    <p>DE QUE TRATA</p>
-    <div class="tech-tags">
-      <span class="tag">---</span>
-      <span class="tag">---</span>
-      <span class="tag">---</span>
-      <span class="tag">---</span>
-      <span class="tag">---</span>
-    </div>
-  </div>
-
-  <div class="btn-group">
-    <!-- Botón 1: Abre el reporte HTML generado -->
-    <a href="actividad04.html" class="btn btn-secondary" target="_blank">
-      <i class="fa-solid fa-code"></i> Reporte HTML
-    </a>
-    
-  </div>
-</div>
       </div>
     </article>
+
   
     <!-- 6. FORMULARIO DE CONTACTO -->
     <article class="card" id="contacto">
