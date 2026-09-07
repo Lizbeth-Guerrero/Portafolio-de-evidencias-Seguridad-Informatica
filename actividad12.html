@@ -1,0 +1,900 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 12 - Null Byte Extension Bypass | Portafolio CNO IV</title>
+
+  <!-- FUENTES Y ICONOS -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #030308;
+      --panel-bg: rgba(10, 8, 20, 0.90);
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff0055;
+      --goth-purple: #8a2be2;
+      --text-main: #e0e0e0;
+      --font-cyber: 'Orbitron', sans-serif;
+      --font-goth: 'Cinzel', serif;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-cyber);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: ""; 
+      position: fixed; top: 0; 
+      left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px; 
+      z-index: 100; pointer-events: none;
+    }
+
+    header {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 2px solid var(--neon-magenta);
+      box-shadow: 0 0 20px var(--neon-magenta);
+      background: rgba(5, 5, 12, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 90; width: 100%;
+      text-align: center;
+    }
+
+    header .kicker {
+      color: var(--neon-magenta);
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    header h1 {
+      font-family: var(--font-goth);
+      font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--neon-magenta);
+      margin: 0.5rem 0;
+      word-break: break-word;
+    }
+
+    header p {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+    }
+    .header-container {
+      max-width: 1100px;
+      margin: 0 auto;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+
+    .glitch-title {
+      font-family: var(--font-goth);
+      font-size: clamp(1.2rem, 3vw, 1.8rem);
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--neon-magenta);
+    }
+
+    .back-link {
+      color: var(--neon-cyan);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      border: 1px solid var(--neon-cyan);
+      padding: 0.4rem 0.8rem;
+      transition: all 0.3s ease;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+    }
+
+    .back-link:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+
+    .container {
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+
+    .card {
+      background: var(--panel-bg);
+      border: 1px solid var(--goth-purple);
+      padding: clamp(1.2rem, 3vw, 2rem);
+      margin-bottom: 1.8rem;
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      transition: all 0.4s ease;
+    }
+
+    .card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.2);
+    }
+
+    .card h2 {
+      font-family: var(--font-goth);
+      color: var(--neon-cyan);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed var(--goth-purple);
+      padding-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 {
+      font-family: var(--font-cyber);
+      color: #fff;
+      font-size: 1rem;
+      margin: 1.2rem 0 0.6rem 0;
+    }
+
+    .card p, .card ul, .card ol {
+      font-family: var(--font-mono);
+      font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    .card ul, .card ol {
+      padding-left: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .card li { margin-bottom: 0.4rem; }
+
+
+    nav.back { margin-top: 1.2rem; }
+
+    nav.back a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--goth-purple);
+      background: rgba(0,0,0,0.6);
+      transition: all 0.3s ease;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav.back a:hover {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.15);
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+
+    section { margin-bottom: 2rem; }
+
+    .card {
+      background: var(--panel-bg);
+      border: 1px solid var(--goth-purple);
+      padding: clamp(1.2rem, 3vw, 1.8rem);
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      transition: all 0.4s ease;
+      width: 100%;
+    }
+
+    .card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
+    }
+
+    h2 {
+      font-family: var(--font-goth);
+      color: var(--neon-cyan);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed var(--goth-purple);
+      padding-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-family: var(--font-cyber);
+      color: var(--neon-magenta);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    p, ul {
+      font-family: var(--font-mono);
+      font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    ul { padding-left: 1.2rem; }
+    li { margin-bottom: 0.4rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1.2rem;
+    }
+
+    /* ESTILOS DE UNIFORMIDAD PARA IMÁGENES */
+    .img-container {
+      margin: 1rem 0;
+      border: 1px solid var(--neon-magenta);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border: 1px solid var(--goth-purple);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .img-container img:hover {
+      transform: scale(1.02);
+    }
+
+    .img-container figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--neon-cyan);
+      text-align: center;
+      padding-top: 8px;
+      width: 100%;
+    }
+
+    /* BOTONES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      font-family: var(--font-cyber);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+
+    .btn-magenta {
+      color: var(--neon-magenta);
+      border-color: var(--neon-magenta);
+    }
+
+    .btn-magenta:hover {
+      background: var(--neon-magenta);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-magenta);
+    }
+
+    .btn-sm {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+      margin-right: 0;
+      width: 100%;
+    }
+
+    /* FORMATO DE CONCLUSIONES EN PÁRRAFOS */
+    .conclusiones-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .conclusion-item {
+      background: rgba(10, 8, 20, 0.6);
+      border-left: 3px solid var(--neon-cyan);
+      padding: 1rem 1.2rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .conclusion-item p {
+      color: #e0e0e0;
+      font-family: var(--font-mono);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+    }
+
+    .conclusion-item strong {
+      color: var(--neon-magenta);
+      font-family: var(--font-cyber);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* Badges y Fechas */
+    .meta-badges {
+      display: flex;
+      gap: 0.8rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.5rem;
+    }
+
+    .badge {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.6rem;
+      background: var(--goth-purple);
+      color: #fff;
+      font-family: var(--font-mono);
+    }
+
+    .badge-status {
+      font-size: 0.7rem;
+      padding: 0.3rem 0.6rem;
+      background: rgba(0, 243, 255, 0.2);
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+    }
+
+
+
+    /* MODAL DE IMAGEN (LIGHTBOX) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 200;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(3, 3, 8, 0.95);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 80vh;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 30px var(--neon-cyan);
+      object-fit: contain;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: var(--neon-magenta);
+      font-size: 2.5rem;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s;
+    }
+
+    .modal-close:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.8rem 1rem;
+      margin-top: 2rem;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      color: #888;
+      border-top: 1px solid var(--goth-purple);
+      font-family: var(--font-mono);
+      width: 100%;
+      background: rgba(5, 5, 12, 0.95);
+    }
+
+    @media(max-width: 600px) {
+      .btn { width: 100%; margin-right: 0; }
+      .img-container img { height: 180px; }
+    }
+  </style>
+
+</head>
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 12 - Null Byte Extension Bypass | Portafolio CNO IV</title>
+
+  <!-- FUENTES Y ICONOS -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #030308;
+      --panel-bg: rgba(10, 8, 20, 0.90);
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff0055;
+      --goth-purple: #8a2be2;
+      --text-main: #e0e0e0;
+      --font-cyber: 'Orbitron', sans-serif;
+      --font-goth: 'Cinzel', serif;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-cyber);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px; z-index: 100; pointer-events: none;
+    }
+
+    header {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 2px solid var(--neon-magenta);
+      box-shadow: 0 0 20px var(--neon-magenta);
+      background: rgba(5, 5, 12, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 90; width: 100%;
+      text-align: center;
+    }
+
+    header .kicker {
+      color: var(--neon-magenta);
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    header h1 {
+      font-family: var(--font-goth);
+      font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--neon-magenta);
+      margin: 0.5rem 0;
+      word-break: break-word;
+    }
+
+    header p {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+    }
+
+    nav.back { margin-top: 1.2rem; }
+
+    nav.back a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--goth-purple);
+      background: rgba(0,0,0,0.6);
+      transition: all 0.3s ease;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav.back a:hover {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.15);
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+
+    section { margin-bottom: 2rem; }
+
+    .card {
+      background: var(--panel-bg);
+      border: 1px solid var(--goth-purple);
+      padding: clamp(1.2rem, 3vw, 1.8rem);
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      transition: all 0.4s ease;
+      width: 100%;
+    }
+
+    .card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
+    }
+
+    h2 {
+      font-family: var(--font-goth);
+      color: var(--neon-cyan);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed var(--goth-purple);
+      padding-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-family: var(--font-cyber);
+      color: var(--neon-magenta);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    p, ul {
+      font-family: var(--font-mono);
+      font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    ul { padding-left: 1.2rem; }
+    li { margin-bottom: 0.4rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1.2rem;
+    }
+
+    /* ESTILOS DE UNIFORMIDAD PARA IMÁGENES */
+    .img-container {
+      margin: 1rem 0;
+      border: 1px solid var(--neon-magenta);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border: 1px solid var(--goth-purple);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .img-container img:hover {
+      transform: scale(1.02);
+    }
+
+    .img-container figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--neon-cyan);
+      text-align: center;
+      padding-top: 8px;
+      width: 100%;
+    }
+
+    /* BOTONES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      font-family: var(--font-cyber);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+
+    .btn-magenta {
+      color: var(--neon-magenta);
+      border-color: var(--neon-magenta);
+    }
+
+    .btn-magenta:hover {
+      background: var(--neon-magenta);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-magenta);
+    }
+
+    .btn-sm {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+      margin-right: 0;
+      width: 100%;
+    }
+
+    /* FORMATO DE CONCLUSIONES EN PÁRRAFOS */
+    .conclusiones-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .conclusion-item {
+      background: rgba(10, 8, 20, 0.6);
+      border-left: 3px solid var(--neon-cyan);
+      padding: 1rem 1.2rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .conclusion-item p {
+      color: #e0e0e0;
+      font-family: var(--font-mono);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+    }
+
+    .conclusion-item strong {
+      color: var(--neon-magenta);
+      font-family: var(--font-cyber);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+    /* MODAL DE IMAGEN (LIGHTBOX) */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 200;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(3, 3, 8, 0.95);
+      backdrop-filter: blur(10px);
+      align-items: center;
+      justify-content: center;
+      padding: 1rem;
+    }
+
+    .modal-content {
+      max-width: 90%;
+      max-height: 80vh;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 30px var(--neon-cyan);
+      object-fit: contain;
+    }
+
+    .modal-close {
+      position: absolute;
+      top: 20px;
+      right: 30px;
+      color: var(--neon-magenta);
+      font-size: 2.5rem;
+      cursor: pointer;
+      font-family: var(--font-mono);
+      transition: 0.3s;
+    }
+
+    .modal-close:hover {
+      color: var(--neon-cyan);
+      text-shadow: 0 0 10px var(--neon-cyan);
+    }
+
+    footer {
+      text-align: center;
+      padding: 1.8rem 1rem;
+      margin-top: 2rem;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      color: #888;
+      border-top: 1px solid var(--goth-purple);
+      font-family: var(--font-mono);
+      width: 100%;
+      background: rgba(5, 5, 12, 0.95);
+    }
+
+    @media(max-width: 600px) {
+      .btn { width: 100%; margin-right: 0; }
+      .img-container img { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+ 
+  <header>
+    <div class="kicker">// ACTIVIDAD 12 · ROAD TO HALL OF FAME</div>
+    <h1>Null Byte Extension Bypass</h1>
+    <p></p>
+    
+    <nav class="back">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> // VOLVER AL PORTAFOLIO</a>
+    </nav>
+  </header>
+
+  <main>
+
+    <div class="container">
+
+    <!-- DATOS GENERALES -->
+    <article class="card">
+      <div class="meta-badges">
+        <span class="badge">ACTIVIDAD 12</span>
+        <span class="badge-status">NIVEL: PRACTITIONER</span>
+        <span class="badge-status">PLATAFORMA: PORTSWIGGER</span>
+      </div>
+      
+      <h2><i class="fa-solid fa-bug"></i> 01 // Ficha Técnica del Laboratorio</h2>
+      <p><strong>Nombre del Laboratorio:</strong>Null Byte Extension Bypass</p>
+      <p><strong>Técnica Utilizada:</strong> Null Byte Injection (Inyección del carácter nulo <code>%00</code>)</p>
+      <p><strong>Objetivo Técnico:</strong> Burlar la validación de extensión obligatoria (<code>.png</code> / <code>.jpg</code>) mediante un byte nulo para exfiltrar <code>/etc/passwd</code>.</p>
+      <p><strong>Objetivo Técnico:</strong> Cumplir con la condición del servidor de incluir la carpeta de origen requerida (<code>/var/www/images/</code>) y escalar hacia <code>/etc/passwd</code>.</p>
+    </article>
+    </article>
+
+    <!-- MARCO TEÓRICO COMPLETO -->
+    <article class="card">
+      <h2><i class="fa-solid fa-book"></i> 02 // Marco Teórico y Mecánica del Byte Nulo</h2>
+      <p><strong>Técnica Null Byte Injection:</strong> En lenguajes como C/C++ (y frameworks legacy de PHP o Java), las cadenas de texto finalizan con el byte nulo <code>0x00</code>. Al enviar <code>%00.png</code> en la URL, el validador de la aplicación web analiza la cadena completa y confirma que termina en <code>.png</code>; sin embargo, al pasarlo al sistema de archivos, la lectura se detiene inmediatamente al llegar a <code>%00</code>, ignorando la extensión posterior.</p>
+    </article>
+
+    <!-- PROCEDIMIENTO Y PASO A PASO CON BURP SUITE -->
+    <article class="card">
+      <h2><i class="fa-solid fa-terminal"></i> 03 // Procedimiento de Explotación Paso a Paso</h2>
+      <ol>
+        <li>Intercepta en Burp la llamada a la imagen.</li>
+        <li>Combina la secuencia traversal con la inyección del byte nulo y la extensión aceptada:
+          <pre>GET /image?filename=../../../etc/passwd%00.png HTTP/1.1</pre>
+        </li>
+        <li>Envía la solicitud en Repeater para truncar la ruta a nivel de sistema operativo y obtener <code>/etc/passwd</code>.</li>
+      </ol>
+    </article>
+
+    <!-- EVIDENCIAS Y CAPTURAS -->
+    <article class="card">
+      <h2><i class="fa-solid fa-camera"></i> 04 // Evidencias de Explotación (Capturas de Pantalla)</h2>
+      <p>Evidencias fotográficas del proceso de interceptación, payload enviado y respuesta del servidor:</p>
+      
+      <div class="img-container">
+        <img src="intercepción06.png" alt="Exfiltración de /etc/passwd en Burp Suite Repeater" onerror="this.src='https://via.placeholder.com/900x450/030308/00f3ff?text=EVIDENCIA+1:+Burp+Suite+Repeater+-+Exfiltraci%C3%B3n+/etc/passwd';">
+        <p class="img-caption">Figura 1: Figura 1: Truncamiento de cadena con %00.png devolviendo el archivo /etc/passwd.</p>
+        <button class="btn btn-sm" onclick="openModal('intercepción04.png')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
+      </div>
+
+      <div class="img-container">
+        <img src="banner06.png" alt="Confirmación Lab Solved PortSwigger" onerror="this.src='https://via.placeholder.com/900x450/030308/ff0055?text=EVIDENCIA+2:+Confirmaci%C3%B3n+Lab+Solved+en+PortSwigger';">
+        <p class="img-caption">Figura 2: Banner de resolución en PortSwigger Web Security Academy.</p>
+        <button class="btn btn-sm" onclick="openModal('banner04.png')"><i class="fa-solid fa-magnifying-glass-plus"></i> Ver amplia</button>
+      </div>
+    </article>
+
+    <!-- EXPLICACIÓN TÉCNICA DEL PAYLOAD -->
+    <article class="card">
+      <h2><i class="fa-solid fa-shield-cat"></i> 05 // Estrategias de Mitigación</h2>
+      <ul>
+        <li>Actualizar a entornos y motores modernos que neutralizan la interpretación de bytes nulos en cadenas.</li>
+        <li>Sanitizar las entradas eliminando caracteres no imprimibles o nulos antes de realizar validaciones de rutas.</li>
+      </ul>
+      <div style="margin-top: 1.5rem; text-align: center;">
+        <a href="documentos/lab01.pdf" download class="btn">
+          <i class="fa-solid fa-file-pdf"></i> DESCARGAR INFORME TÉCNICO EN PDF
+        </a>
+      </div>
+    </article>
+
+  </div>
+
+  </main>
+
+  <!-- MODAL DE VISUALIZACIÓN DE IMÁGENES -->
+  <div id="imageModal" class="modal" onclick="closeModal()">
+    <span class="modal-close">&times;</span>
+    <img class="modal-content" id="modalImg">
+  </div>
+
+  <footer>
+    <p>Parcial I: Fundamentos de Ciberseguridad · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
+    <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
+  </footer>
+
+  <script>
+    function openModal(src) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImg');
+      modal.style.display = 'flex';
+      modalImg.src = src;
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
