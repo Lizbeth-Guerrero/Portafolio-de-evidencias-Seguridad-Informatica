@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>De la teoría a la práctica: walkthrough en acción | Portafolio</title>
+  <title>De la teoría a la práctica: walkthrough en acción | CNO IV - Seguridad Informática</title>
 
-  <!-- FUENTES Y ICONOS -->
+  <!-- Fuentes tipográficas -->
   <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <!-- FontAwesome -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
   <style>
@@ -22,8 +23,15 @@
       --font-mono: 'Share Tech Mono', monospace;
     }
 
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-    html { scroll-behavior: smooth; }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
 
     body {
       background-color: var(--bg-color);
@@ -35,72 +43,83 @@
       flex-direction: column;
     }
 
+    /* Fondo de líneas tipo escáner CRT */
     body::before {
-      content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      content: "";
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
       background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
-      background-size: 100% 4px; z-index: 100; pointer-events: none;
+      background-size: 100% 4px;
+      z-index: 100;
+      pointer-events: none;
     }
 
+    /* HEADER ENCABEZADO */
     header {
       padding: 2rem 1.5rem 1.5rem;
       border-bottom: 2px solid var(--neon-magenta);
-      box-shadow: 0 0 20px var(--neon-magenta);
+      box-shadow: 0 0 20px rgba(255, 0, 85, 0.4);
       background: rgba(5, 5, 12, 0.95);
       backdrop-filter: blur(8px);
-      position: sticky; top: 0; z-index: 90; width: 100%;
       text-align: center;
+      position: relative;
     }
 
-    header .kicker {
-      color: var(--neon-magenta);
-      letter-spacing: 3px;
-      font-size: 0.85rem;
+    .kicker {
       font-family: var(--font-mono);
-      font-weight: 700;
+      color: var(--neon-cyan);
+      font-size: clamp(0.8rem, 2vw, 1rem);
+      letter-spacing: 2px;
+      margin-bottom: 0.5rem;
+      text-transform: uppercase;
     }
 
     header h1 {
       font-family: var(--font-goth);
-      font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+      font-size: clamp(1.5rem, 4.5vw, 2.5rem);
       color: #fff;
       text-transform: uppercase;
       text-shadow: 0 0 10px var(--neon-magenta);
-      margin: 0.5rem 0;
-      word-break: break-word;
+      margin-bottom: 0.8rem;
     }
 
     header p {
       font-family: var(--font-mono);
-      color: var(--neon-cyan);
-      max-width: 850px;
-      margin: 0 auto;
-      font-size: clamp(0.8rem, 2vw, 0.95rem);
+      color: #ccc;
+      font-size: clamp(0.85rem, 2vw, 1rem);
+      max-width: 900px;
+      margin: 0 auto 1.5rem;
+      line-height: 1.5;
     }
 
-    nav.back { margin-top: 1.2rem; }
+    /* NAVEGACIÓN Y BOTONES */
+    nav.back {
+      display: flex;
+      justify-content: center;
+    }
 
     nav.back a {
-      color: var(--text-main);
+      color: var(--neon-cyan);
       text-decoration: none;
-      font-family: var(--font-mono);
+      font-family: var(--font-cyber);
       font-size: 0.85rem;
-      padding: 0.4rem 1rem;
-      border: 1px solid var(--goth-purple);
-      background: rgba(0,0,0,0.6);
+      padding: 0.5rem 1.2rem;
+      border: 1px solid var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.08);
       transition: all 0.3s ease;
-      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
       display: inline-flex;
       align-items: center;
       gap: 8px;
     }
 
     nav.back a:hover {
-      color: var(--neon-cyan);
-      border-color: var(--neon-cyan);
+      background: var(--neon-cyan);
+      color: #000;
       box-shadow: 0 0 15px var(--neon-cyan);
-      background: rgba(0, 243, 255, 0.15);
     }
 
+    /* CONTENEDOR PRINCIPAL */
     main {
       max-width: 1100px;
       width: 100%;
@@ -109,109 +128,133 @@
       flex-grow: 1;
     }
 
-    section { margin-bottom: 2rem; }
-
+    /* TARJETAS CONTENEDORAS */
     .card {
       background: var(--panel-bg);
       border: 1px solid var(--goth-purple);
-      padding: clamp(1.2rem, 3vw, 1.8rem);
+      padding: clamp(1.2rem, 3.5vw, 2rem);
+      margin-bottom: 2rem;
       clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
       transition: all 0.4s ease;
       width: 100%;
-      margin-bottom: 1.5rem;
     }
 
     .card:hover {
       border-color: var(--neon-cyan);
-      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.2);
     }
 
-    h2 {
+    .card h2 {
       font-family: var(--font-goth);
       color: var(--neon-cyan);
       font-size: clamp(1.1rem, 3vw, 1.4rem);
-      margin-bottom: 1rem;
+      margin-bottom: 1.2rem;
       border-bottom: 1px dashed var(--goth-purple);
-      padding-bottom: 0.4rem;
+      padding-bottom: 0.5rem;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .card h3 {
+      font-family: var(--font-cyber);
+      color: var(--neon-magenta);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      margin: 1.5rem 0 0.6rem;
       display: flex;
       align-items: center;
       gap: 8px;
     }
 
-    h3 {
-      font-family: var(--font-cyber);
-      color: var(--neon-magenta);
-      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
-      margin: 1.2rem 0 0.5rem;
-    }
-
-    p, ul {
+    .card p, .card ul {
       font-family: var(--font-mono);
-      font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+      font-size: clamp(0.82rem, 2vw, 0.92rem);
       line-height: 1.6;
       color: #ccc;
     }
 
-    ul { padding-left: 1.2rem; }
-    li { margin-bottom: 0.4rem; }
-
-    /* CONTENEDOR MULTIMEDIA PARA EL VIDEO WALKTHROUGH */
-    .video-container {
-      margin: 1.5rem 0;
-      border: 1px solid var(--neon-cyan);
-      background: rgba(0, 0, 0, 0.95);
-      padding: 10px;
-      box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
-      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+    .card ul {
+      list-style: none;
+      margin-top: 0.8rem;
     }
 
-    .video-wrapper {
+    .card ul li {
+      margin-bottom: 0.5rem;
       position: relative;
-      padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
-      height: 0;
-      overflow: hidden;
-      border: 1px solid var(--goth-purple);
+      padding-left: 1.2rem;
     }
 
-    .video-wrapper video, .video-wrapper iframe {
+    .card ul li::before {
+      content: ">";
       position: absolute;
-      top: 0;
       left: 0;
-      width: 100%;
-      height: 100%;
-      background: #000;
+      color: var(--neon-cyan);
+      font-weight: bold;
     }
 
-    /* BOTONES */
+    code {
+      background: rgba(0, 0, 0, 0.7);
+      color: var(--neon-cyan);
+      padding: 2px 6px;
+      border: 1px solid rgba(0, 243, 255, 0.3);
+      font-family: var(--font-mono);
+      font-size: 0.85em;
+    }
+
+    /* GRID DE INFORMACIÓN RÁPIDA (SPECS) */
+    .specs-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      gap: 1rem;
+      margin: 1.2rem 0;
+    }
+
+    .spec-item {
+      background: rgba(0, 0, 0, 0.6);
+      border: 1px solid var(--goth-purple);
+      padding: 0.8rem 1rem;
+      border-radius: 4px;
+    }
+
+    .spec-item .label {
+      font-family: var(--font-mono);
+      font-size: 0.75rem;
+      color: #888;
+      display: block;
+      text-transform: uppercase;
+    }
+
+    .spec-item .value {
+      font-family: var(--font-cyber);
+      font-size: 0.9rem;
+      color: #fff;
+      margin-top: 3px;
+    }
+
+    /* BOTONES ACCIONABLES */
     .btn {
       display: inline-flex;
       align-items: center;
       justify-content: center;
-      gap: 8px;
-      padding: 0.6rem 1.2rem;
+      gap: 10px;
+      padding: 0.8rem 1.5rem;
       background: transparent;
       color: var(--neon-cyan);
       border: 1px solid var(--neon-cyan);
       font-family: var(--font-cyber);
-      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-size: 0.85rem;
       text-transform: uppercase;
       cursor: pointer;
       transition: 0.3s;
-      text-align: center;
       text-decoration: none;
-      margin-top: 0.8rem;
-      margin-right: 0.5rem;
-    }
-
-    .btn:hover {
-      background: var(--neon-cyan);
-      color: #000;
-      box-shadow: 0 0 15px var(--neon-cyan);
+      margin-top: 1rem;
+      width: auto;
     }
 
     .btn-magenta {
       color: var(--neon-magenta);
       border-color: var(--neon-magenta);
+      background: rgba(255, 0, 85, 0.08);
     }
 
     .btn-magenta:hover {
@@ -220,50 +263,117 @@
       box-shadow: 0 0 15px var(--neon-magenta);
     }
 
-    /* CONTENEDOR DE CONCLUSIONES / MITIGACIONES */
-    .conclusiones-box {
-      display: flex;
-      flex-direction: column;
-      gap: 1.2rem;
+    /* EMBED VIDEO RESPONSIVO */
+    .video-container {
       margin-top: 1rem;
+      width: 100%;
     }
 
-    .conclusion-item {
-      background: rgba(10, 8, 20, 0.6);
-      border-left: 3px solid var(--neon-cyan);
-      padding: 1rem 1.2rem;
-      border-radius: 0 4px 4px 0;
+    .video-wrapper {
+      position: relative;
+      padding-bottom: 56.25%; /* Relación de aspecto 16:9 */
+      height: 0;
+      overflow: hidden;
+      border: 1px solid var(--neon-magenta);
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+      background: #000;
     }
 
-    .conclusion-item p {
-      color: #e0e0e0;
+    .video-wrapper iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+    }
+
+    /* TABLA TÉCNICA DE MITIGACIÓN */
+    .table-container {
+      overflow-x: auto;
+      margin-top: 1rem;
+      border: 1px solid var(--goth-purple);
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
       font-family: var(--font-mono);
-      font-size: clamp(0.85rem, 2vw, 0.95rem);
+      font-size: 0.85rem;
+      text-align: left;
     }
 
-    .conclusion-item strong {
-      color: var(--neon-magenta);
+    th {
+      background: rgba(138, 43, 226, 0.2);
+      color: var(--neon-cyan);
+      padding: 0.8rem;
+      border-bottom: 1px solid var(--goth-purple);
       font-family: var(--font-cyber);
-      display: block;
-      margin-bottom: 0.3rem;
     }
 
+    td {
+      padding: 0.8rem;
+      border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+      color: #ccc;
+    }
+
+    tr:hover td {
+      background: rgba(0, 243, 255, 0.05);
+      color: #fff;
+    }
+
+    /* BADGES */
+    .badge-cwe {
+      background: rgba(255, 0, 85, 0.2);
+      color: var(--neon-magenta);
+      border: 1px solid var(--neon-magenta);
+      padding: 2px 6px;
+      font-size: 0.75rem;
+    }
+
+    /* MODAL DE IMÁGENES */
+    .modal {
+      display: none;
+      position: fixed;
+      top: 0; left: 0; width: 100vw; height: 100vh;
+      background: rgba(0,0,0,0.9);
+      z-index: 1000;
+      justify-content: center;
+      align-items: center;
+      padding: 1rem;
+    }
+
+    .modal img {
+      max-width: 90%;
+      max-height: 85vh;
+      border: 2px solid var(--neon-cyan);
+      box-shadow: 0 0 25px var(--neon-cyan);
+    }
+
+    /* FOOTER */
     footer {
       text-align: center;
-      padding: 1.8rem 1rem;
+      padding: 1.5rem 1rem;
       margin-top: 2rem;
-      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      font-size: clamp(0.75rem, 2vw, 0.85rem);
       color: #888;
       border-top: 1px solid var(--goth-purple);
+      font-family: var(--font-mono);
+      background: rgba(5, 5, 12, 0.95);
+    }
+
+    @media (max-width: 600px) {
+      .btn { width: 100%; }
     }
   </style>
 </head>
+
 <body>
 
+  <!-- ENCABEZADO -->
   <header>
     <div class="kicker">// Proyecto · Parcial I</div>
     <h1>De la teoría a la práctica: walkthrough en acción</h1>
-    <p>Este proyecto práctico demuestra la aplicación de metodologías avanzadas de pruebas de penetración (*Pentesting*) sobre la máquina virtual vulnerable Snakeoil de VulnHub. </p>
+    <p>Este proyecto práctico demuestra la aplicación de metodologías avanzadas de pruebas de penetración (<em>Pentesting</em>) sobre la máquina virtual vulnerable <strong>Snakeoil</strong> de VulnHub.</p>
     
     <nav class="back">
       <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
@@ -271,72 +381,188 @@
   </header>
 
   <main>
-    <!-- RESUMEN GENERAL -->
+<section>
+      <div class="card">
+        <h2><i class="fa-solid fa-book-open"></i> Introducción</h2>
+        <p>
+          El presente proyecto forma parte de la evaluación del curso <strong>Fundamentos de Ciberseguridad</strong>. 
+          Su propósito es documentar de manera estructurada el proceso de auditoría de seguridad realizado sobre un entorno controlado, 
+          aplicando metodologías reconocidas en la industria y reforzando competencias prácticas en pruebas de penetración.
+        </p>
+      </div>
+    </section>
+
+    <!-- OBJETIVOS -->
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-bullseye"></i> Objetivos del Proyecto</h2>
+        <ul>
+          <li>Aplicar metodologías OWASP y PTES en un entorno realista.</li>
+          <li>Identificar vulnerabilidades críticas en servicios de red y aplicaciones web.</li>
+          <li>Documentar el proceso de explotación y mitigación de fallas.</li>
+          <li>Generar un informe técnico formal con hallazgos y recomendaciones.</li>
+        </ul>
+      </div>
+    </section>
+
+
+    <!-- RESUMEN EJECUTIVO Y FICHA TÉCNICA -->
     <section>
       <div class="card">
         <h2><i class="fa-solid fa-terminal"></i> Resumen Ejecutivo del Proyecto</h2>
         <p>
-          Este caso de estudio documenta la aplicación de metodologías profesionales de seguridad informática (OWASP / PTES) para vulnerar y posteriormente mitigar las debilidades presentes en el servidor objetivo. La auditoría abarcó un proceso completo de reconocimiento de red, evasión de firmas perimetrales mediante ingeniería inversa en el manejo de sesiones de una API Flask, inyección de comandos dirigida hacia la shell de Linux (<em>CWE-78</em>) y la elevación final hacia los máximos privilegios administrativos.
+          Este caso de estudio documenta la aplicación de metodologías profesionales de seguridad informática (<strong>OWASP / PTES</strong>) para vulnerar y posteriormente mitigar las debilidades presentes en el servidor objetivo. La auditoría abarcó un proceso completo de reconocimiento de red, evasión de firmas perimetrales mediante ingeniería inversa en el manejo de sesiones de una API Flask, inyección de comandos dirigida hacia la shell de Linux (<span class="badge-cwe">CWE-78</span>) y la elevación final hacia los máximos privilegios administrativos.
         </p>
+
+        <!-- FICHA TÉCNICA / MATRIZ DE DATOS -->
+        <div class="specs-grid">
+          <div class="spec-item">
+            <span class="label">Máquina Objetivo</span>
+            <span class="value" style="color: var(--neon-cyan);">Snakeoil (VulnHub)</span>
+          </div>
+          <div class="spec-item">
+            <span class="label">Dificultad Auditada</span>
+            <span class="value" style="color: #ffcc00;">Intermedia / Realista</span>
+          </div>
+          <div class="spec-item">
+            <span class="label">Vector Principal</span>
+            <span class="value" style="color: var(--neon-magenta);">API Flask / Subproceso</span>
+          </div>
+          <div class="spec-item">
+            <span class="label">Objetivo Final</span>
+            <span class="value">Root Shell & Flag Exfiltration</span>
+          </div>
+        </div>
         
         <!-- APARTADO DE DESCARGA PDF -->
-        <a href="Informe_Final_Snakeoil.pdf" download class="btn btn-magenta">
-          <i class="fa-solid fa-file-pdf"></i> Descargar Reporte Técnico Oficial (PDF)
-        </a>
+        <div style="text-align: center; margin-top: 1.5rem;">
+          <a href="Informe_Final_Snakeoil.pdf" download class="btn btn-magenta">
+            <i class="fa-solid fa-file-pdf"></i> Descargar Reporte Técnico Oficial (PDF)
+          </a>
+        </div>
       </div>
     </section>
 
     <!-- APARTADO DEL VIDEO WALKTHROUGH -->
-<section>
+    <section>
       <div class="card">
         <h2><i class="fa-solid fa-video"></i> Video Walkthrough Explicativo</h2>
-        <p>Defensa técnica audiovisual estructurada de análisis condensadas, detallando la explotación paso a paso y la correlación teórica de las vulnerabilidades.</p>
+        <p>Defensa técnica audiovisual estructurada con análisis condensado, detallando la explotación paso a paso, la evasión de filtros y la correlación teórica de las vulnerabilidades halladas.</p>
         
         <div class="video-container">
           <div class="video-wrapper">
-            <!-- URL de inserción oficial configurada correctamente -->
-
-            <iframe width="560" height="315" src="https://www.youtube.com/embed/z2MoPTgKPcA?si=TSJOZUDqiU9hdzSh" 
-				title="YouTube video player" frameborder="0" 
-				allow="accelerometer; autoplay; clipboard-write; 
-				encrypted-media; gyroscope; picture-in-picture; web-share" 
-				referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
-			</iframe>
+            <iframe src="https://www.youtube.com/embed/z2MoPTgKPcA?si=TSJOZUDqiU9hdzSh" 
+                    title="YouTube video player" frameborder="0" 
+                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" 
+                    referrerpolicy="strict-origin-when-cross-origin" allowfullscreen>
+            </iframe>
           </div>
         </div>
       </div>
     </section>
 
-    <!-- METODOLOGÍA Y INFORME GENERAL -->
+    <!-- CRONOLOGÍA DEL PENTESTING E INFORME DE HALLAZGOS -->
     <section>
       <div class="card">
         <h2><i class="fa-solid fa-shield-halved"></i> Cronología del Pentesting e Informe de Hallazgos</h2>
         
-        <h3>Fase 1: Reconocimiento e Inteligencia de Red</h3>
+        <h3><i class="fa-solid fa-network-wired"></i> Fase 1: Reconocimiento e Inteligencia de Red</h3>
         <p>
-          Configurando el laboratorio en un entorno cerrado de Red NAT, se ejecutó un descubrimiento ARP pasivo mediante <code>netdiscover</code> aislando la dirección de la víctima. El posterior escaneo exhaustivo de Nmap sobre los 65,535 puertos reveló los vectores abiertos: puerto 22 (SSH), puerto 80 (Servidor Apache corporativo) y puerto 8080 (Servidor de desarrollo Werkzeug para Python Flask) custodiado por un proxy inverso Nginx.
+          Configurando el laboratorio en un entorno cerrado de Red NAT, se ejecutó un descubrimiento ARP pasivo mediante <code>netdiscover</code> aislando la dirección IP de la víctima. El posterior escaneo exhaustivo con Nmap sobre los 65,535 puertos identificó los vectores expuestos:
+        </p>
+        <ul>
+          <li><strong>Puerto 22/TCP:</strong> Servicio SSH (OpenSSH) habilitado para administración remota.</li>
+          <li><strong>Puerto 80/TCP:</strong> Servidor HTTP Apache corporativo actuando como sitio de bienvenida.</li>
+          <li><strong>Puerto 8080/TCP:</strong> Servidor de desarrollo Werkzeug para Python Flask custodiado internamente por un proxy inverso Nginx.</li>
+        </ul>
+
+        <h3><i class="fa-solid fa-key"></i> Fase 2: Auditoría de API y Bypass de Controles de Sesión</h3>
+        <p>
+          Haciendo uso del proxy interceptor Burp Suite y fuzzing de endpoints con Dirbuster/Gobuster, se detectó una vulnerabilidad de credenciales por defecto (<span class="badge-cwe">CWE-1392</span>) al enviar parámetros con formato de formulario web clásico hacia la ruta <code>/login</code> con el usuario de desarrollo <code>patrick</code>. Esto permitió evadir las restricciones lógicas y exfiltrar un JSON Web Token (JWT) de acceso corporativo almacenado en las Cookies de sesión.
         </p>
 
-        <h3>Fase 2: Auditoría de API y Bypass de Controles de Sesión</h3>
+        <h3><i class="fa-solid fa-code"></i> Fase 3: Inyección de Comandos Ofuscada (Foothold)</h3>
         <p>
-	 Haciendo uso del proxy interceptor Burp Suite y fuzzing de endpoints, se detectó una vulnerabilidad de credenciales por defecto (CWE-1392) al enviar parámetros con formato de formulario web clásico hacia la ruta /login con el usuario de desarrollo patrick. Esto permitió evadir las restricciones lógicas y exfiltrar un JSON Web Token (JWT) de acceso corporativo almacenado en Cookies.
-	</p>
-	<h3>Fase 3: Inyección de Comandos Ofuscada (Foothold)</h3>
-	<p>
-	Utilizando el token capturado para explotar el endpoint protegido /run, se detectó una falla crítica de sanitización que pasaba argumentos directamente a la shell de Linux (CWE-78). Tras evadir una política restrictiva que exigía el formato de red host:port y una lista negra interna (Banned Command), se implementó una inyección posicional mediante fragmentación de strings y tuberías, consolidando con Netcat una Shell Reversa interactiva desde el backend hacia la estación del auditor.
-	</p>
+          Utilizando el token capturado para autorizar peticiones en el endpoint protegido <code>/run</code>, se detectó una falla crítica de sanitización que pasaba argumentos no validados directamente a la shell subyacente de Linux (<span class="badge-cwe">CWE-78</span>).
+        </p>
+        <p style="margin-top: 0.5rem;">
+          Tras evadir una política restrictiva que exigía el formato de red <code>host:port</code> y esquivar una lista negra interna (<em>Banned Commands Filter</em>), se implementó una inyección posicional mediante fragmentación de cadenas de texto y tuberías (pipes). Esto consolidó una Shell Reversa interactiva con Netcat desde el servidor backend hacia la máquina atacante.
+        </p>
 
-	<h3>Fase 4: Post-Explotación y Escalada de Privilegios Locales</h3>
-	<p>
-	 Ya en la consola remota, el examen de los privilegios asignados con sudo -l expuso la vulnerabilidad de control de accesos (ALL : ALL) ALL (CWE-269). Al recuperar la frase de contraseña criptográfica remanente del código fuente de la aplicación Flask, el sistema validó el acceso local, transformando de inmediato el prompt ordinario en la consola interactiva del superusuario Root y completando la recolección de la bandera de auditoría.
-	</p>
-	</div>
-	</section>
+        <h3><i class="fa-solid fa-crown"></i> Fase 4: Post-Explotación y Escalada de Privilegios Locales</h3>
+        <p>
+          Una vez obtenida la consola remota con el usuario sin privilegios, el examen del archivo sudoers mediante el comando <code>sudo -l</code> expuso una configuración insegura de control de acceso (<span class="badge-cwe">CWE-269</span>). Al recuperar la frase de contraseña criptográfica remanente incrustada en el código fuente de la aplicación Flask, el sistema autenticó la solicitud, transformando el prompt ordinario en una consola interactiva de superusuario <strong>Root</strong> y permitiendo la lectura de la bandera final (<code>proof.txt</code>).
+        </p>
+      </div>
+    </section>
+
+    <!-- MATRIZ DE RECOMENDACIONES Y REMEDIACIÓN -->
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-bug-slash"></i> Matriz de Mitigación y Remediaciones Sugeridas</h2>
+        <p>Para elevar el nivel de madurez en seguridad del servidor auditado, se proponen los siguientes controles técnicos:</p>
+        
+        <div class="table-container">
+          <table>
+            <thead>
+              <tr>
+                <th>Vulnerabilidad Hallada</th>
+                <th>CWE ID</th>
+                <th>Nivel de Riesgo</th>
+                <th>Remediación Técnica Recomendada</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Credenciales por defecto / Débiles</td>
+                <td><span class="badge-cwe">CWE-1392</span></td>
+                <td><strong style="color: #ff9900;">ALTO</strong></td>
+                <td>Implementar políticas de contraseñas robustas y desactivar cuentas de desarrollo predeterminadas en ambientes de producción.</td>
+              </tr>
+              <tr>
+                <td>Inyección de Comandos de Sistema</td>
+                <td><span class="badge-cwe">CWE-78</span></td>
+                <td><strong style="color: var(--neon-magenta);">CRÍTICO</strong></td>
+                <td>Reemplazar llamadas directas a la shell (`subprocess.Popen(shell=True)`) por APIs nativas parametrizadas y listas blancas de caracteres.</td>
+              </tr>
+              <tr>
+                <td>Escalada por Permisos Sudo Flexibles</td>
+                <td><span class="badge-cwe">CWE-269</span></td>
+                <td><strong style="color: var(--neon-magenta);">CRÍTICO</strong></td>
+                <td>Restringir las reglas de `sudoers` aplicando el Principio del Menor Privilegio (PoLP) y eliminar claves/passwords incrustadas en código.</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </section>
+
+    <!-- CONCLUSIONES -->
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-lightbulb"></i> Conclusiones</h2>
+        <p>
+          El proyecto permitió comprender la importancia de aplicar metodologías formales en pruebas de seguridad, 
+          así como la necesidad de implementar controles adecuados para mitigar riesgos. 
+          Se reforzaron competencias técnicas en análisis de vulnerabilidades y se desarrolló pensamiento crítico para la documentación de hallazgos.
+        </p>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- MODAL DE IMÁGENES -->
+  <div class="modal" id="imageModal" onclick="closeModal()">
+    <img id="modalImg" src="" alt="Vista Previa de Evidencia">
+  </div>
+
+  <!-- PIE DE PÁGINA -->
   <footer>
     <p>Parcial I: Fundamentos de Ciberseguridad · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
     <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
   </footer>
 
+  <!-- SCRIPT INTERACTIVO -->
   <script>
     function openModal(src) {
       const modal = document.getElementById('imageModal');
@@ -358,4 +584,3 @@
 
 </body>
 </html>
-
