@@ -247,7 +247,7 @@
     /* TARJETAS DE EVIDENCIAS Y TAREAS CON GRID RESPONSIVO */
     .evidencias-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 228px), 1fr));
       gap: 1.2rem;
       margin-top: 1.2rem;
     }
@@ -326,10 +326,10 @@
       font-family: var(--font-mono);
     }
     /* Tarjeta de Proyecto especial que abarca todo el ancho del Grid */
-    .evidencia-item.proyecto-destacado {
-      grid-column: 1 / -1; /* Ocupa desde la primera hasta la última columna */
+    .evidencia-item.proyecto-item {
+      grid-column: 1 / -1; /* Hace que ocupe todo el ancho */
+      margin-top: 2rem;    /* Genera el espacio de separación hacia arriba */
       border-color: var(--neon-cyan);
-      background: rgba(0, 243, 255, 0.03);
     }
     
     .evidencia-item.proyecto-destacado:hover {
