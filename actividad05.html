@@ -1,0 +1,474 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Actividad 03 — No presiones Esc… todavía | Portafolio CNO IV</title>
+
+  <!-- FUENTES Y ICONOS -->
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <style>
+    :root {
+      --bg-color: #030308;
+      --panel-bg: rgba(10, 8, 20, 0.90);
+      --neon-cyan: #00f3ff;
+      --neon-magenta: #ff0055;
+      --goth-purple: #8a2be2;
+      --text-main: #e0e0e0;
+      --font-cyber: 'Orbitron', sans-serif;
+      --font-goth: 'Cinzel', serif;
+      --font-mono: 'Share Tech Mono', monospace;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+
+    body {
+      background-color: var(--bg-color);
+      color: var(--text-main);
+      font-family: var(--font-cyber);
+      overflow-x: hidden;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    body::before {
+      content: ""; position: fixed; top: 0; left: 0; width: 100vw; height: 100vh;
+      background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+      background-size: 100% 4px; z-index: 100; pointer-events: none;
+    }
+
+    header {
+      padding: 2rem 1.5rem 1.5rem;
+      border-bottom: 2px solid var(--neon-magenta);
+      box-shadow: 0 0 20px var(--neon-magenta);
+      background: rgba(5, 5, 12, 0.95);
+      backdrop-filter: blur(8px);
+      position: sticky; top: 0; z-index: 90; width: 100%;
+      text-align: center;
+    }
+
+    header .kicker {
+      color: var(--neon-magenta);
+      letter-spacing: 3px;
+      font-size: 0.85rem;
+      font-family: var(--font-mono);
+      font-weight: 700;
+    }
+
+    header h1 {
+      font-family: var(--font-goth);
+      font-size: clamp(1.6rem, 4.5vw, 2.5rem);
+      color: #fff;
+      text-transform: uppercase;
+      text-shadow: 0 0 10px var(--neon-magenta);
+      margin: 0.5rem 0;
+      word-break: break-word;
+    }
+
+    header p {
+      font-family: var(--font-mono);
+      color: var(--neon-cyan);
+      max-width: 850px;
+      margin: 0 auto;
+      font-size: clamp(0.8rem, 2vw, 0.95rem);
+    }
+
+    nav.back { margin-top: 1.2rem; }
+
+    nav.back a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-family: var(--font-mono);
+      font-size: 0.85rem;
+      padding: 0.4rem 1rem;
+      border: 1px solid var(--goth-purple);
+      background: rgba(0,0,0,0.6);
+      transition: all 0.3s ease;
+      clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    nav.back a:hover {
+      color: var(--neon-cyan);
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 15px var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.15);
+    }
+
+    main {
+      max-width: 1100px;
+      width: 100%;
+      margin: 2rem auto;
+      padding: 0 1rem;
+      flex-grow: 1;
+    }
+
+    section { margin-bottom: 2rem; }
+
+    .card {
+      background: var(--panel-bg);
+      border: 1px solid var(--goth-purple);
+      padding: clamp(1.2rem, 3vw, 1.8rem);
+      clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 15px 100%, 0 calc(100% - 15px));
+      transition: all 0.4s ease;
+      width: 100%;
+    }
+
+    .card:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 25px rgba(0, 243, 255, 0.25);
+    }
+
+    h2 {
+      font-family: var(--font-goth);
+      color: var(--neon-cyan);
+      font-size: clamp(1.1rem, 3vw, 1.4rem);
+      margin-bottom: 1rem;
+      border-bottom: 1px dashed var(--goth-purple);
+      padding-bottom: 0.4rem;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    h3 {
+      font-family: var(--font-cyber);
+      color: var(--neon-magenta);
+      font-size: clamp(0.95rem, 2.5vw, 1.1rem);
+      margin: 1.2rem 0 0.5rem;
+    }
+
+    p, ul {
+      font-family: var(--font-mono);
+      font-size: clamp(0.82rem, 2.2vw, 0.92rem);
+      line-height: 1.6;
+      color: #ccc;
+    }
+
+    ul { padding-left: 1.2rem; }
+    li { margin-bottom: 0.4rem; }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(min(100%, 280px), 1fr));
+      gap: 1.2rem;
+    }
+
+    /* ESTILOS DE UNIFORMIDAD PARA IMÁGENES */
+    .img-container {
+      margin: 1rem 0;
+      border: 1px solid var(--neon-magenta);
+      background: rgba(0, 0, 0, 0.85);
+      padding: 10px;
+      box-shadow: 0 0 15px rgba(255, 0, 85, 0.2);
+      clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 10px 100%, 0 calc(100% - 10px));
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .img-container img {
+      width: 100%;
+      height: 220px;
+      object-fit: cover;
+      object-position: top center;
+      display: block;
+      border: 1px solid var(--goth-purple);
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .img-container img:hover {
+      transform: scale(1.02);
+    }
+
+    .img-container figcaption {
+      font-family: var(--font-mono);
+      font-size: 0.8rem;
+      color: var(--neon-cyan);
+      text-align: center;
+      padding-top: 8px;
+      width: 100%;
+    }
+
+    /* BOTONES */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      padding: 0.6rem 1.2rem;
+      background: transparent;
+      color: var(--neon-cyan);
+      border: 1px solid var(--neon-cyan);
+      font-family: var(--font-cyber);
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      text-transform: uppercase;
+      cursor: pointer;
+      transition: 0.3s;
+      text-align: center;
+      text-decoration: none;
+      margin-top: 0.8rem;
+      margin-right: 0.5rem;
+    }
+
+    .btn:hover {
+      background: var(--neon-cyan);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-cyan);
+    }
+
+    .btn-magenta {
+      color: var(--neon-magenta);
+      border-color: var(--neon-magenta);
+    }
+
+    .btn-magenta:hover {
+      background: var(--neon-magenta);
+      color: #000;
+      box-shadow: 0 0 15px var(--neon-magenta);
+    }
+
+    .btn-sm {
+      padding: 0.3rem 0.6rem;
+      font-size: 0.7rem;
+      margin-top: 0.5rem;
+      margin-right: 0;
+      width: 100%;
+    }
+
+    /* FORMATO DE CONCLUSIONES EN PÁRRAFOS */
+    .conclusiones-box {
+      display: flex;
+      flex-direction: column;
+      gap: 1.2rem;
+      margin-top: 1rem;
+    }
+
+    .conclusion-item {
+      background: rgba(10, 8, 20, 0.6);
+      border-left: 3px solid var(--neon-cyan);
+      padding: 1rem 1.2rem;
+      border-radius: 0 4px 4px 0;
+    }
+
+    .conclusion-item p {
+      color: #e0e0e0;
+      font-family: var(--font-mono);
+      font-size: clamp(0.85rem, 2vw, 0.95rem);
+    }
+
+    .conclusion-item strong {
+      color: var(--neon-magenta);
+      font-family: var(--font-cyber);
+      display: block;
+      margin-bottom: 0.3rem;
+    }
+
+   /* TABLA TÉCNICA REESTILIZADA */
+        .table-container {
+            overflow-x: auto;
+            margin: 1.5rem 0;
+            border: 1px solid var(--goth-purple);
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+            text-align: left;
+        }
+
+        th {
+            background: rgba(138, 43, 226, 0.25);
+            color: var(--neon-cyan);
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid var(--goth-purple);
+            font-family: var(--font-cyber);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+            letter-spacing: 1px;
+        }
+
+        td {
+            padding: 0.9rem 1rem;
+            border-bottom: 1px solid rgba(138, 43, 226, 0.3);
+            color: #ccc;
+            background: rgba(0, 0, 0, 0.4);
+        }
+
+        tr:hover td {
+            background: rgba(0, 243, 255, 0.05);
+            color: #fff;
+        }
+
+        .badge-role {
+            background: rgba(255, 0, 85, 0.15);
+            color: var(--neon-magenta);
+            border: 1px solid var(--neon-magenta);
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            display: inline-block;
+            margin-top: 4px;
+        }
+
+
+    footer {
+      text-align: center;
+      padding: 1.8rem 1rem;
+      margin-top: 2rem;
+      font-size: clamp(0.7rem, 2vw, 0.8rem);
+      color: #888;
+      border-top: 1px solid var(--goth-purple);
+      font-family: var(--font-mono);
+      width: 100%;
+      background: rgba(5, 5, 12, 0.95);
+    }
+
+    @media(max-width: 600px) {
+      .btn { width: 100%; margin-right: 0; }
+      .img-container img { height: 180px; }
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="kicker">// ACTIVIDAD 05 · PARCIAL I</div>
+    <h1>El arte del engaño</h1>
+    <p>Análisis de Incidente: El Ciberataque de $243M USD</p>
+    
+    <nav class="back">
+      <a href="index.html"><i class="fa-solid fa-arrow-left"></i> // VOLVER AL PORTAFOLIO</a>
+    </nav>
+  </header>
+
+  <main>
+ 
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-crosshairs"></i> 01 // Resumen Ejecutivo</h2>
+        <p>En agosto de 2024 se llevó a cabo uno de los robos de criptomonedas más cuantiosos registrados contra un solo individuo. Un grupo de jóvenes hackers logró apoderarse de más de <strong style="color: var(--neon-magenta);">$243 millones de dólares en Bitcoin (4,100 BTC)</strong> combinando vishing sofisticado, suplantación corporativa y acceso remoto.</</p>
+      </div>
+    </section>
+
+
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-flask"></i> 02 // Vector de Ataque y Metodología de Ingeniería Socia</h2>
+        <p>El ataque se estructuró a través de un esquema coordinado de <strong>vishing (phishing telefónico)</strong> y <strong>spear phishing</strong> altamente personalizado. Malone Lam inició el compromiso haciéndose pasar por un representante del equipo de seguridad de <strong>Google</strong>, notificando a la víctima sobre una supuesta brecha inminente en sus cuentas.</p>
+         <p>Los atacantes explotaron principalmente los principios psicológicos de <strong>urgencia, miedo y apelación a la autoridad</strong>. Al simular que los fondos estaban siendo sustraídos en tiempo real, anularon la capacidad de verificación de la víctima.</p>
+      </div>
+    </section>
+
+ 
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-flask"></i> 03 // Vulnerabilidades Técnicas Explotadas y Herramientas</h2>
+<p>Para consolidar la extracción de activos, el grupo no necesitó vulnerar la cadena de bloques, sino explotar fallas de seguridad operacional del usuario:</p>
+        <ul>
+            <li><strong>Software de Gestión Remota:</strong> Utilizaron herramientas comerciales tipo <i>AnyDesk</i> para tomar control o visualización de la pantalla del equipo objetivo.</li>
+            <li><strong>Intercepción de Credenciales y 2FA:</strong> Con el acceso remoto, lograron obtener la clave privada de la billetera e interceptaron los códigos de autenticación de dos factores (2FA).</li>
+            <li><strong>Ausencia de Almacenamiento en Frío:</strong> La disponibilidad de los activos en entornos "en caliente" facilitó la transferencia inmediata e irreversible de los 4,100 BTC.</li>
+        </ul>
+      </div>
+    </section>
+  
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-camera-retro"></i> 04 // Roles y Estructura Operativa</h2>
+	<div class="table-container">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Implicado</th>
+                        <th>Rol Operativo en el Ataque</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>Malone Lam ("Anne")</strong></td>
+                        <td>Iniciador del ataque. Encargado del primer enganche telefónico suplantando a Google. <br><span class="badge-role">Ingeniería Social</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Serrano Jeandiel</strong></td>
+                        <td>Ejecutor del cierre. Suplantó al soporte de Coinbase para instruir la transferencia de fondos. <br><span class="badge-role">Spoofing / Vishing</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>Chetal Veer ("Wiz")</strong></td>
+                        <td>Apoyo técnico en la transferencia de fondos y estructura de dispersión/lavado. <br><span class="badge-role">Infraestructura / Mixers</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+	</div>
+    </section>
+
+    <!-- 03 IMPLEMENTACIÓN -->
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-flask"></i> 05 //  Lavado de Fondos y Errores de OpSec</h2>
+<p>Inmediatamente posterior al robo, la organización ejecutó un proceso de ocultación dividiendo los fondos en múltiples billeteras secundarias, utilizando servicios de mezcla (mixers) y swaps como ChangeNOW y SideShift para transferir fondos hacia criptomonedas de privacidad (Monero).</p>
+<p>Sin embargo, el grupo cometió graves errores de seguridad operacional (OpSec). El descontrol y gasto ostentoso en bienes de lujo (flota de más de 30 vehículos, relojes Richard Mille y obsequios como un bolso Hermès Birkin entregado a la influencer Skylar Harrison) fue documentado en redes sociales. Un descuido en un video grabado durante el robo reveló el nombre de Chetal Veer, lo que permitió al investigador <i>on-chain</i> <strong>ZachXBT</strong> rastrear las billeteras y vincularlas directamente con las identidades reales de los sospechosos.</p>
+        
+      </div>
+    </section>
+
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-flask"></i> 06 //  Desenlace Judicial</h2>
+<p>En septiembre de 2024, el FBI concretó la detención de los implicados. Durante los allanamientos se incautaron carteras frías, dispositivos móviles, relojes de lujo y vehículos de alta gama. Ante la contundencia de las pruebas recopiladas por ZachXBT y el FBI, Chetal Veer decidió aceptar un acuerdo de culpabilidad (<i>plea deal</i>).</p>
+        <p>El grupo enfrenta cargos por <strong>conspiración para cometer fraude electrónico</strong> y <strong>conspiración para el lavado de dinero</strong>, delitos que conllevan penas de hasta <strong>20 años de prisión por cada cargo</strong>, además del decomiso de bienes y restituciones millonarias.</p>
+        
+      </div>
+    </section>
+
+    <!-- 05 CÓDIGO Y FUENTES -->
+    <section>
+      <div class="card">
+        <h2><i class="fa-solid fa-folder-open"></i> 07 // Informe</h2>
+        <p>Consulta el archivo generado para esta actividad:</p>
+        <div style="margin-top: 0.5rem;">
+          <a class="btn btn-magenta" href="https://drive.google.com/file/d/1q0kdlZ0arfCHNoCPqSPCPQQESciH9smj/view?usp=sharing" target="_blank"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>
+        </div>
+      </div>
+    </section>
+
+   
+  </main>
+
+
+  <footer>
+    <p>Parcial I: Fundamentos de Ciberseguridad · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
+    <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
+  </footer>
+
+  <script>
+    function openModal(src) {
+      const modal = document.getElementById('imageModal');
+      const modalImg = document.getElementById('modalImg');
+      modal.style.display = 'flex';
+      modalImg.src = src;
+    }
+
+    function closeModal() {
+      document.getElementById('imageModal').style.display = 'none';
+    }
+
+    document.addEventListener('keydown', function(e) {
+      if (e.key === 'Escape') {
+        closeModal();
+      }
+    });
+  </script>
+
+</body>
+</html>
