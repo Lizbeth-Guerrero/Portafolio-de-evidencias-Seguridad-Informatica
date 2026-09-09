@@ -325,6 +325,17 @@
       border: 1px solid rgba(0, 243, 255, 0.3);
       font-family: var(--font-mono);
     }
+    /* Tarjeta de Proyecto especial que abarca todo el ancho del Grid */
+    .evidencia-item.proyecto-destacado {
+      grid-column: 1 / -1; /* Ocupa desde la primera hasta la última columna */
+      border-color: var(--neon-cyan);
+      background: rgba(0, 243, 255, 0.03);
+    }
+    
+    .evidencia-item.proyecto-destacado:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px var(--neon-cyan);
+    }
 
     /* BOTONES DE ACCIÓN ADAPTABLES */
     .btn-group {
@@ -849,8 +860,9 @@
   </div>
 </div>
       </div>
+      
   <!--Proyecto-->
-      <div class="evidencia-item">
+        <div class="evidencia-item proyecto-destacado">   
           <div>
             <div class="evidencia-header">
               <span class="badge">Proyecto 01</span>
@@ -859,16 +871,16 @@
             <h3>De la teoría a la práctica: walkthrough en acción</h3>
             <p>Demostrar la capacidad de aplicar conocimientos teóricos de seguridad informática en un entorno práctico, mediante la realización de un walkthrough detallado y la explicación de las técnicas y metodologías utilizadas para vulnerar una máquina virtual.</p>
             <div class="tech-tags">
-              <span class="tag">...</span>
-              <span class="tag">...</span>
-              <span class="tag">...</span>
+              <span class="tag">Snakeoil (VulnHub)</span>
+              <span class="tag">API Flask / Subproceso</span>
+              <span class="tag">Root Shell & Flag Exfiltration</span>
             </div>
           </div>
           <div class="btn-group">  
             <a href="proyecto01.html" class="btn btn-secondary" target="_blank">
               <i class="fa-solid fa-code"></i> Ver Reporte HTML
             </a>
-            <a href="informePR01.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+            <a href="Informe_Final_Snakeoil.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
     </article>
