@@ -814,26 +814,26 @@
     <!-- MARCO TEÓRICO COMPLETO -->
     <article class="card">
       <h2><i class="fa-solid fa-book"></i> 02 // Marco Teórico y Decodificación Redundante</h2>
-      <p><strong>Fallo de Decodificación Redundante:</strong> Ocurre cuando el servidor web realiza un primer URL-decode automático del parámetro HTTP, pasa la entrada a un filtro de seguridad (que valida texto claro), y posteriormente la función interna de lectura ejecuta un **segundo URL-decode superfluo** sobre el valor antes de abrir el archivo.</p>
+      <p><strong>Traversal Sequences Stripped with Superfluous URL-Decode:</strong> Este escenario ocurre cuando la aplicación intenta defenderse inspeccionando o sanitizando la 
+entrada en busca de secuencias como ../ en texto plano o con una primera capa de codificación. Sin embargo, antes de pasar el parámetro a la función que lee el archivo en el sistema operativo, 
+la aplicación (o el framework subyacente) ejecuta un proceso adicional e innecesario de decodificación URL (superfluous URL-decode).</p>
     </article>
 
     <!-- PROCEDIMIENTO Y PASO A PASO CON BURP SUITE -->
     <article class="card">
-      <h2><i class="fa-solid fa-terminal"></i> 03 // Procedimiento de Explotación Paso a Paso</h2>
+      <h2><i class="fa-solid fa-terminal"></i> 06 // Procedimiento de Explotación Paso a Paso</h2>
       <ol>
-        <li>Carga la imagen en la tienda e intercepta el request en Burp Suite.</li>
-        <li>Codifica con doble URL-encode la secuencia <code>../</code>:
-          <ul>
-            <li><code>.</code> = <code>%2e</code> &nbsp;|&nbsp; <code>/</code> = <code>%2f</code></li>
-            <li>Doble codificación: <code>%252e%252e%252f</code></li>
-          </ul>
-        </li>
-        <li>Inyecta la cadena en Repeater:
+        <li>Intercepta en Burp la solicitud GET de la imagen en la tienda virtual.</li>
+        <li>Envía la petición al módulo Repeater para probar inyecciones.</li>
+        <li>Prueba payloads estándar y observa el bloqueo de la aplicación.</li>
+        <li>Construye un payload con doble codificación URL:
           <pre>GET /image?filename=%252e%252e%252f%252e%252e%252f%252e%252e%252fetc/passwd HTTP/1.1</pre>
         </li>
-        <li>Envía la solicitud para evasión del filtro y exfiltración de datos.</li>
+        <li>Ejecuta la solicitud en Repeater y confirma la exfiltración del archivo <code>/etc/passwd</code>.</li>
+        <li>Verifica la respuesta HTTP 200 OK y valida la resolución del laboratorio con el banner "Lab Solved".</li>
       </ol>
     </article>
+
 
     <!-- EVIDENCIAS Y CAPTURAS -->
     <article class="card">
@@ -857,11 +857,15 @@
     <article class="card">
       <h2><i class="fa-solid fa-shield-cat"></i> 05 // Estrategias de Mitigación</h2>
       <ul>
-        <li>Asegurar que el proceso de decodificación URL ocurra exactamente una sola vez antes de la fase de validación.</li>
-        <li>Verificar de forma estricta las entradas con canonicalización de rutas antes de llamar a funciones de E/S.</li>
+        <li><strong>Normalizar la Entrada Antes de Validar:</strong> Si es inevitable procesar codificaciones URL en el backend, el sistema debe realizar toda la 
+decodificación y canonización de la entrada antes de pasar la cadena por cualquier filtro de seguridad o expresión regular. </li>
+        <li><strong>Sanitización Mediante Listas Blancas (Whitelisting):</strong> Descartar las listas negras. Validar que la entrada cumpla estrictamente con un formato de 
+caracteres alfanuméricos y una extensión permitida mediante expresiones regulares: ^[a-zA-Z0-9_-]+\.(jpg|png|gif)$ </li>
+        <li><strong>Principio de Menor Privilegio:</strong> Ejecutar el servicio web bajo un usuario del sistema operativo con permisos fuertemente 
+restringidos (ej. www-data), garantizando que no tenga acceso de lectura a /etc/passwd u otros archivos del sistema.</li>
       </ul>
       <div style="margin-top: 1.5rem; text-align: center;">
-        <a href="laboratorio03.pdf" download class="btn">
+        <a href="laboratorio04.pdf" download class="btn">
           <i class="fa-solid fa-file-pdf"></i> DESCARGAR INFORME TÉCNICO EN PDF
         </a>
       </div>
