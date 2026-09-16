@@ -815,20 +815,28 @@
     <!-- MARCO TEÓRICO COMPLETO -->
     <article class="card">
       <h2><i class="fa-solid fa-book"></i> 02 // Marco Teórico y Mecánica del Byte Nulo</h2>
-      <p><strong>Técnica Null Byte Injection:</strong> En lenguajes como C/C++ (y frameworks legacy de PHP o Java), las cadenas de texto finalizan con el byte nulo <code>0x00</code>. Al enviar <code>%00.png</code> en la URL, el validador de la aplicación web analiza la cadena completa y confirma que termina en <code>.png</code>; sin embargo, al pasarlo al sistema de archivos, la lectura se detiene inmediatamente al llegar a <code>%00</code>, ignorando la extensión posterior.</p>
+      <p><strong>Técnica Null Byte Injection:</strong> En este escenario, la aplicación web intenta protegerse comprobando que el parámetro recibido 
+termine obligatoriamente con una extensión de archivo válida (por ejemplo, .jpg o .png). Sin 
+embargo, si la aplicación web está desarrollada en un lenguaje de alto nivel (como PHP o Java en 
+versiones antiguas) o interactúa con APIs en C/C++ a nivel de sistema operativo, es susceptible a 
+la inyección de un byte nulo (%00 en codificación URL o 0x00 en hexadecimal). El byte nulo 
+actúa como el delimitador tradicional de fin de cadena (Null Terminator) en C/C++. </p>
     </article>
 
     <!-- PROCEDIMIENTO Y PASO A PASO CON BURP SUITE -->
     <article class="card">
-      <h2><i class="fa-solid fa-terminal"></i> 03 // Procedimiento de Explotación Paso a Paso</h2>
-      <ol>
-        <li>Intercepta en Burp la llamada a la imagen.</li>
-        <li>Combina la secuencia traversal con la inyección del byte nulo y la extensión aceptada:
-          <pre>GET /image?filename=../../../etc/passwd%00.png HTTP/1.1</pre>
-        </li>
-        <li>Envía la solicitud en Repeater para truncar la ruta a nivel de sistema operativo y obtener <code>/etc/passwd</code>.</li>
-      </ol>
-    </article>
+  <h2><i class="fa-solid fa-terminal"></i> 03 // Procedimiento de Explotación Paso a Paso</h2>
+  <ol>
+    <li>Intercepta en Burp la solicitud GET de la imagen en la tienda virtual.</li>
+    <li>Envía la petición al módulo Repeater para realizar pruebas de validación de extensiones.</li>
+    <li>Construye un payload con byte nulo (%00) y extensión aceptada:
+      <pre>GET /image?filename=../../../etc/passwd%00.jpg HTTP/1.1</pre>
+    </li>
+    <li>Ejecuta la solicitud en Repeater y confirma la exfiltración del archivo <code>/etc/passwd</code>.</li>
+    <li>Verifica la respuesta del servidor y valida la resolución del laboratorio.</li>
+  </ol>
+</article>
+
 
     <!-- EVIDENCIAS Y CAPTURAS -->
     <article class="card">
@@ -852,11 +860,17 @@
     <article class="card">
       <h2><i class="fa-solid fa-shield-cat"></i> 05 // Estrategias de Mitigación</h2>
       <ul>
-        <li>Actualizar a entornos y motores modernos que neutralizan la interpretación de bytes nulos en cadenas.</li>
-        <li>Sanitizar las entradas eliminando caracteres no imprimibles o nulos antes de realizar validaciones de rutas.</li>
+        <li><strong>Actualización del Entorno de Ejecución (Runtime/Lenguaje):</strong> Asegurar el uso de versiones modernas de lenguajes de programación (por ejemplo, PHP 5.3.4+ 
+o versiones actuales de Java/Node.js) que han sido parcheadas nativamente para neutralizar e ignorar los ataques de truncamiento por byte nulo en funciones del sistema de archivos. </li>
+        <li><strong>Sanitización Estricta de la Entrada:</strong> Eliminar o codificar cualquier carácter nulo (%00, \0, 0x00) o de control de la cadena enviada 
+por el usuario antes de procesarla en la lógica de la aplicación.</li>
+        <li><strong>Principio de Menor Privilegio:</strong> Configurar el usuario del servicio web (www-data) con permisos de lectura sumamente 
+restringidos en el sistema operativo para evitar el acceso a /etc/passwd u otros directorios del 
+sistema. </li>
+      
       </ul>
       <div style="margin-top: 1.5rem; text-align: center;">
-        <a href="documentos/lab01.pdf" download class="btn">
+        <a href="laboratorio06.pdf" download class="btn">
           <i class="fa-solid fa-file-pdf"></i> DESCARGAR INFORME TÉCNICO EN PDF
         </a>
       </div>
