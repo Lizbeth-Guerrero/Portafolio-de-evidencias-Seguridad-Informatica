@@ -815,20 +815,25 @@
     <!-- MARCO TEÓRICO COMPLETO -->
     <article class="card">
       <h2><i class="fa-solid fa-book"></i> 02 // Marco Teórico</h2>
-      <p><strong>Validación de Prefijo Insuficiente:</strong> La aplicación valida que el valor ingresado empiece exactamente con la ruta base esperada (ej. <code>/var/www/images/</code>). Sin embargo, al no restringir el uso de <code>../</code> inmediatamente después del prefijo, permite salir de dicho directorio base.</p>
+      <p><strong>Validación de Prefijo Insuficiente:</strong> En este escenario, el desarrollador implementa un mecanismo de defensa que intenta garantizar que el usuario solo acceda a archivos de una carpeta autorizada (por ejemplo, 
+/var/www/images/). La aplicación comprueba explícitamente que la cadena del parámetro empiece por el prefijo esperado (ej. startsWith("/var/www/images/")). Sin embargo, si la 
+aplicación valida el inicio de la cadena pero no bloquea la inclusión de secuencias de escape relativas (../) dentro del resto del parámetro, la validación se vuelve ineficaz.</p>
     </article>
 
     <!-- PROCEDIMIENTO Y PASO A PASO CON BURP SUITE -->
-    <article class="card">
-      <h2><i class="fa-solid fa-terminal"></i> 03 // Procedimiento de Explotación Paso a Paso</h2>
-      <ol>
-        <li>Intercepta en Burp la petición con el valor por defecto: <code>/var/www/images/7.jpg</code>.</li>
-        <li>Conserva el prefijo exacto e inyecta la secuencia de escape justo después:
-          <pre>GET /image?filename=/var/www/images/../../../etc/passwd HTTP/1.1</pre>
-        </li>
-        <li>Envía la petición mediante Repeater. El servidor valida que el string comienza con <code>/var/www/images/</code> y luego procesa el cruce hacia la raíz.</li>
-      </ol>
-    </article>
+<article class="card">
+  <h2><i class="fa-solid fa-terminal"></i> 05 // Procedimiento de Explotación Paso a Paso</h2>
+  <ol>
+    <li>Intercepta en Burp la solicitud GET de la imagen en la tienda virtual.</li>
+    <li>Envía la petición al módulo Repeater para realizar pruebas de inyección.</li>
+    <li>Construye el payload conservando el prefijo obligatorio y añadiendo la secuencia traversal:
+      <pre>GET /image?filename=/var/www/images/../../../etc/passwd HTTP/1.1</pre>
+    </li>
+    <li>Ejecuta la solicitud en Repeater y confirma la exfiltración del archivo <code>/etc/passwd</code>.</li>
+    <li>Verifica la respuesta HTTP 200 OK y valida la resolución del laboratorio con el banner "Lab Solved".</li>
+  </ol>
+</article>
+
 
     <!-- EVIDENCIAS Y CAPTURAS -->
     <article class="card">
@@ -852,7 +857,12 @@
     <article class="card">
       <h2><i class="fa-solid fa-shield-cat"></i> 05 // Estrategias de Mitigación</h2>
       <ul>
-        <li>Resolver la ruta canónica del archivo resultante y verificar si sigue dentro del directorio permitido antes de devolver la respuesta.</li>
+        <li><strong>Sanitización Mediante Listas Blancas (Whitelisting):</strong> Si el parámetro solo debe recibir el nombre del archivo (ej. 54.jpg), no se debe requerir ni 
+permitir que el usuario pase rutas completas en la URL. Se debe validar mediante una expresión regular estricta: ^[a-zA-Z0-9_-]+\.(jpg|png|gif)$ </li>
+        <li><strong>Uso de Claves o Índices Indirectos:</strong> Mapear los archivos en una base de datos o un índice entero (ej. GET /image?id=54) para que la 
+aplicación resuelva la ruta interna en el backend sin depender de entradas del usuario.</li>
+        <li><strong>Principio de Menor Privilegio:</strong> Ejecutar el proceso del servidor web (www-data) con permisos de lectura mínimos en el sistema 
+operativo, de modo que no tenga privilegios para acceder a /etc/passwd ni a directorios fuera del directorio público.</li>
       </ul>
       <div style="margin-top: 1.5rem; text-align: center;">
         <a href="laboratorio05.pdf" download class="btn">
