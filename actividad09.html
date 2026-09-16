@@ -814,21 +814,27 @@
     <!-- MARCO TEÓRICO COMPLETO -->
     <article class="card">
       <h2><i class="fa-solid fa-book"></i> 02 // Marco Teórico y Análisis del Fallo Defensivo</h2>
-      <p><strong>Filtros No Recursivos:</strong> Ocurren cuando el backend utiliza funciones como <code>string.replace("../", "")</code> una sola vez antes de procesar el archivo. Si la aplicación elimina la secuencia interna <code>../</code> de la cadena <code>....//</code>, los caracteres circundantes se colapsan reconstituyendo la secuencia <code>../</code> deseada.</p>
+      <p><strong>Filtros No Recursivos:</strong> Para mitigar ataques de navegación, algunos desarrolladores intentan aplicar un filtro que busca 
+y elimina la secuencia de escape ../ del parámetro de entrada (por ejemplo, mediante funciones de reemplazo de cadenas como strip() o replace("../", "")). Sin embargo, si este proceso de 
+eliminación se realiza de forma no recursiva (es decir, en una sola pasada sobre el texto), el filtro elimina la coincidencia exacta pero vuelve a ensamblar el texto restante. Esto deja intactas las 
+secuencias ../ que hayan sido anidadas dentro del payload. </p>
     </article>
 
     <!-- PROCEDIMIENTO Y PASO A PASO CON BURP SUITE -->
     <article class="card">
       <h2><i class="fa-solid fa-terminal"></i> 03 // Procedimiento de Explotación Paso a Paso</h2>
       <ol>
-        <li>Intercepta con Burp Suite la petición a la imagen del producto (<code>GET /image?filename=1.jpg</code>).</li>
-        <li>Envía la petición al módulo **Repeater** (<code>Ctrl + R</code>).</li>
-        <li>Sustituye la entrada simple por la secuencia anidada:
+        <li>Intercepta en Burp la solicitud GET de la imagen en la tienda virtual.</li>
+        <li>Envía la petición al módulo Repeater para realizar pruebas de inyección.</li>
+        <li>Prueba un payload estándar de Path Traversal y observa el bloqueo por filtro.</li>
+        <li>Construye un payload anidado reemplazando cada <code>../</code> por <code>....//</code>:
           <pre>GET /image?filename=....//....//....//etc/passwd HTTP/1.1</pre>
         </li>
-        <li>Presiona **Send**. El filtro eliminará los patrones <code>../</code> centrales dejando intacta la ruta <code>../../../etc/passwd</code>.</li>
+        <li>Ejecuta la solicitud en Repeater y confirma la exfiltración del archivo <code>/etc/passwd</code>.</li>
+        <li>Verifica la respuesta HTTP 200 OK y valida la resolución del laboratorio con el banner "Lab Solved".</li>
       </ol>
     </article>
+
 
     <!-- EVIDENCIAS Y CAPTURAS -->
     <article class="card">
@@ -852,8 +858,12 @@
     <article class="card">
       <h2><i class="fa-solid fa-shield-cat"></i> 05 // Estrategias de Mitigación</h2>
       <ul>
-        <li>Implementar eliminación de patrones de forma recursiva o rechazar la petición en lugar de intentar limpiar la entrada.</li>
-        <li>Usar validación mediante listas blancas (whitelisting) para nombres de archivos permitidos.</li>
+        <li><strong>Reemplazar la Sanitización por Listas Blancas (Whitelisting):</strong> Evitar limpiar o modificar entradas sospechosas. En su lugar, validar estrictamente que la entrada 
+del usuario cumpla con un formato seguro mediante expresiones regulares alfanuméricas: ^[a-zA-Z0-9_-]+\.(png|jpg|jpeg)$ </li>
+        <li><strong>Uso de Claves e Índices Indirectos:</strong> No pasar nombres de archivos ni rutas a través de parámetros URL. Se debe usar un identificador 
+numérico o mapeo interno (ej. GET /image?id=42), gestionando las rutas reales únicamente desde el backend.</li>
+        <li><strong>Principio de Menor Privilegio en el Sistema Operativo:</strong> Ejecutar el proceso del servidor web (www-data, nobody, etc.) con los permisos mínimos 
+necesarios en el sistema de archivos, impidiendo que el usuario tenga acceso de lectura a /etc/passwd u otros directorios del sistema. </li>
       </ul>
       <div style="margin-top: 1.5rem; text-align: center;">
         <a href="laboratorio03.pdf" download class="btn">
