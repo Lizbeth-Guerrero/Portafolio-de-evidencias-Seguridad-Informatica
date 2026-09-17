@@ -145,7 +145,7 @@
 
         .progress-bar-fill {
             height: 100%;
-            width: 33.3%; /* Ajustar según labs completados (6 de 18 = 33.3%) */
+            width: 100%; /* Ajustar según labs completados (6 de 18 = 33.3%) */
             background: linear-gradient(90deg, var(--goth-purple), var(--neon-cyan));
             box-shadow: 0 0 10px var(--neon-cyan);
             transition: width 1s ease-in-out;
@@ -429,7 +429,7 @@
     <header>
         <div class="kicker">// ACT-06 · Parcial II</div>
         <h1>ROAD TO HALL OF FAME</h1>
-        <p>Modulo web que estructura y presenta de forma visual, organizada y profesional los laboratorios.</p>
+        <p>Modulo web que estructura y presenta de forma visual, organizada y profesional los laboratorios, incorporando evidencias técnicas, navegación funcional y un botón de descarga del documento completo.</p>
 
         <nav class="back">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Portafolio Principal</a>
