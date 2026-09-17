@@ -427,9 +427,9 @@
 
 <div class="container">
     <header>
-        <div class="kicker">// ACT-06 · ROAD TO HALL OF FAME</div>
-        <h1>Ruta de Aprendizaje y Laboratorios</h1>
-        <p>Centro de mando con la resolución técnica, metodología Burp Suite y evidencias de los laboratorios del curso.</p>
+        <div class="kicker">// ACT-06 · Parcial II</div>
+        <h1>ROAD TO HALL OF FAME</h1>
+        <p>Modulo web que estructura y presenta de forma visual, organizada y profesional los laboratorios.</p>
 
         <nav class="back">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Portafolio Principal</a>
@@ -440,7 +440,7 @@
     <div class="progress-card">
         <div class="progress-header">
             <span><i class="fa-solid fa-microchip"></i> PROGRESO DE LABORATORIOS:</span>
-            <span>6 DE 18 COMPLETADOS (33%)</span>
+            <span>6 DE 6 COMPLETADOS (100%)</span>
         </div>
         <div class="progress-bar-bg">
             <div class="progress-bar-fill"></div>
@@ -451,8 +451,8 @@
     <div class="filter-container">
         <button class="filter-btn active" onclick="filterLabs('all')">Todos</button>
         <button class="filter-btn" onclick="filterLabs('path-traversal')">Path Traversal</button>
-        <button class="filter-btn" onclick="filterLabs('sqli')">SQL Injection</button>
-        <button class="filter-btn" onclick="filterLabs('xss')">XSS</button>
+       <!-- <button class="filter-btn" onclick="filterLabs('sqli')">SQL Injection</button>
+        <button class="filter-btn" onclick="filterLabs('xss')">XSS</button> -->
     </div>
 
     <!-- LÍNEA DE TIEMPO INTERACTIVA / ROADMAP -->
