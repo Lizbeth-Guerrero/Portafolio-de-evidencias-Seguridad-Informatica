@@ -930,7 +930,7 @@
 
     <article class="card" id="parcial2">
       
-      <h2><i class="fa-solid fa-folder-closed"></i> 04 // Evidencias de Aprendizaje - Parcial II</h2>
+      <h2><i class="fa-solid fa-folder-closed"></i> 05 // Evidencias de Aprendizaje - Parcial II</h2>
       <p>A continuación se detallan las actividades académicas desarrolladas durante el segundo bloque:</p>
 
       <div class="evidencias-grid">
@@ -954,7 +954,7 @@
             <a href="actividad06.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver Modulo web</a>
           </div>
         </div>
-        <!-- ACTIVIDAD 07 -->
+                <!-- ACTIVIDAD 07 -->
          <div class="evidencia-item">
           <div>
             <div class="evidencia-header">
@@ -974,6 +974,107 @@
             <a href="laboratorio01.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
+        <!-- ACTIVIDAD 08 -->
+         <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header">
+              <span class="badge">ACTIVIDAD 08</span>
+              <span class="badge-status">COMPLETADO</span>
+            </div>
+            <h3>LAB: File Path Traversal, Traversal Sequences blocked with absolute path bypass</h3>
+            <p>La aplicación bloquea las secuenciasde recorrdio convencionales, pero trata el nombre de archivo proporcionado como relativo a un direcorio predeterminado,permitiendo el bypass mediante ruta absoluta.</p>
+            <div class="tech-tags">
+              <span class="tag">BURP SUITE</span>
+              <span class="tag">WEB SECURITY</span>
+              <span class="tag">PATH TRAVERSAL</span>
+            </div>
+          </div>
+          <div class="btn-group" style="grid-template-columns: 1fr;">
+            <a href="actividad08.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+            <a href="laboratorio02.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+          </div>
+        </div>
+                <!-- ACTIVIDAD 09 -->
+         <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header">
+              <span class="badge">ACTIVIDAD 09</span>
+              <span class="badge-status">COMPLETADO</span>
+            </div>
+            <h3>LAB: File Path Traversal, Traversal secuences stripped non-recursively</h3>
+            <p>La aplicación eliomina las secuencias de recorrido <code>('../')</code> de form no recursiva antes de utilizarlas, lo que se vulnera anidando secuencias <code>('....//')</code>.</p>
+            <div class="tech-tags">
+              <span class="tag">BURP SUITE</span>
+              <span class="tag">WEB SECURITY</span>
+              <span class="tag">PATH TRAVERSAL</span>
+            </div>
+          </div>
+          <div class="btn-group" style="grid-template-columns: 1fr;">
+            <a href="actividad09.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+            <a href="laboratorio03.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+          </div>
+        </div>
+                <!-- ACTIVIDAD 10 -->
+         <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header">
+              <span class="badge">ACTIVIDAD 10</span>
+              <span class="badge-status">COMPLETADO</span>
+            </div>
+            <h3>LAB: File Path Traversal, Traversal sequences stripped with superfluous URL-DECODE</h3>
+            <p>Bloquea entrada con secuencias explicitas pero realiza un doble URL-decode posterior, permitiendo eludir mediante doble codificación en Burp Suite.</p>
+            <div class="tech-tags">
+              <span class="tag">BURP SUITE</span>
+              <span class="tag">WEB SECURITY</span>
+              <span class="tag">PATH TRAVERSAL</span>
+            </div>
+          </div>
+          <div class="btn-group" style="grid-template-columns: 1fr;">
+            <a href="actividad10.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+            <a href="laboratorio04.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+          </div>
+        </div>
+                <!-- ACTIVIDAD 11 -->
+         <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header">
+              <span class="badge">ACTIVIDAD 11</span>
+              <span class="badge-status">COMPLETADO</span>
+            </div>
+            <h3>LAB: File Path Traversal, Validation of start of path</h3>
+            <p>Valida que la ruta comience con la carpeta esperada <code>('/var/www/images/')</code>, pero no restringe las secuencias <code> '../'</code> posteriormente.</p>
+            <div class="tech-tags">
+              <span class="tag">BURP SUITE</span>
+              <span class="tag">WEB SECURITY</span>
+              <span class="tag">PATH TRAVERSAL</span>
+            </div>
+          </div>
+          <div class="btn-group" style="grid-template-columns: 1fr;">
+            <a href="actividad11.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+            <a href="laboratorio05.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+          </div>
+        </div>
+                <!-- ACTIVIDAD 12 -->
+         <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header">
+              <span class="badge">ACTIVIDAD 12</span>
+              <span class="badge-status">COMPLETADO</span>
+            </div>
+            <h3>LAB: File Path Traversal, Validation of file extension with null byte bypass</h3>
+            <p>La aplicación valida que el nombre termine con '.png'. Se utiliza el Byte Nulo <code>('%00')</code>  para truncar la ruta solicitada antes de la extensión.</p>
+            <div class="tech-tags">
+              <span class="tag">BURP SUITE</span>
+              <span class="tag">WEB SECURITY</span>
+              <span class="tag">PATH TRAVERSAL</span>
+            </div>
+          </div>
+          <div class="btn-group" style="grid-template-columns: 1fr;">
+            <a href="actividad12.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+            <a href="laboratorio06.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
+          </div>
+        </div>
+
     </article>
     
    
