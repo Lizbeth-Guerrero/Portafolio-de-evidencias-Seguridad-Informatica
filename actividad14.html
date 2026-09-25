@@ -1,0 +1,459 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Protección de la Organización: Fundamentos de Ciberseguridad</title>
+    
+    <!-- Fuentes tipográficas del Portafolio -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #030308;
+            --panel-bg: rgba(10, 8, 20, 0.90);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff0055;
+            --goth-purple: #8a2be2;
+            --text-main: #e0e0e0;
+            --font-cyber: 'Orbitron', sans-serif;
+            --font-goth: 'Cinzel', serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-cyber);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+        }
+
+        /* Fondo con líneas tipo escáner CRT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--goth-purple);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* HEADER */
+        header {
+            padding: 2.5rem 2rem 1.8rem;
+            border-bottom: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            background: rgba(5, 5, 12, 0.95);
+            text-align: center;
+        }
+
+        .kicker {
+            font-family: var(--font-mono);
+            color: var(--neon-cyan);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: var(--font-goth);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-magenta);
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            font-family: var(--font-mono);
+            color: #ccc;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            max-width: 850px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+
+        /* BOTÓN DE RETORNO */
+        nav.back {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.back a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: var(--font-cyber);
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.08);
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.back a:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content {
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        h2 {
+            font-family: var(--font-goth);
+            color: var(--neon-cyan);
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--goth-purple);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            font-family: var(--font-mono);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 1.2rem;
+        }
+
+        /* SECCIÓN DE VISUALIZACIÓN DE INFOGRAFÍA */
+        .infographic-viewer {
+            background: rgba(0, 0, 0, 0.6);
+            border: 1px solid var(--neon-cyan);
+            padding: 1.5rem;
+            text-align: center;
+            margin-bottom: 2.5rem;
+            box-shadow: 0 0 20px rgba(0, 243, 255, 0.15);
+            position: relative;
+        }
+
+        .infographic-img {
+            max-width: 100%;
+            height: auto;
+            border: 1px solid var(--goth-purple);
+            box-shadow: 0 0 15px rgba(138, 43, 226, 0.3);
+            margin-bottom: 1.2rem;
+        }
+
+        .btn-group {
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+            padding: 0.6rem 1.2rem;
+            text-decoration: none;
+            color: #fff;
+            background: rgba(255, 0, 85, 0.2);
+            border: 1px solid var(--neon-magenta);
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            clip-path: polygon(8px 0, 100% 0, calc(100% - 8px) 100%, 0 100%);
+        }
+
+        .btn:hover {
+            background: var(--neon-magenta);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-magenta);
+        }
+
+        .btn-secondary {
+            background: rgba(0, 243, 255, 0.1);
+            border-color: var(--neon-cyan);
+            color: var(--neon-cyan);
+        }
+
+        .btn-secondary:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* GRID DE TARJETAS DE CONTENIDO */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card-detail {
+            background: rgba(15, 12, 28, 0.85);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            padding: 1.5rem;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .card-detail:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card-detail h3 {
+            font-family: var(--font-goth);
+            color: #fff;
+            font-size: 1.1rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-detail h3 i {
+            color: var(--neon-magenta);
+        }
+
+        .card-detail p {
+            font-size: 0.88rem;
+            margin-bottom: 0;
+        }
+
+        /* DIAGRAMA DE FLUSO SIMPLE */
+        .flow-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 10px;
+            margin: 1.5rem 0;
+            overflow-x: auto;
+            padding: 1rem 0;
+        }
+
+        .flow-step {
+            background: rgba(0, 243, 255, 0.05);
+            border: 1px solid var(--neon-cyan);
+            padding: 0.8rem 1rem;
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            min-width: 140px;
+            color: #fff;
+        }
+
+        .flow-arrow {
+            color: var(--neon-magenta);
+            font-size: 1.2rem;
+        }
+
+        /* HIGHLIGHT CALLOUT */
+        .callout-box {
+            background: rgba(138, 43, 226, 0.1);
+            border-left: 4px solid var(--goth-purple);
+            border-right: 1px solid var(--goth-purple);
+            border-top: 1px solid var(--goth-purple);
+            border-bottom: 1px solid var(--goth-purple);
+            padding: 1.2rem;
+            margin-top: 1.5rem;
+            font-family: var(--font-mono);
+            font-size: 0.88rem;
+        }
+
+        /* META METADATOS AL PIE DE INFORMACIÓN */
+        .meta-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--goth-purple);
+            padding: 1rem;
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .meta-info span {
+            color: var(--neon-cyan);
+        }
+
+        /* FOOTER */
+        footer {
+            background: rgba(5, 5, 12, 0.95);
+            border-top: 1px solid var(--goth-purple);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            color: #888;
+            font-family: var(--font-mono);
+        }
+
+        footer span {
+            color: var(--neon-cyan);
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="kicker">// Reporte de Infografía · CNO IV Ciberseguridad</div>
+        <h1>Protección de la Organización</h1>
+        <p>Fundamentos de Ciberseguridad y Mitigación de Riesgos Críticos</p>
+
+        <nav class="back">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </nav>
+    </header>
+
+    <div class="content">
+
+        <!-- CONTENEDOR DE LA INFOGRAFÍA -->
+        <div class="infographic-viewer">
+            <img src="img/infografia_proteccion_organizacion.png" alt="Infografía Protección de la Organización" class="infographic-img" onerror="this.src='https://via.placeholder.com/900x1200/030308/00f3ff?text=INFOGRAFIA+PROTECCION+DE+LA+ORGANIZACION';">
+            
+            <div class="btn-group">
+                <a href="img/infografia_proteccion_organizacion.png" target="_blank" class="btn btn-secondary">
+                    <i class="fa-solid fa-magnifying-glass-plus"></i> Ver Infografía Completa
+                </a>
+                <a href="documentos/Infografia_Proteccion_Organizacion.pdf" download class="btn">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar Versión PDF
+                </a>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 1: DISPOSITIVOS Y TECNOLOGÍA -->
+        <h2><i class="fa-solid fa-server"></i> 1. Dispositivos de Ciberseguridad y Tecnología</h2>
+        <p>Arquitectura de protección perimetral e infraestructura para el control de tráfico y mitigación de amenazas.</p>
+
+        <!-- Diagrama conceptual del flujo -->
+        <div class="flow-container">
+            <div class="flow-step"><i class="fa-solid fa-globe"></i><br>Tráfico Externo (Internet)</div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="flow-step"><i class="fa-solid fa-shield-halved"></i><br>Firewalls</div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="flow-step"><i class="fa-solid fa-network-wired"></i><br>Sistemas IDS/IPS</div>
+            <div class="flow-arrow"><i class="fa-solid fa-chevron-right"></i></div>
+            <div class="flow-step"><i class="fa-solid fa-building-lock"></i><br>Red Organizacional</div>
+        </div>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-hard-drive"></i> Dispositivos de Seguridad</h3>
+                <p>Las organizaciones usan hardware dedicado (Routers seguros, switches con listas de acceso y hardware perimetral) para centralizar la visibilidad y bloquear ataques antes de que dañen los activos internos.</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-fire-burner"></i> Firewalls (Corta-fuegos)</h3>
+                <p>Son la primera línea de defensa que controla el tráfico según reglas corporativas. Pueden ser tradicionales (Capas 3 y 4 de red) o de Próxima Generación (NGFW) que inspeccionan a fondo la capa de aplicación.</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-microchip"></i> Análisis de Puertos</h3>
+                <p>Es un proceso que identifica qué servicios están abiertos y expuestos hacia la red externa para corregir posibles vectores de entrada no autorizados.</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-eye"></i> Sistemas IDS / IPS</h3>
+                <p><strong>IDS (Detección):</strong> Solo monitorizan y alertan sobre anomalías o firmas de malware.<br>
+                <strong>IPS (Prevención):</strong> Bloquean activamente el tráfico sospechoso en tiempo real.</p>
+            </div>
+        </div>
+
+        <div class="callout-box">
+            <p><strong style="color: var(--neon-cyan);"><i class="fa-solid fa-shield-virus"></i> Protección Avanzada contra Malware:</strong> Implementación de agentes de endpoints (EDR) y defensas perimetrales sincronizadas con bases de datos globales de amenazas en tiempo real.</p>
+            <p style="margin-top: 0.5rem;"><strong style="color: var(--neon-magenta);"><i class="fa-solid fa-check-double"></i> Mejores Prácticas:</strong> Actualizaciones automáticas de firmas, parches inmediatos de software, control estricto de privilegios y auditoría de red activa.</p>
+        </div>
+
+        <!-- SECCIÓN 2: ENFOQUE DE COMPORTAMIENTO -->
+        <h2><i class="fa-solid fa-brain"></i> 2. Enfoque de Comportamiento de la Ciberseguridad</h2>
+        
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-user-shield"></i> Seguridad Basada en Comportamiento</h3>
+                <p>La ciberseguridad moderna no solo busca firmas de virus conocidos; analiza anomalías operativas. Implica establecer una línea base de actividad diaria para detectar desviaciones maliciosas.</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-user-ninja"></i> Pruebas de Penetración</h3>
+                <p>Simulación autorizada de un ciberataque contra los sistemas de la empresa para descubrir fallos antes que los criminales. Las organizaciones deben programar pentests regulares (caja negra, blanca o gris) como auditoría proactiva obligatoria.</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-chart-line"></i> Gestión de Riesgos y Reducción del Impacto</h3>
+                <p>La mitigación de riesgo es el proceso de identificar amenazas, evaluar su impacto y aplicar contramedidas operativas.</p>
+                <p style="margin-top: 0.5rem;"><strong style="color: var(--neon-cyan);">Estrategia de Mitigación:</strong> Reducir el radio de impacto mediante planes de contingencia, aislamiento rápido de redes comprometidas y copias de seguridad desconectadas.</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: ENFOQUE DE CISCO -->
+        <h2><i class="fa-solid fa-network-wired"></i> 3. Enfoque de Cisco para la Ciberseguridad</h2>
+        
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-gavel"></i> Gobernanza y Respuesta</h3>
+                <p><strong>El CSIRT de Cisco:</strong> Equipo global que lidera el control y la mitigación inmediata de fallos críticos en toda la industria.</p>
+                <p style="margin-top: 0.5rem;"><strong>Libro de Estrategias:</strong> Guía operativa paso a paso que estandariza las acciones de respuesta ante crisis eliminando la improvisación.</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-key"></i> Herramientas Clave</h3>
+                <p><strong>Cisco ISE:</strong> (Identity Services Engine) Control de acceso inteligente que centraliza la identidad de usuarios y dispositivos.</p>
+                <p style="margin-top: 0.5rem;"><strong>TrustSec:</strong> Segmentación definida por software que mitiga la propagación de malware en la red (políticas de acceso SGT).</p>
+            </div>
+
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-certificate"></i> Validación Operativa</h3>
+                <p><strong>Predicar con el Ejemplo:</strong> Cisco protege su propia infraestructura interna usando exactamente el mismo arsenal tecnológico que provee a sus clientes globales, garantizando una resiliencia comprobada en escenarios reales.</p>
+            </div>
+        </div>
+
+        <!-- METADATOS DEL TRABAJO -->
+        <div class="meta-info">
+            <div><strong>Alumno:</strong> <span>Guerrero Hurtado Lizbeth</span></div>
+            <div><strong>Docente:</strong> <span>Mtro. Servando López Contreras</span></div>
+            <div><strong>Materia:</strong> <span>CNO IV - Seguridad Informática</span></div>
+        </div>
+
+    </div>
+
+    <footer>
+        Reporte de Infografía &bull; <span>Portafolio de Ciberseguridad e Infraestructura</span>
+    </footer>
+</div>
+
+</body>
+</html>
