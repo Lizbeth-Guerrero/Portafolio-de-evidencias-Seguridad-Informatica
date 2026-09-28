@@ -1,0 +1,487 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Red Team Report: Pentesting My File Server 1 - Portafolio</title>
+    
+    <!-- Fuentes tipográficas del Portafolio -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #030308;
+            --panel-bg: rgba(10, 8, 20, 0.90);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff0055;
+            --goth-purple: #8a2be2;
+            --neon-red: #ff3333;
+            --neon-green: #00ff66;
+            --text-main: #e0e0e0;
+            --font-cyber: 'Orbitron', sans-serif;
+            --font-goth: 'Cinzel', serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-cyber);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+        }
+
+        /* Líneas CRT Scanline */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--goth-purple);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* HEADER */
+        header {
+            padding: 2.5rem 2rem 1.8rem;
+            border-bottom: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            background: rgba(5, 5, 12, 0.95);
+            text-align: center;
+        }
+
+        .kicker {
+            font-family: var(--font-mono);
+            color: var(--neon-cyan);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: var(--font-goth);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-magenta);
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            font-family: var(--font-mono);
+            color: #ccc;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            max-width: 850px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+
+        nav.back {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.back a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: var(--font-cyber);
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.08);
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.back a:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content {
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        h2 {
+            font-family: var(--font-goth);
+            color: var(--neon-cyan);
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--goth-purple);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            font-family: var(--font-mono);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 1.2rem;
+        }
+
+        ul, ol {
+            font-family: var(--font-mono);
+            font-size: 0.9rem;
+            color: #ccc;
+            margin-left: 1.5rem;
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        /* RESUMEN DE RIESGO */
+        .alert-box {
+            background: rgba(255, 0, 85, 0.1);
+            border: 1px solid var(--neon-magenta);
+            border-left: 5px solid var(--neon-magenta);
+            padding: 1.2rem;
+            margin-bottom: 2rem;
+            clip-path: polygon(0 0, calc(100% - 10px) 0, 100% 10px, 100% 100%, 0 100%);
+        }
+
+        .alert-box h3 {
+            color: var(--neon-magenta);
+            font-family: var(--font-cyber);
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        /* BLOQUES DE TERMINAL */
+        .terminal {
+            background: #05050b;
+            border: 1px solid var(--goth-purple);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 1rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+        }
+
+        .terminal .cmd {
+            color: #fff;
+            font-weight: bold;
+        }
+
+        .terminal .comment {
+            color: #777;
+        }
+
+        /* GRID CARDS */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+        }
+
+        .card-detail {
+            background: rgba(15, 12, 28, 0.85);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            padding: 1.5rem;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .card-detail:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card-detail h3 {
+            font-family: var(--font-goth);
+            color: #fff;
+            font-size: 1.05rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-detail h3 i { color: var(--neon-magenta); }
+
+        /* TABLA DE HALLAZGOS */
+        .table-responsive {
+            overflow-x: auto;
+            margin-top: 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            background: rgba(5, 5, 12, 0.9);
+            border: 1px solid var(--goth-purple);
+        }
+
+        th, td {
+            padding: 0.8rem 1rem;
+            text-align: left;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        th {
+            background: rgba(138, 43, 226, 0.2);
+            color: var(--neon-cyan);
+            font-family: var(--font-cyber);
+            text-transform: uppercase;
+            font-size: 0.8rem;
+        }
+
+        .badge-critica {
+            background: rgba(255, 0, 85, 0.2);
+            color: var(--neon-magenta);
+            border: 1px solid var(--neon-magenta);
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        .badge-alta {
+            background: rgba(255, 153, 0, 0.2);
+            color: #ff9900;
+            border: 1px solid #ff9900;
+            padding: 2px 6px;
+            font-size: 0.75rem;
+            font-weight: bold;
+        }
+
+        /* METADATOS AL PIE DE INFORMACIÓN */
+        .meta-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--goth-purple);
+            padding: 1rem;
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .meta-info span { color: var(--neon-cyan); }
+
+        footer {
+            background: rgba(5, 5, 12, 0.95);
+            border-top: 1px solid var(--goth-purple);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            color: #888;
+            font-family: var(--font-mono);
+        }
+
+        footer span { color: var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="kicker">// Actividad 13 · Pentesting Black Box</div>
+        <h1>Red Team Report: My File Server 1</h1>
+        <p>Evaluación de Seguridad Ofensiva, Explotación y Compromiso Total de Servidor Corporativo</p>
+
+        <nav class="back">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </nav>
+    </header>
+
+    <div class="content">
+
+        <!-- RESUMEN EJECUTIVO / ALERTA DE RIESGO -->
+        <div class="alert-box">
+            <h3><i class="fa-solid fa-triangle-exclamation"></i> ESTADO DEL OBJETIVO: CRÍTICO (ROOT COMPROMISE)</h3>
+            <p style="margin-bottom:0;">El equipo de Red Team logró el compromiso total del servidor <strong>My File Server: 1</strong> (IP: <code>10.0.2.4</code>), obteniendo acceso administrativo <code>root</code> y control absoluto de los datos mediante una cadena de fallos encadenados.</p>
+        </div>
+
+        <!-- SECCIÓN 1: RESUMEN Y ALCANCE -->
+        <h2><i class="fa-solid fa-file-contract"></i> 1. Resumen Ejecutivos y Alcance</h2>
+        <p>Durante la evaluación se realizó un análisis ofensivo de tipo <strong>Caja Negra (Black Box)</strong> sobre el servidor corporativo vulnerable. El impacto directo implica la pérdida total de la Confidencialidad, Integridad y Disponibilidad de la información institucional.</p>
+        
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-crosshairs"></i> Objetivos del Análisis</h3>
+                <p>Evaluar la postura de seguridad del activo, identificar vectores de entrada potenciales y determinar el impacto real que un atacante podría causar en la infraestructura.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-network-wired"></i> Alcance Técnico</h3>
+                <p><strong>IP Objetivo:</strong> <code>10.0.2.4</code><br>
+                <strong>Exclusiones:</strong> Ataques DoS/DDoS, Ingeniería Social y explotación de la infraestructura física o routers intermedios.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-list-check"></i> Metodología Aplicada</h3>
+                <p>Basada en estándares PTES e ISSAF dividida en 4 fases: Reconocimiento, Enumeración, Explotación y Post-Explotación / Escalada de Privilegios.</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 2: RECONOCIMIENTO Y ENUMERACIÓN -->
+        <h2><i class="fa-solid fa-magnifying-glass-location"></i> 2. Reconocimiento y Enumeración</h2>
+        <p>Mediante el uso de la herramienta <code>netdiscover</code> en Kali Linux se identificó la dirección IP activa en la red objetivo:</p>
+
+        <div class="terminal">
+            <span class="comment"># Escaneo ARP local</span><br>
+            <span class="cmd">sudo netdiscover</span><br><br>
+            IP Descubierta: <span style="color:var(--neon-green)">10.0.2.4</span> (PCS Systemtechnik GmbH - My File Server: 1)
+        </div>
+
+        <p>Posteriormente, se realizó un escaneo completo de puertos mediante <code>nmap -p- -sV 10.0.2.4</code> identificando los siguientes servicios expuestos:</p>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-folder-open"></i> Samba SMB (Puerto 445/TCP)</h3>
+                <p>Permitió conexión nula (<code>Anonymous login successful</code>). Se identificaron los recursos compartidos <code>smbdata</code> (exponiendo bitácoras <code>/var/log</code> como <code>secure</code> y <code>sshd_config</code>) y <code>smbuser</code>.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-upload"></i> ProFTPD 1.3.5 (Puerto 2121/TCP)</h3>
+                <p>Servicio FTP alternativo operando bajo parámetros inseguros por defecto, permitiendo acceso anónimo y permisos de escritura en la raíz web de Apache (<code>/var/www/html</code>).</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-terminal"></i> OpenSSH 7.4 (Puerto 22/TCP)</h3>
+                <p>Servicio de administración remota restringido exclusivamente a la autenticación mediante llaves criptográficas (denegando contraseñas convencionales).</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN 3: EXPLOTACIÓN Y ACCESO INICIAL -->
+        <h2><i class="fa-solid fa-bug"></i> 3. Explotación y Acceso Inicial</h2>
+        <p>Al analizar el archivo <code>sshd_config</code> obtenido de Samba, se confirmó que el servicio SSH exigía autenticación por llaves públicas/privadas. Aprovechando los permisos de escritura del servicio <strong>ProFTPD (Puerto 2121)</strong>, se ejecutó la siguiente secuencia de intrusión:</p>
+
+        <ol>
+            <li>Generación de un par de llaves RSA de 2048 bits en la máquina de ataque (<code>ssh-keygen -t rsa -b 2048</code>).</li>
+            <li>Inyección de la llave pública <code>authorized_keys</code> en el directorio personal del usuario <code>smbuser</code> vía FTP anónimo.</li>
+            <li>Conexión SSH directa evadiendo la autenticación habitual de contraseñas:</li>
+        </ol>
+
+        <div class="terminal">
+            <span class="cmd">ssh -i ./id_rsa smbuser@10.0.2.4</span><br><br>
+            [smbuser@fileserver ~]$ whoami<br>
+            <span style="color:var(--neon-green)">smbuser</span> (uid=1000)
+        </div>
+
+        <!-- SECCIÓN 4: ESCALADA DE PRIVILEGIOS -->
+        <h2><i class="fa-solid fa-skull"></i> 4. Escalada de Privilegios (Root Compromise)</h2>
+        <p>Una vez dentro del sistema, se inspeccionó la versión del núcleo del sistema operativo:</p>
+
+        <div class="terminal">
+            [smbuser@fileserver ~]$ <span class="cmd">uname -a</span><br>
+            Linux fileserver 3.10.0-229.el7.x86_64 GNU/Linux
+        </div>
+
+        <p>El Kernel resultó ser vulnerable al exploit crítico <strong>Dirty COW (CVE-2016-5195)</strong>, una condición de carrera en el mecanismo Copy-On-Write que permite sobreescribir archivos de solo lectura mapeados en memoria.</p>
+
+        <p>Se descargó el exploit en <code>/tmp</code>, se compiló con <code>gcc -pthread dirty.c -o dirty -lcrypt</code> y se atacó directamente el archivo de credenciales <code>/etc/passwd</code> para remover la clave del superusuario:</p>
+
+        <div class="terminal">
+            [smbuser@fileserver tmp]$ <span class="cmd">./dirty /etc/passwd "root::::root:/root:/bin/bash"</span><br>
+            [smbuser@fileserver tmp]$ <span class="cmd">su root</span><br>
+            [root@fileserver smbuser]# <span class="cmd">whoami</span><br>
+            <span style="color:var(--neon-magenta); font-weight:bold;">root</span> (uid=0)
+        </div>
+
+        <!-- SECCIÓN 5: RECOMENDACIONES TÉCNICAS -->
+        <h2><i class="fa-solid fa-shield-halved"></i> 5. Plan de Remediación</h2>
+        <ul>
+            <li><strong>Actualización del Kernel:</strong> Aplicar inmediatamente parches de seguridad mediante <code>yum update kernel</code> para corregir la vulnerabilidad CVE-2016-5195 (Dirty COW).</li>
+            <li><strong>Endurecimiento de Servicios FTP:</strong> Desactivar el acceso anónimo en ProFTPD y desvincular la raíz del servidor FTP de la carpeta web pública (<code>/var/www/html</code>). Eliminar instancias redundantes.</li>
+            <li><strong>Cierre de Sesiones Nulas en Samba:</strong> Configurar <code>smb.conf</code> para restringir accesos anónimos y proteger los logs en <code>/var/log</code>.</li>
+        </ul>
+
+        <!-- SECCIÓN 6: TABLA DE HALLAZGOS -->
+        <h2><i class="fa-solid fa-table-list"></i> 6. Tabla Resumen de Hallazgos</h2>
+        
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>ID</th>
+                        <th>Vulnerabilidad</th>
+                        <th>Severidad</th>
+                        <th>Evidencia</th>
+                        <th>Impacto</th>
+                        <th>Recomendación</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>VULN-01</strong></td>
+                        <td>Sesión nula permitida en Samba (445/TCP)</td>
+                        <td><span class="badge-alta">ALTA</span></td>
+                        <td>Acceso exitoso sin clave y exposición de bitácoras <code>/var/log</code>.</td>
+                        <td>Fuga de información operacional interna y mapeo de usuarios.</td>
+                        <td>Modificar <code>smb.conf</code> para deshabilitar inicios de sesión anónimos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VULN-02</strong></td>
+                        <td>Configuración Insegura en ProFTPD (2121/TCP)</td>
+                        <td><span class="badge-alta">ALTA</span></td>
+                        <td>Escritura anónima mapeada directamente a <code>/var/www/html</code>.</td>
+                        <td>Inyección de mecanismos de persistencia (Llaves SSH) y RCE.</td>
+                        <td>Desactivar FTP anónimo y separar directorios web de los de transferencia.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>VULN-03</strong></td>
+                        <td>Vulnerabilidad de Kernel: Dirty COW (CVE-2016-5195)</td>
+                        <td><span class="badge-critica">CRÍTICA</span></td>
+                        <td>Kernel 3.10.0 en CentOS 7 sin parches de seguridad.</td>
+                        <td>Elevación de privilegios local desde <code>smbuser</code> hasta <code>root</code>.</td>
+                        <td>Actualizar el Kernel inmediatamente ejecutando <code>yum update</code>.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <!-- METADATOS DEL TRABAJO -->
+        <div class="meta-info">
+            <div><strong>Alumno:</strong> <span>Guerrero Hurtado Lizbeth</span></div>
+            <div><strong>Docente:</strong> <span>Mtro. Servando López Contreras</span></div>
+            <div><strong>Materia:</strong> <span>CNO IV - Seguridad Informática</span></div>
+        </div>
+
+    </div>
+
+    <footer>
+        Reporte Red Team &bull; <span>Portafolio de Ciberseguridad e Infraestructura</span>
+    </footer>
+</div>
+
+</body>
+</html>
