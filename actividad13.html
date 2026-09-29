@@ -61,7 +61,42 @@
             overflow: hidden;
             flex-grow: 1;
         }
+/* Estilos para el contenedor de los botones */
+.btn-group {
+    display: flex;
+    gap: 15px;            /* Espacio de separación entre botones */
+    margin-top: 20px;
+}
 
+/* Estilo base para simular el botón corporativo */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;             /* Espacio entre el icono de FontAwesome y el texto */
+    padding: 12px 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 1rem;
+    font-weight: 600;
+    text-decoration: none; /* Elimina el subrayado azul clásico del enlace */
+    border-radius: 6px;    /* Bordes suavizados */
+    transition: all 0.3s ease; /* Transición suave para el efecto hover */
+    cursor: pointer;
+}
+
+/* Variante Magenta Estilo Cyberpunk / Red Team */
+.btn-magenta {
+    background-color: #d8005d; /* Tono magenta oscuro/corporativo */
+    color: #ffffff;            /* Texto blanco para buen contraste */
+    border: 1px solid #ff007f; /* Borde magenta brillante */
+    box-shadow: 0 0 10px rgba(255, 0, 127, 0.2); /* Destello sutil */
+}
+
+/* Efecto visual al pasar el cursor sobre el botón */
+.btn-magenta:hover {
+    background-color: #ff007f; /* Se vuelve más brillante */
+    box-shadow: 0 0 15px rgba(255, 0, 127, 0.6); /* Incrementa el brillo cyberpunk */
+    transform: translateY(-2px); /* Pequeña animación de elevación */
+}
         /* HEADER */
         header {
             padding: 2.5rem 2rem 1.8rem;
@@ -469,17 +504,16 @@
             </table>
         </div>
                 <!-- CONTENEDOR DEL REPORTE -->
-        <div class="infographic-viewer">
-            <img src="img/infografia_proteccion_organizacion.png" alt="Infografía Protección de la Organización" class="infographic-img" onerror="this.src='https://via.placeholder.com/900x1200/030308/00f3ff?text=INFOGRAFIA+PROTECCION+DE+LA+ORGANIZACION';">
             
-            <div class="btn-group">
-                <a href="Actividad14.pdf" download class="btn btn-magenta">
-                    <i class="fa-solid fa-magnifying-glass-plus"></i> Ver Presentación
-                </a>
-                <a href="Actividad13.pdf" download class="btn btn-magenta">
-                    <i class="fa-solid fa-file-pdf"></i> Descargar Informe (PDF)
-                </a>
-            </div>
+        <div class="btn-group">
+            <!-- Se añade target="_blank" para abrir el visor de Drive en pestaña nueva -->
+            <a href="https://drive.google.com/file/d/1eTnS5D7dAkYCIbrJ8RpHIAzeibRst1YM/view?usp=sharing" target="_blank" class="btn btn-magenta">
+                <i class="fa-solid fa-magnifying-glass-plus"></i> Ver Presentación
+            </a>
+            <!-- Este mantiene el download porque es un archivo local directo -->
+            <a href="Actividad13.pdf" download class="btn btn-magenta">
+                <i class="fa-solid fa-file-pdf"></i> Descargar Informe (PDF)
+            </a>
         </div>
     <footer>
           <p>Parcial I: Fundamentos de Ciberseguridad · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
