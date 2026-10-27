@@ -326,29 +326,28 @@
       font-family: var(--font-mono);
     }
     
-  /* REGLA DEL PROYECTO (Con separación forzada) */
-  .evidencia-item.proyecto-item {
-    grid-column: 1 / -1 !important; /* Ocupa todo el ancho disponible */
-    margin-top: 2.5rem !important;   /* Separación clara arriba del proyecto */
-    border-color: var(--neon-cyan);
-    position: relative;
-  }
-  
-  /* Línea neón divisoria superior opcional para dar un efecto Cyberpunk */
-  .evidencia-item.proyecto-item::before {
-    content: "";
-    position: absolute;
-    top: -1.25rem;
-    left: 0;
-    width: 100%;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
-  }
-  
-  .evidencia-item.proyecto-item:hover {
-    border-color: var(--neon-cyan);
-    box-shadow: 0 0 20px var(--neon-cyan);
-  }
+    /* REGLA DEL PROYECTO */
+    .evidencia-item.proyecto-item {
+      grid-column: 1 / -1 !important;
+      margin-top: 2.5rem !important;
+      border-color: var(--neon-cyan);
+      position: relative;
+    }
+    
+    .evidencia-item.proyecto-item::before {
+      content: "";
+      position: absolute;
+      top: -1.25rem;
+      left: 0;
+      width: 100%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--neon-cyan), transparent);
+    }
+    
+    .evidencia-item.proyecto-item:hover {
+      border-color: var(--neon-cyan);
+      box-shadow: 0 0 20px var(--neon-cyan);
+    }
 
     /* BOTONES DE ACCIÓN ADAPTABLES */
     .btn-group {
@@ -393,111 +392,6 @@
       box-shadow: 0 0 12px var(--neon-cyan);
     }
 
-    /* ESTILOS ESPECÍFICOS ROAD TO HALL OF FAME (CYBER ROADMAP) */
-    .cyber-roadmap {
-      position: relative;
-      margin-top: 2rem;
-      padding-left: 2rem;
-    }
-
-    .cyber-roadmap::before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      bottom: 10px;
-      left: 18px;
-      width: 3px;
-      background: linear-gradient(180deg, var(--neon-cyan), var(--goth-purple), var(--neon-magenta));
-      box-shadow: 0 0 10px var(--neon-cyan);
-    }
-
-    .roadmap-node {
-      position: relative;
-      margin-bottom: 2.5rem;
-    }
-
-    .node-icon {
-      position: absolute;
-      left: -2rem;
-      top: 0;
-      transform: translateX(-50%);
-      width: 38px;
-      height: 38px;
-      border-radius: 50%;
-      background: #030308;
-      border: 2px solid var(--neon-cyan);
-      color: var(--neon-cyan);
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      font-weight: bold;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      box-shadow: 0 0 12px var(--neon-cyan);
-      z-index: 2;
-    }
-
-    .node-content {
-      background: rgba(0, 0, 0, 0.75);
-      border: 1px solid var(--goth-purple);
-      padding: 1.2rem;
-      border-radius: 4px;
-      clip-path: polygon(0 0, calc(100% - 12px) 0, 100% 12px, 100% 100%, 12px 100%, 0 calc(100% - 12px));
-      transition: all 0.3s ease;
-    }
-
-    .node-content:hover {
-      border-color: var(--neon-cyan);
-      box-shadow: 0 0 20px rgba(0, 243, 255, 0.2);
-    }
-
-    .node-header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 0.8rem;
-      gap: 0.5rem;
-      flex-wrap: wrap;
-    }
-
-    .node-content h3 {
-      font-family: var(--font-cyber);
-      font-size: clamp(1rem, 2.5vw, 1.2rem);
-      color: #fff;
-      margin-bottom: 0.6rem;
-    }
-
-    .node-description {
-      font-family: var(--font-mono);
-      font-size: 0.85rem;
-      color: #aaa;
-      line-height: 1.5;
-      margin-bottom: 1rem;
-    }
-
-    .node-image {
-      width: 100%;
-      max-height: 350px;
-      overflow: hidden;
-      border: 1px solid var(--goth-purple);
-      margin-top: 0.8rem;
-      background: #000;
-    }
-
-    .node-image img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      display: block;
-      transition: transform 0.3s ease, filter 0.3s ease;
-      filter: brightness(0.9) contrast(1.05);
-    }
-
-    .node-content:hover .node-image img {
-      transform: scale(1.02);
-      filter: brightness(1);
-    }
-
     /* FORMULARIO DE CONTACTO */
     .form-group { margin-bottom: 1rem; }
     .form-group label { 
@@ -533,7 +427,7 @@
       word-break: break-word;
     }
 
-    /* MODAL CYBERPUNK ADAPTABLE PARA MÓVILES */
+    /* MODAL CYBERPUNK ADAPTABLE */
     .modal-overlay {
       position: fixed;
       top: 0; left: 0;
@@ -602,7 +496,7 @@
     .modal-body { flex-grow: 1; width: 100%; height: 100%; background: #111; }
     .modal-body iframe { width: 100%; height: 100%; border: none; }
 
-    /* 6. PIE DE PÁGINA (FOOTER) */
+    /* PIE DE PÁGINA (FOOTER) */
     footer {
       text-align: center; 
       padding: 1.5rem 1rem; 
@@ -614,64 +508,20 @@
       width: 100%;
     }
 
-    /* MEDIA QUERIES ESPECÍFICAS PARA AJUSTES FINOS */
-
-    /* Móviles pequeños (hasta 480px) */
     @media (max-width: 480px) {
-      .profile-container {
-        flex-direction: column;
-        text-align: center;
-        gap: 1rem;
-      }
-
-      .profile-info {
-        text-align: center;
-      }
-
-      .typewriter-text {
-        white-space: normal;
-        border-right: none;
-        animation: none;
-      }
-
-      nav ul {
-        gap: 0.3rem;
-      }
-
-      nav a {
-        padding: 0.35rem 0.6rem;
-      }
-
-      .btn-group {
-        grid-template-columns: 1fr;
-      }
-
-      .modal-container {
-        height: 92vh;
-      }
+      .profile-container { flex-direction: column; text-align: center; gap: 1rem; }
+      .profile-info { text-align: center; }
+      .typewriter-text { white-space: normal; border-right: none; animation: none; }
+      nav ul { gap: 0.3rem; }
+      nav a { padding: 0.35rem 0.6rem; }
+      .btn-group { grid-template-columns: 1fr; }
+      .modal-container { height: 92vh; }
     }
 
-    /* Tabletas (entre 481px y 768px) */
     @media (min-width: 481px) and (max-width: 768px) {
-      .profile-container {
-        flex-direction: column;
-        text-align: center;
-      }
-
-      .profile-info {
-        text-align: center;
-      }
-      
-      .evidencias-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* Pantallas Grandes / Laptops (más de 1200px) */
-    @media (min-width: 1200px) {
-      .container {
-        max-width: 1200px;
-      }
+      .profile-container { flex-direction: column; text-align: center; }
+      .profile-info { text-align: center; }
+      .evidencias-grid { grid-template-columns: 1fr; }
     }
   </style>
 </head>
@@ -692,15 +542,11 @@
         <h1 class="glitch-title">Lizbeth Guerrero Hurtado</h1>
         <div class="typewriter-container">
           <p class="typewriter-text">> ALIAS: "CyberLen_Trace" </p>
-          <div class="typewriter-container">
-             <p class="typewriter-text"><span class="prompt">&gt;</span> <strong class="alias">CyberLen_Trace:</strong> Raccoon protocol initiated... Scanning trash logs.</p>
-           </div>
         </div>
         <div class="header-meta">
           <p><strong>ASIGNATURA:</strong> CNO IV – Seguridad Informática</p>
           <p><strong>INSTITUCIÓN:</strong> Universidad Politécnica de San Luis Potosí (UPSLP)</p>
           <p><strong>PERIODO / SEMESTRE:</strong> Agosto - Diciembre 2026</p>
-          <!-- <p style="font-family: 'Consolas', 'Courier New', monospace; color: #c0caf5; background: #0d0d11; padding: 12px; border-left: 3px solid #ff0055; border-radius: 4px; font-size: 0.95rem;"><span style="color: #ff0055; font-weight: bold;">&gt;</span> <strong style="color: #00f0ff; text-shadow: 0 0 5px rgba(0,240,255,0.6);">CyberLen_Trace:</strong> Raccoon protocol initiated... Scanning trash logs.</p> -->
         </div>
       </div>
     </div>
@@ -727,38 +573,24 @@
       <h2><i class="fa-solid fa-shield-halved"></i> 01 // Presentación del Portafolio</h2>
       <p><strong>Propósito del portafolio digital:</strong> El portafolio digital de evidencias tiene como finalidad recopilar y mostrar las actividades realizadas durante el curso de CNO IV - Seguridad Informática, funcionando como un espacio de reflexión y demostración del aprendizaje adquirido.</p>
       <br>
-      <p><strong>Enfoque del curso:</strong> Seguridad informática: protección de sistemas y datos frente a amenazas.
-                                             Pruebas de penetración: evaluación práctica de vulnerabilidades mediante simulación de ataques.
-                                             Análisis de vulnerabilidades: identificación y mitigación de riesgos que afectan la integridad y disponibilidad de la información.</p>
+      <p><strong>Enfoque del curso:</strong> Seguridad informática: protección de sistemas y datos frente a amenazas. Pruebas de penetración: evaluación práctica de vulnerabilidades mediante simulación de ataques. Análisis de vulnerabilidades: identificación y mitigación de riesgos que afectan la integridad y disponibilidad de la información.</p>
       <br>
-      <p><strong>Importancia del portafolio:</strong> Este portafolio constituye una evidencia tangible del proceso de aprendizaje, permitiendo visualizar el desarrollo de competencias técnicas y estratégicas en ciberseguridad. Además, sirve como respaldo académico y profesional que demuestra la capacidad de aplicar conocimientos en escenarios reales.</p>
+      <p><strong>Importancia del portafolio:</strong> Este portafolio constituye una evidencia tangible del proceso de aprendizaje, permitiendo visualizar el desarrollo de competencias técnicas y estratégicas en ciberseguridad[cite: 23].</p>
     </article>
 
     <!-- 3. PERFIL DEL ESTUDIANTE -->
     <article class="card" id="perfil">
       <h2><i class="fa-solid fa-user-astronaut"></i> 02 // Perfil del Estudiante</h2>
-      <p><strong>Semblanza Académica:</strong> Estudiante de la carrera de Ingeniería en Tecnologías de la Información en la Universidad Politécnica de San Luis Potosí, A lo largo de mi formación universitaria descubrí un interés particular por la ciberseguridad y las redes computacionales, áreas que me han motivado a profundizar en temas de protección de infraestructura y auditoría de seguridad. Actualmente, me preparo para realizar mi residencia profesional enfocada en arquitectura de software basado en eventos, modelado UML, modelos de dominio y regulaciones de seguridad informática, con el objetivo de aplicar mis conocimientos en proyectos que integren seguridad desde el diseño.</p>
-      <br>
-      <p><strong>Áreas de Interés Técnico:</strong></p>
-      <ul>
-        <li>Auditoría de ciberseguridad y gestión de riesgos.</li>
-        <li>Redes computacionales y su papel en la protección de sistemas.</li>
-        <li>Investigación en seguridad informática y ciberseguridad aplicada.</li>
-        <li>Diseño y protección de infraestructuras tecnológicas críticas.</li>
-        <li>Regulaciones y normativas de seguridad informática.</li>
-      </ul>
+      <p><strong>Semblanza Académica:</strong> Estudiante de la carrera de Ingeniería en Tecnologías de la Información en la Universidad Politécnica de San Luis Potosí. Actualmente me preparo para realizar mi residencia profesional enfocada en arquitectura de software basado en eventos, modelado UML, modelos de dominio y regulaciones de seguridad informática[cite: 23].</p>
     </article>
 
     <!-- 4. INFORMACIÓN TÉCNICA BÁSICA -->
     <article class="card" id="tecnica">
       <h2><i class="fa-solid fa-code"></i> 03 // Información Técnica Básica</h2>
-      <p>Especificaciones sobre el entorno tecnológico y herramientas utilizadas para la construcción y despliegue del portal:</p>
-      <br>
       <ul>
-        <li><strong>Lenguajes y Tecnologías:</strong> HTML5 Semántico, CSS3 Flexbox/Grid, JavaScript ES6 (Lógica DOM + Canvas API).</li>
-        <li><strong>Plataforma de Publicación:</strong> GitHub Pages (Despliegue continúo desde repositorio en la nube).</li>
-        <li><strong>Control de Versiones:</strong> Git / Repositorio oficial en GitHub.</li>
-        <li><strong>Protocolo de Seguridad:</strong> Conexión cifrada mediante protocolo HTTPS con Certificado SSL activo.</li>
+        <li><strong>Lenguajes y Tecnologías:</strong> HTML5 Semántico, CSS3 Flexbox/Grid, JavaScript[cite: 23].</li>
+        <li><strong>Plataforma de Publicación:</strong> GitHub Pages[cite: 23].</li>
+        <li><strong>Protocolo de Seguridad:</strong> Conexión cifrada mediante protocolo HTTPS con Certificado SSL activo[cite: 23].</li>
       </ul>
     </article>
 
@@ -768,26 +600,16 @@
       <p>A continuación se detallan las actividades académicas desarrolladas durante el primer bloque:</p>
 
       <div class="evidencias-grid">
-        
         <!-- ACTIVIDAD 01 -->
         <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 01</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 01</span><span class="badge-status">COMPLETADO</span></div>
             <h3>Análisis Ciberataque Banco de Chile</h3>
-            <p>Análisis técnico, económico y estratégico sobre el ciberataque mediante el malware KillDisk al Banco de Chile (2018), evaluando el impacto operativo y la relación directa con la sostenibilidad empresarial.</p>
-            <div class="tech-tags">
-              <span class="tag">MALWARE</span>
-              <span class="tag">SWIFT</span>
-              <span class="tag">AUDITORÍA</span>
-            </div>
+            <p>Análisis técnico, económico y estratégico sobre el ciberataque mediante el malware KillDisk al Banco de Chile (2018)[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">MALWARE</span><span class="tag">SWIFT</span></div>
           </div>
           <div class="btn-group">  
-            <a href="actividad01.html" class="btn btn-secondary" target="_blank">
-              <i class="fa-solid fa-code"></i> Ver Reporte HTML
-            </a>
+            <a href="actividad01.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Ver Reporte HTML</a>
             <a href="Equipo2-act01.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
@@ -795,383 +617,239 @@
         <!-- ACTIVIDAD 02 -->
         <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 02</span>
-              <span class="badge-status">EN LÍNEA</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 02</span><span class="badge-status">EN LÍNEA</span></div>
             <h3>Aquí empieza mi portafolio</h3>
-            <p>Diseño, implementación y publicación de la portada técnica del portafolio digital con certificado HTTPS/SSL activo en GitHub Pages.</p>
-            <div class="tech-tags">
-              <span class="tag">HTML5</span>
-              <span class="tag">CSS3</span>
-              <span class="tag">GIT</span>
-              <span class="tag">SSL</span>
-            </div>
+            <p>Diseño, implementación y publicación de la portada técnica del portafolio digital[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">HTML5</span><span class="tag">CSS3</span></div>
           </div>
           <div class="btn-group" style="grid-template-columns: 1fr;">
             <a href="#" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Evidencia Actual</a>
           </div>
         </div>
 
-       <!-- ACTIVIDAD 03 -->
-<div class="evidencia-item">
-  <div>
-    <div class="evidencia-header">
-      <span class="badge">ACTIVIDAD 03</span>
-      <span class="badge-status">COMPLETADO</span>
-    </div>
-    <h3>No presiones Esc... todavía</h3>
-    <p>Documentación técnica de la actividad 03 y reporte de implementación en script Python con generación de registros en TXT.</p>
-    <div class="tech-tags">
-      <span class="tag">PYTHON</span>
-      <span class="tag">HTML5</span>
-      <span class="tag">SCRIPTING</span>
-      <span class="tag">LOGS</span>
-    </div>
-  </div>
-
-  <div class="btn-group">
-    <!-- Botón 1: Abre la página HTML propia de la actividad -->
-    <a href="actividad03.html" class="btn btn-secondary" target="_blank">
-      <i class="fa-solid fa-code"></i> Ver Reporte HTML
-    </a>
-    
-    <!-- Botón 2: Visualiza la presentación PDF en el modal flotante -->
-    <button class="btn" onclick="previewPDF('https://drive.google.com/file/d/1q0kdlZ0arfCHNoCPqSPCPQQESciH9smj/view?usp=sharing', 'Presentación Actividad 03')">
-      <i class="fa-solid fa-file-pdf"></i> Informe PDF
-    </button>
-  </div>
-</div>
-        <!-- ACTIVIDAD 04 -->
-<div class="evidencia-item">
-  <div>
-    <div class="evidencia-header">
-      <span class="badge">ACTIVIDAD 04</span>
-      <span class="badge-status">COMPLETADO</span>
-    </div>
-    <h3>Una página demasiado convincente</h3>
-    <p>Simulación de ingeniería social en entorno controlado mediante Social-Engineer Toolkit (SET) y Credential Harvester para el análisis técnico de captura de información y detección de phishing.</p>
-    <div class="tech-tags">
-      <span class="tag">SET</span>
-      <span class="tag">KALI LINUX</span>
-      <span class="tag">PHISHING</span>
-      <span class="tag">HTTP</span>
-      <span class="tag">AUDITORÍA</span>
-    </div>
-  </div>
-
-  <div class="btn-group">
-    <!-- Botón 1: Abre el reporte HTML generado -->
-    <a href="actividad04.html" class="btn btn-secondary" target="_blank">
-      <i class="fa-solid fa-code"></i> Reporte HTML
-    </a>
-    
-    <!-- Botón 2: Abre la vista previa del PDF en el modal flotante -->
-    <button class="btn" onclick="previewPDF('reporte_actividad04.pdf', 'Actividad 04 - Una página demasiado convincente')">
-      <i class="fa-solid fa-file-pdf"></i> Informe PDF
-    </button>
-  </div>
-</div>
-      <!--Actividad 05 -->
-      <div class="evidencia-item">
-  <div>
-    <div class="evidencia-header">
-      <span class="badge">ACTIVIDAD 05</span>
-      <span class="badge-status">COMPLETADO</span>
-    </div>
-    <h3>El arte del engaño</h3>
-    <p>Análisis de Incidente: El Ciberataque de $243M USD</p>
-    <div class="tech-tags">
-      <span class="tag">INGENIERÍA SOCIAL</span>
-      <span class="tag">VISHING</span>
-      <span class="tag">SPEAR PHISHING</span>
-      <span class="tag">OPSEC</span>
-      <span class="tag">LAVADO DE ACTIVOS</span>
-    </div>
-  </div>
-
-  <div class="btn-group">
-    <!-- Botón 1: Abre el reporte HTML generado -->
-    <a href="actividad05.html" class="btn btn-secondary" target="_blank">
-      <i class="fa-solid fa-code"></i> Reporte HTML
-    </a>
-    
-    <!-- Botón 2: Abre la vista previa del PDF en el modal flotante -->
-    <button class="btn" onclick="previewPDF('reporte_actividad05.pdf', 'Actividad 05 - El arte del engaño')">
-      <i class="fa-solid fa-file-pdf"></i> Informe PDF
-    </button>
-  </div>
-</div>
-      
-  <!--Proyecto-->
-        <div class="evidencia-item proyecto-item">
-          <div class="evidencia-header">
-            <span class="badge">PROYECTO</span>
-            <span class="badge-status">COMPLETADO</span>
+        <!-- ACTIVIDAD 03 -->
+        <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 03</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>No presiones Esc... todavía</h3>
+            <p>Documentación técnica de la actividad 03 y reporte en script Python[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">PYTHON</span><span class="tag">SCRIPTING</span></div>
           </div>
-          <h3>De la teoría a la práctica: walkthrough en acción</h3>
-            <p>Demostrar la capacidad de aplicar conocimientos teóricos de seguridad informática en un entorno práctico, mediante la realización de un walkthrough detallado y la explicación de las técnicas y metodologías utilizadas para vulnerar una máquina virtual.</p>
-            <div class="tech-tags">
-              <span class="tag">Snakeoil (VulnHub)</span>
-              <span class="tag">API Flask / Subproceso</span>
-              <span class="tag">Root Shell & Flag Exfiltration</span>
-            </div>
-          </div>
-          <div class="btn-group">  
-            <a href="proyecto01.html" class="btn btn-secondary" target="_blank">
-              <i class="fa-solid fa-code"></i> Ver Reporte HTML
-            </a>
-            <button class="btn" onclick="previewPDF('Informe_Final_Snakeoil.pdf', 'PR 01 - De la teoría a la práctica: walkthrough en acción')">
-              <i class="fa-solid fa-file-pdf"></i> Informe PDF
-            </button>
+          <div class="btn-group">
+            <a href="actividad03.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Ver Reporte</a>
+            <button class="btn" onclick="previewPDF('https://drive.google.com/file/d/1q0kdlZ0arfCHNoCPqSPCPQQESciH9smj/view?usp=sharing', 'Presentación Actividad 03')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
           </div>
         </div>
+
+        <!-- ACTIVIDAD 04 -->
+        <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 04</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>Una página demasiado convincente</h3>
+            <p>Simulación de ingeniería social mediante Social-Engineer Toolkit (SET)[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">SET</span><span class="tag">PHISHING</span></div>
+          </div>
+          <div class="btn-group">
+            <a href="actividad04.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Reporte HTML</a>
+            <button class="btn" onclick="previewPDF('reporte_actividad04.pdf', 'Actividad 04')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+          </div>
+        </div>
+
+        <!-- ACTIVIDAD 05 -->
+        <div class="evidencia-item">
+          <div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 05</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>El arte del engaño</h3>
+            <p>Análisis de Incidente: El Ciberataque de $243M USD[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">VISHING</span><span class="tag">OPSEC</span></div>
+          </div>
+          <div class="btn-group">
+            <a href="actividad05.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Reporte HTML</a>
+            <button class="btn" onclick="previewPDF('reporte_actividad05.pdf', 'Actividad 05')"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+          </div>
+        </div>
+      
+        <!-- PROYECTO 01 -->
+        <div class="evidencia-item proyecto-item">
+          <div class="evidencia-header"><span class="badge">PROYECTO</span><span class="badge-status">COMPLETADO</span></div>
+          <h3>De la teoría a la práctica: walkthrough en acción</h3>
+          <p>Demostrar la capacidad de aplicar conocimientos de seguridad mediante un walkthrough[cite: 23].</p>
+          <div class="tech-tags"><span class="tag">VulnHub</span><span class="tag">Flask</span></div>
+          <div class="btn-group" style="margin-top: 1rem;">  
+            <a href="proyecto01.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Ver Reporte HTML</a>
+            <button class="btn" onclick="previewPDF('Informe_Final_Snakeoil.pdf', 'PR 01')"><i class="fa-solid fa-file-pdf"></i> Informe PDF</button>
+          </div>
+        </div>
+
+      </div>
     </article>
 
+    <!-- SECCIÓN DE EVIDENCIAS Y ENTREGAS (PARCIAL II) - CORRECTAMENTE CERRADA -->
     <article class="card" id="parcial2">
-      
       <h2><i class="fa-solid fa-folder-closed"></i> 05 // Evidencias de Aprendizaje - Parcial II</h2>
       <p>A continuación se detallan las actividades académicas desarrolladas durante el segundo bloque:</p>
 
       <div class="evidencias-grid">
-        
         <!-- ACTIVIDAD 06 -->
         <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 06</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 06</span><span class="badge-status">COMPLETADO</span></div>
             <h3>Road To Hall Of Fame</h3>
-            <p>Diseñar e integrar un nuevo módulo web denominado ROAD TO HALL OF FAME, que estructure y presente de forma visual, organizada y profesional los laboratorios, incorporando evidencias técnicas, navegación funcional y un botón de descarga del documento completo, demostrando competencias en documentación técnica, desarrollo web y presentación profesional de resultados en seguridad informática</p>
-            <div class="tech-tags">
-              <span class="tag">ROAD MAP</span>
-              <span class="tag">LABORATORIOS</span>
-              <span class="tag">ROAD TO HALL OF FAME</span>
-            </div>
+            <p>Diseñar e integrar el módulo web ROAD TO HALL OF FAME[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">ROAD MAP</span></div>
           </div>
-          <div class="btn-group">  
+          <div class="btn-group" style="grid-template-columns: 1fr;">  
             <a href="actividad06.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver Modulo web</a>
           </div>
         </div>
-                <!-- ACTIVIDAD 07 -->
-         <div class="evidencia-item">
+
+        <!-- ACTIVIDAD 07 -->
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 07</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 07</span><span class="badge-status">COMPLETADO</span></div>
             <h3>LAB: File Path Traversal, Simple Case</h3>
-            <p>File Path Traversal (también llamado Directory Traversal) es una vulnerabilidad que permite a un atacante navegar por los directorios del servidor paraacceder a archivos que no deberían ser accesibles, usando rutas manipuladas como: <code> ../../../</code></p>
-            <div class="tech-tags">
-              <span class="tag">BURP SUITE</span>
-              <span class="tag">WEB SECURITY</span>
-              <span class="tag">PATH TRAVERSAL</span>
-            </div>
+            <p>Vulnerabilidad que permite navegar por los directorios del servidor[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">BURP SUITE</span><span class="tag">PATH TRAVERSAL</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad07.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad07.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="laboratorio01.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
+
         <!-- ACTIVIDAD 08 -->
-         <div class="evidencia-item">
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 08</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
-            <h3>LAB: File Path Traversal, Traversal Sequences blocked with absolute path bypass</h3>
-            <p>La aplicación bloquea las secuenciasde recorrdio convencionales, pero trata el nombre de archivo proporcionado como relativo a un direcorio predeterminado,permitiendo el bypass mediante ruta absoluta.</p>
-            <div class="tech-tags">
-              <span class="tag">BURP SUITE</span>
-              <span class="tag">WEB SECURITY</span>
-              <span class="tag">PATH TRAVERSAL</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 08</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>LAB: Path Traversal con ruta absoluta</h3>
+            <p>Bypass mediante ruta absoluta ante bloqueo de secuencias[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">BURP SUITE</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad08.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad08.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="laboratorio02.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
-                <!-- ACTIVIDAD 09 -->
-         <div class="evidencia-item">
+
+        <!-- ACTIVIDAD 09 -->
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 09</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
-            <h3>LAB: File Path Traversal, Traversal secuences stripped non-recursively</h3>
-            <p>La aplicación eliomina las secuencias de recorrido <code>('../')</code> de form no recursiva antes de utilizarlas, lo que se vulnera anidando secuencias <code>('....//')</code>.</p>
-            <div class="tech-tags">
-              <span class="tag">BURP SUITE</span>
-              <span class="tag">WEB SECURITY</span>
-              <span class="tag">PATH TRAVERSAL</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 09</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>LAB: Path Traversal no recursivo</h3>
+            <p>Eliminación no recursiva de secuencias evitada por anidación[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">BURP SUITE</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad09.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad09.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="laboratorio03.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
-                <!-- ACTIVIDAD 10 -->
-         <div class="evidencia-item">
+
+        <!-- ACTIVIDAD 10 -->
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 10</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
-            <h3>LAB: File Path Traversal, Traversal sequences stripped with superfluous URL-DECODE</h3>
-            <p>Bloquea entrada con secuencias explicitas pero realiza un doble URL-decode posterior, permitiendo eludir mediante doble codificación en Burp Suite.</p>
-            <div class="tech-tags">
-              <span class="tag">BURP SUITE</span>
-              <span class="tag">WEB SECURITY</span>
-              <span class="tag">PATH TRAVERSAL</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 10</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>LAB: Traversal con doble URL-Decode</h3>
+            <p>Elusión mediante doble codificación en Burp Suite[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">BURP SUITE</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad10.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad10.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="laboratorio04.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
-                <!-- ACTIVIDAD 11 -->
-         <div class="evidencia-item">
+
+        <!-- ACTIVIDAD 11 -->
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 11</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
-            <h3>LAB: File Path Traversal, Validation of start of path</h3>
-            <p>Valida que la ruta comience con la carpeta esperada <code>('/var/www/images/')</code>, pero no restringe las secuencias <code> '../'</code> posteriormente.</p>
-            <div class="tech-tags">
-              <span class="tag">BURP SUITE</span>
-              <span class="tag">WEB SECURITY</span>
-              <span class="tag">PATH TRAVERSAL</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 11</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>LAB: Validation of start of path</h3>
+            <p>Validación parcial de la ruta de inicio[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">BURP SUITE</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad11.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad11.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="laboratorio05.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
-                <!-- ACTIVIDAD 12 -->
-         <div class="evidencia-item">
+
+        <!-- ACTIVIDAD 12 -->
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 12</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
-            <h3>LAB: File Path Traversal, Validation of file extension with null byte bypass</h3>
-            <p>La aplicación valida que el nombre termine con '.png'. Se utiliza el Byte Nulo <code>('%00')</code>  para truncar la ruta solicitada antes de la extensión.</p>
-            <div class="tech-tags">
-              <span class="tag">BURP SUITE</span>
-              <span class="tag">WEB SECURITY</span>
-              <span class="tag">PATH TRAVERSAL</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 12</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>LAB: Null byte bypass</h3>
+            <p>Uso del Byte Nulo para truncar la ruta[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">BURP SUITE</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad12.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad12.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="laboratorio06.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
+
         <!-- ACTIVIDAD 13 -->
-         <div class="evidencia-item">
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 13</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
-            <h3>Red team report: pentesting de My File Server 1</h3>
-            <p>Desarrollar un informe técnico profesional de pruebas de penetración (Pentesting Report) sobre la máquina virtual vulnerable My File Server: 1, aplicando una metodlogia estructurada de evaluación de seguridad, documentando hallazgos, evidencias técnicas, análisis de riesgo y propuesta de mitigación, demostrando competencias en análisis ofensivo y redacción técnica profesiona.</p>
-            <div class="tech-tags">
-              <span class="tag">RED TEAM</span>
-              <span class="tag">BLACK BOX</span>
-              <span class="tag">MY FILE SERVER: 1</span>
-              <span class="tag">PENTESTING REPORT</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 13</span><span class="badge-status">COMPLETADO</span></div>
+            <h3>Red team report: My File Server 1</h3>
+            <p>Pentesting sobre máquina virtual vulnerable[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">RED TEAM</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad13.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad13.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="https://drive.google.com/file/d/1NtSf4iae_NVHQvB1sUhOIWk6Te-FLtnC/view?usp=sharing" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
 
-          <!-- ACTIVIDAD 14 -->
-         <div class="evidencia-item">
+        <!-- ACTIVIDAD 14 -->
+        <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 14</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 14</span><span class="badge-status">COMPLETADO</span></div>
             <h3>Ciberseguridad en una mirada</h3>
-            <p>Diseñar una inforgrafía profesional que explique de manera visual, sintética y estratégica uno de los temas abordados en el curso de <strong>Introducción a la Ciberseguridad de Cisco Networking Academy</strong> demostrando comprensión técnica, capacidad de sintesis y comunicación efectiva orientada a concientización organizacional.</p>
-            <div class="tech-tags">
-              <span class="tag">INFOGRAFÍA</span>
-              <span class="tag">PROTECCIÓN DE LA ORGANIZACIÓN</span>
-              <span class="tag">CISCO</span>
-            </div>
+            <p>Infografía profesional sobre conceptos de Cisco[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">CISCO</span></div>
           </div>
-          <div class="btn-group" style="grid-template-columns: 1fr;">
-            <a href="actividad14.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Ver reporte HTML</a>
+          <div class="btn-group">
+            <a href="actividad14.html" class="btn btn-secondary"><i class="fa-solid fa-globe"></i> Reporte</a>
             <a href="https://drive.google.com/file/d/1W8I5etbRfFO8sqxhg5XYb6Pxv9NkvUGi/view?usp=sharing" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
-              <!--Proyecto-->
+
+        <!-- PROYECTO 02 -->
         <div class="evidencia-item proyecto-item">
-          <div class="evidencia-header">
-            <span class="badge">PROYECTO 02</span>
-            <span class="badge-status">COMPLETADO</span>
-          </div>
+          <div class="evidencia-header"><span class="badge">PROYECTO 02</span><span class="badge-status">COMPLETADO</span></div>
           <h3>Blindando la información: Gobernanza y Cumplimiento</h3>
-            <p>Evaluar integralmente la postura de ciberseguridad y la capacidad de respuesta de una organización ficticia  de infrestructura crítica mediante la identificación y análisis de  vulnerabilidades en un entornocontrolado.</p>
-            <div class="tech-tags">
-              <span class="tag">INTERAFAS</span>
-              <span class="tag">API Flask / Subproceso</span>
-              <span class="tag">Root Shell & Flag Exfiltration</span>
-            </div>
-          </div>
-          <div class="btn-group">  
-            <a href="proyecto02.html" class="btn btn-secondary" target="_blank">
-              <i class="fa-solid fa-code"></i> Ver Reporte HTML
-            </a>
-            <button class="btn">
-              <i class="fa-solid fa-file-pdf"><a href="GuerreroHurtadoLizbeth-PR03.zip" download class="btn-download"></i> Informe PDF
-            </button>
+          <p>Evaluación integral de ciberseguridad e infraestructura crítica[cite: 23].</p>
+          <div class="tech-tags"><span class="tag">ISO 27001</span><span class="tag">PENTESTING</span></div>
+          <div class="btn-group" style="margin-top: 1rem;">  
+            <a href="proyecto02.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Ver Reporte HTML</a>
+            <a href="GuerreroHurtadoLizbeth-PR03.zip" download class="btn"><i class="fa-solid fa-file-pdf"></i> Informe PDF</a>
           </div>
         </div>
-  </div>
+
+      </div>
     </article>
-  </article>
-    </article>
-<!-- SECCIÓN DE EVIDENCIAS Y ENTREGAS (PARCIAL III) -->
+
+    <!-- SECCIÓN DE EVIDENCIAS Y ENTREGAS (PARCIAL III) -->
     <article class="card" id="parcial3">
       <h2><i class="fa-solid fa-folder-closed"></i> 06 // Evidencias de Aprendizaje - Parcial III</h2>
-      <p>A continuación se detallan las actividades académicas desarrolladas durante el primer bloque:</p>
+      <p>A continuación se detallan las actividades académicas desarrolladas durante el tercer bloque:</p>
 
       <div class="evidencias-grid">
-        
-        <!-- ACTIVIDAD 015 -->
+        <!-- ACTIVIDAD 15 -->
         <div class="evidencia-item">
           <div>
-            <div class="evidencia-header">
-              <span class="badge">ACTIVIDAD 15</span>
-              <span class="badge-status">COMPLETADO</span>
-            </div>
+            <div class="evidencia-header"><span class="badge">ACTIVIDAD 15</span><span class="badge-status">COMPLETADO</span></div>
             <h3>La Fotografía como Testigo: Extracción de Metadatos</h3>
-            <p>Análisis forense de metadatos EXIF, geolocalización de coordenadas GPS y sanitización de archivos mediante ExifTool</p>
-            <div class="tech-tags">
-              <span class="tag">METADATOS</span>
-              <span class="tag">EXIFTOOL</span>
-              <span class="tag">ANÁLISIS FORENSE</span>
-            </div>
+            <p>Análisis forense de metadatos EXIF, geolocalización GPS y sanitización de archivos[cite: 23].</p>
+            <div class="tech-tags"><span class="tag">EXIFTOOL</span><span class="tag">FORENSE</span></div>
           </div>
           <div class="btn-group">  
-            <a href="actividad15.html" class="btn btn-secondary" target="_blank">
-              <i class="fa-solid fa-code"></i> Ver Reporte HTML
-            </a>
+            <a href="actividad15.html" class="btn btn-secondary" target="_blank"><i class="fa-solid fa-code"></i> Ver Reporte HTML</a>
             <a href="Actividad15.pdf" download class="btn"><i class="fa-solid fa-download"></i> Descargar</a>
           </div>
         </div>
+      </div>
     </article>
    
     <!-- 6. FORMULARIO DE CONTACTO -->
@@ -1212,20 +890,18 @@
     </div>
   </div>
 
-  <!-- 6. PIE DE PÁGINA & 7. CERTIFICADO SSL -->
+  <!-- PIE DE PÁGINA -->
   <footer>
     <p><span style="color: var(--neon-cyan);"><i class="fa-solid fa-lock"></i> ESTADO DEL SISTEMA: HTTPS SEGURO (CERTIFICADO SSL ACTIVO EN GITHUB PAGES)</span></p>
     <p>&copy; 2026 Lizbeth Guerrero Hurtado | CNO IV – Seguridad Informática | UPSLP</p>
   </footer>
 
-  <!-- Script EmailJS -->
+  <!-- Script EmailJS y Lógica -->
   <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
   <script type="text/javascript">
      (function(){ emailjs.init("xwy40_VRWSA_95aHX"); })();
   </script>
-
   <script>
-    /* LÓGICA DE VENTANA MODAL PARA VER PDF */
     function previewPDF(pdfUrl, title) {
       document.getElementById('modalTitle').innerText = '// VISTA PREVIA: ' + title.toUpperCase();
       document.getElementById('pdfViewer').src = pdfUrl;
@@ -1241,7 +917,6 @@
       if (e.key === 'Escape') closeModal();
     });
 
-    /* ANIMACIÓN FONDO MATRIX ADAPTABLE AL TAMAÑO DE PANTALLA */
     const canvas = document.getElementById('matrixCanvas');
     const ctx = canvas.getContext('2d');
     
@@ -1277,7 +952,6 @@
       drops = Array(Math.floor(columns)).fill(1);
     });
 
-    /* ENVÍO DE FORMULARIO DE CONTACTO (EMAILJS CON AUTO-RESPUESTA) */
     document.getElementById('contactForm').addEventListener('submit', function(e) {
       e.preventDefault();
       const btn = document.getElementById('btnEnviar');
@@ -1303,7 +977,7 @@
           btn.disabled = false;
           statusText.style.display = 'block';
           statusText.style.color = '#00f3ff';
-          statusText.innerText = '¡El mensaje se ha enviado con éxito y se envió una respuesta automática al correo proporcionado!';
+          statusText.innerText = '¡El mensaje se ha enviado con éxito!';
           document.getElementById('contactForm').reset();
         })
         .catch((error) => {
@@ -1312,7 +986,6 @@
           statusText.style.display = 'block';
           statusText.style.color = '#ff0055';
           statusText.innerText = 'Error al enviar el mensaje. Intenta de nuevo.';
-          console.error('Error EmailJS:', error);
         });
     });
   </script>
