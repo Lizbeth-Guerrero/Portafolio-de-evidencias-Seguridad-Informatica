@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Actividad 11. La fotografía como testigo: extracción de metadatos GPS para geolocalización. - Parcial III</title>
+    <title>Actividad 15. La fotografía como testigo: extracción de metadatos GPS para geolocalización. - Parcial III</title>
     
     <!-- Fuentes tipográficas del Portafolio -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -207,6 +207,42 @@
 
         .terminal .cmd { color: #fff; font-weight: bold; }
 
+        /* ESTILOS DE BOTONES */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0.7rem 1.2rem;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .btn-magenta {
+            color: var(--neon-magenta);
+            border-color: var(--neon-magenta);
+        }
+
+        .btn-magenta:hover {
+            background: var(--neon-magenta);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-magenta);
+        }
+
         /* METADATOS AL PIE */
         .meta-info {
             background: rgba(0, 0, 0, 0.8);
@@ -241,9 +277,9 @@
 
 <div class="container">
     <header>
-        <div class="kicker">// Actividad 15 · Parcial III </div>
+        <div class="kicker">// Actividad 15 · Parcial III</div>
         <h1>La fotografía como testigo: extracción de metadatos GPS para geolocalización.</h1>
-        <p>Análisis forense de metadatos EXIF, geolocalización de coordenadas GPS y sanitización de archivos mediante ExifTool.</p>
+        <p>Análisis forense de metadatos EXIF, geolocalización de coordenadas GPS y sanitización de archivos mediante ExifTool[cite: 24].</p>
 
         <nav class="back">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
@@ -254,85 +290,89 @@
 
         <!-- PARTE I: ANÁLISIS DEL DOCUMENTO INTERPOL -->
         <h2><i class="fa-solid fa-file-shield"></i> Parte I: Análisis de Metadatos del Fichero INTERPOL</h2>
-        <p>Extracción de información forense sobre el documento institucional <code>WOA database application form.docx</code> utilizando la herramienta ExifTool.</p>
+        <p>Extracción de información forense sobre el documento institucional <code>WOA database application form.docx</code> utilizando la herramienta ExifTool[cite: 24].</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-shield-halved"></i> Clasificación INTERPOL</h3>
-                <p>Unclassified</p>
+                <p>Unclassified[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-file-code"></i> Template Utilizado</h3>
-                <p>G03 Basic Doc SP.dotx</p>
+                <p>G03 Basic Doc SP.dotx[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-clock"></i> Tiempo Total de Edición</h3>
-                <p>45 minutes</p>
+                <p>45 minutes[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-building"></i> Compañía Propietaria</h3>
-                <p>OIPC - INTERPOL</p>
+                <p>OIPC - INTERPOL[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-pen"></i> Última Modificación / Creador</h3>
-                <p>Carolyn Lejeune</p>
+                <p>Carolyn Lejeune[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-calendar-days"></i> Fecha de Creación</h3>
-                <p>2019:05:03 15:35:00Z</p>
+                <p>2019:05:03 15:35:00Z[cite: 24]</p>
             </div>
         </div>
 
         <!-- PARTE II: ANÁLISIS DE LA IMAGEN Y GEOLOCALIZACIÓN -->
         <h2><i class="fa-solid fa-camera-retro"></i> Parte II: Análisis de Metadatos y GPS de Fichero Multimedia</h2>
-        <p>Extracción de parámetros de captura fotográfica y posicionamiento global a partir de la muestra <code>XiaomiMiA2Lite.jpg</code>.</p>
+        <p>Extracción de parámetros de captura fotográfica y posicionamiento global a partir de la muestra <code>XiaomiMiA2Lite.jpg</code>[cite: 24].</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-sliders"></i> Apertura ISO</h3>
-                <p>ISO 100</p>
+                <p>ISO 100[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-expand"></i> Longitud Focal</h3>
-                <p>3.8 mm (Equivalente a 35 mm: 26.0 mm)</p>
+                <p>3.8 mm (Equivalente a 35 mm: 26.0 mm)[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-bolt-slash"></i> Uso de Flash</h3>
-                <p>Off, Did not fire</p>
+                <p>Off, Did not fire[cite: 24]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-calendar-check"></i> Fecha de Creación</h3>
-                <p>2020:05:28 18:11:41</p>
+                <p>2020:05:28 18:11:41[cite: 24]</p>
             </div>
         </div>
+        
         <div class="card-detail" style="margin-bottom: 1.5rem;">
             <h3><i class="fa-solid fa-location-dot"></i> Posición GPS y Geolocalización Exacta</h3>
-            <p style="color: #fff; margin-bottom: 0.5rem;">Coordenadas: <code>51 deg 15' 12.99" N, 0 deg 32' 21.93" W</code> (51.253608, -0.539425)</p>
-            <p style="color: #aaa; font-size: 0.82rem;">Lugar exacto identificado mediante correlación cartográfica: <strong>Guildford, Reino Unido</strong>.</p>
-            <p>Para garantizar la privacidad y cumplir con el proceso de contención forense, se procedió a purgar todos los metadatos incrustados en la imagen mediante el comando de limpieza total de ExifTool:</p>
-        <div class="terminal">
-            <span class="comment"># Comando ejecutado para remover todos los metadatos</span><br>
-            <span class="cmd">./exiftool.exe -all= XiaomiMiA2Lite.jpg</span><br><br>
-        </div>
+            <p style="color: #fff; margin-bottom: 0.5rem;">Coordenadas: <code>51 deg 15' 12.99" N, 0 deg 32' 21.93" W</code> (51.253608, -0.539425)[cite: 24]</p>
+            <p style="color: #aaa; font-size: 0.82rem;">Lugar exacto identificado mediante correlación cartográfica: <strong>Guildford, Reino Unido</strong>[cite: 24].</p>
+            <p style="margin-top: 1rem;">Para garantizar la privacidad y cumplir con el proceso de contención forense, se procedió a purgar todos los metadatos incrustados en la imagen mediante el comando de limpieza total de ExifTool[cite: 24]:</p>
+            <div class="terminal">
+                <span class="comment"># Comando ejecutado para remover todos los metadatos</span><br>
+                <span class="cmd">./exiftool.exe -all= XiaomiMiA2Lite.jpg</span><br><br>
+            </div>
         </div>
 
-    </div>
-                    <!-- CONTENEDOR DEL REPORTE -->
-    <section>
-      <div class="card">
-        <h2><i class="fa-solid fa-folder-open"></i>// Informe</h2>
-        <p>Consulta el archivo generado para esta actividad:</p>
-        <div style="margin-top: 0.5rem;">
-          <a class="btn btn-magenta" href="Actividad15.pdf" target="_blank"><i class="fa-solid fa-file-pdf"></i> Descargar PDF</a>
-        </div>
-      </div>
-    </section>
+        <!-- SECCIÓN DE DESCARGA / INFORME (AHORA DENTRO DEL CONTENEDOR) -->
+        <section style="margin-top: 2rem;">
+            <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
+                <h2><i class="fa-solid fa-folder-open"></i> // Informe de Evidencia</h2>
+                <p>Consulta o descarga el documento PDF generado para esta actividad:</p>
+                <div style="margin-top: 1rem;">
+                    <a class="btn btn-magenta" href="Actividad15.pdf" target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- Cierre de .content -->
 
     <footer>
         <p>Parcial III · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
         <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
     </footer>
-</div>
+</div><!-- Cierre de .container -->
 
 </body>
 </html>
