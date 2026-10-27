@@ -279,7 +279,7 @@
     <header>
         <div class="kicker">// Actividad 15 · Parcial III</div>
         <h1>La fotografía como testigo: extracción de metadatos GPS para geolocalización.</h1>
-        <p>Análisis forense de metadatos EXIF, geolocalización de coordenadas GPS y sanitización de archivos mediante ExifTool[cite: 24].</p>
+        <p>Análisis forense de metadatos EXIF, geolocalización de coordenadas GPS y sanitización de archivos mediante ExifTool.</p>
 
         <nav class="back">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
@@ -290,63 +290,63 @@
 
         <!-- PARTE I: ANÁLISIS DEL DOCUMENTO INTERPOL -->
         <h2><i class="fa-solid fa-file-shield"></i> Parte I: Análisis de Metadatos del Fichero INTERPOL</h2>
-        <p>Extracción de información forense sobre el documento institucional <code>WOA database application form.docx</code> utilizando la herramienta ExifTool[cite: 24].</p>
+        <p>Extracción de información forense sobre el documento institucional <code>WOA database application form.docx</code> utilizando la herramienta ExifTool.</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-shield-halved"></i> Clasificación INTERPOL</h3>
-                <p>Unclassified[cite: 24]</p>
+                <p>Unclassified</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-file-code"></i> Template Utilizado</h3>
-                <p>G03 Basic Doc SP.dotx[cite: 24]</p>
+                <p>G03 Basic Doc SP.dotx</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-clock"></i> Tiempo Total de Edición</h3>
-                <p>45 minutes[cite: 24]</p>
+                <p>45 minutes</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-building"></i> Compañía Propietaria</h3>
-                <p>OIPC - INTERPOL[cite: 24]</p>
+                <p>OIPC - INTERPOL</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-pen"></i> Última Modificación / Creador</h3>
-                <p>Carolyn Lejeune[cite: 24]</p>
+                <p>Carolyn Lejeune</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-calendar-days"></i> Fecha de Creación</h3>
-                <p>2019:05:03 15:35:00Z[cite: 24]</p>
+                <p>2019:05:03 15:35:00Z</p>
             </div>
         </div>
 
         <!-- PARTE II: ANÁLISIS DE LA IMAGEN Y GEOLOCALIZACIÓN -->
         <h2><i class="fa-solid fa-camera-retro"></i> Parte II: Análisis de Metadatos y GPS de Fichero Multimedia</h2>
-        <p>Extracción de parámetros de captura fotográfica y posicionamiento global a partir de la muestra <code>XiaomiMiA2Lite.jpg</code>[cite: 24].</p>
+        <p>Extracción de parámetros de captura fotográfica y posicionamiento global a partir de la muestra <code>XiaomiMiA2Lite.jpg</code>.</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-sliders"></i> Apertura ISO</h3>
-                <p>ISO 100[cite: 24]</p>
+                <p>ISO 100</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-expand"></i> Longitud Focal</h3>
-                <p>3.8 mm (Equivalente a 35 mm: 26.0 mm)[cite: 24]</p>
+                <p>3.8 mm (Equivalente a 35 mm: 26.0 mm)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-bolt-slash"></i> Uso de Flash</h3>
-                <p>Off, Did not fire[cite: 24]</p>
+                <p>Off, Did not fire</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-calendar-check"></i> Fecha de Creación</h3>
-                <p>2020:05:28 18:11:41[cite: 24]</p>
+                <p>2020:05:28 18:11:41</p>
             </div>
         </div>
         
         <div class="card-detail" style="margin-bottom: 1.5rem;">
             <h3><i class="fa-solid fa-location-dot"></i> Posición GPS y Geolocalización Exacta</h3>
-            <p style="color: #fff; margin-bottom: 0.5rem;">Coordenadas: <code>51 deg 15' 12.99" N, 0 deg 32' 21.93" W</code> (51.253608, -0.539425)[cite: 24]</p>
-            <p style="color: #aaa; font-size: 0.82rem;">Lugar exacto identificado mediante correlación cartográfica: <strong>Guildford, Reino Unido</strong>[cite: 24].</p>
-            <p style="margin-top: 1rem;">Para garantizar la privacidad y cumplir con el proceso de contención forense, se procedió a purgar todos los metadatos incrustados en la imagen mediante el comando de limpieza total de ExifTool[cite: 24]:</p>
+            <p style="color: #fff; margin-bottom: 0.5rem;">Coordenadas: <code>51 deg 15' 12.99" N, 0 deg 32' 21.93" W</code> (51.253608, -0.539425)</p>
+            <p style="color: #aaa; font-size: 0.82rem;">Lugar exacto identificado mediante correlación cartográfica: <strong>Guildford, Reino Unido</strong>.</p>
+            <p style="margin-top: 1rem;">Para garantizar la privacidad y cumplir con el proceso de contención forense, se procedió a purgar todos los metadatos incrustados en la imagen mediante el comando de limpieza total de ExifTool:</p>
             <div class="terminal">
                 <span class="comment"># Comando ejecutado para remover todos los metadatos</span><br>
                 <span class="cmd">./exiftool.exe -all= XiaomiMiA2Lite.jpg</span><br><br>
