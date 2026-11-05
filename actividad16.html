@@ -333,50 +333,50 @@
 
         <!-- FASES DEL ANÁLISIS FORENSE -->
         <h2><i class="fa-solid fa-microchip"></i> Parte I: Fundamentos y Fases del Análisis Forense Digital</h2>
-        <p>El análisis forense digital constituye un conjunto de técnicas de recopilación y peritaje exhaustivo de datos diseñadas para esclarecer incidentes de seguridad sin alterar el estado original de la evidencia digital[cite: 25]. Se estructura en 5 fases metodológicas universales[cite: 25]:</p>
+        <p>El análisis forense digital constituye un conjunto de técnicas de recopilación y peritaje exhaustivo de datos diseñadas para esclarecer incidentes de seguridad sin alterar el estado original de la evidencia digital[cite: 25]. Se estructura en 5 fases metodológicas universales:</p>
 
         <ol class="fases">
-            <li><strong>1. Adquisición:</strong> Extracción de copias idénticas bit a bit del soporte físico original[cite: 25].</li>
-            <li><strong>2. Preservación:</strong> Protección de la cadena de custodia y almacenamiento seguro de las imágenes forenses[cite: 25].</li>
-            <li><strong>3. Análisis:</strong> Examen técnico estructurado de la evidencia en busca de rastros o artefactos[cite: 25].</li>
-            <li><strong>4. Documentación:</strong> Registro pormenorizado de los hallazgos, comandos y herramientas empleadas[cite: 25].</li>
-            <li><strong>5. Presentación:</strong> Exposición de resultados procesables con validez legal ante las autoridades competentes[cite: 25].</li>
+            <li><strong>1. Adquisición:</strong> Extracción de copias idénticas bit a bit del soporte físico original.</li>
+            <li><strong>2. Preservación:</strong> Protección de la cadena de custodia y almacenamiento seguro de las imágenes forenses.</li>
+            <li><strong>3. Análisis:</strong> Examen técnico estructurado de la evidencia en busca de rastros o artefactos.</li>
+            <li><strong>4. Documentación:</strong> Registro pormenorizado de los hallazgos, comandos y herramientas empleadas.</li>
+            <li><strong>5. Presentación:</strong> Exposición de resultados procesables con validez legal ante las autoridades competentes.</li>
         </ol>
 
         <!-- PARÁMETROS DEL CASO -->
         <h2><i class="fa-solid fa-folder-tree"></i> Parte II: Registro del Caso de Adquisición (LIF - UPSLP)</h2>
-        <p>Configuración formal del peritaje realizado dentro del Laboratorio de Informática Forense (LIF) sobre la unidad extraíble de evidencia[cite: 25, 28]:</p>
+        <p>Configuración formal del peritaje realizado dentro del Laboratorio de Informática Forense (LIF) sobre la unidad extraíble de evidencia:</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-hashtag"></i> Case Number</h3>
-                <p>InfoCrim-01_21.11.2023[cite: 28]</p>
+                <p>InfoCrim-01_21.11.2023</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-fingerprint"></i> Evidence Number</h3>
-                <p>00 (Original Adq)[cite: 28]</p>
+                <p>00 (Original Adq)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-shield"></i> Examiner</h3>
-                <p>Guerrero Hurtado Lizbeth[cite: 25, 28, 31]</p>
+                <p>Guerrero Hurtado Lizbeth</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-hard-drive"></i> Dispositivo Origen</h3>
-                <p>Kingston DataTraveler 2.0 / 3.0 USB[cite: 27, 31]</p>
+                <p>Kingston DataTraveler 2.0 / 3.0 USB</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-stopwatch"></i> Tiempo Transcurrido</h3>
-                <p>02:23 minutos (12:26 pm - 12:28 pm)[cite: 28, 29, 31]</p>
+                <p>02:23 minutos (12:26 pm - 12:28 pm)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-database"></i> Sectores Copiados</h3>
-                <p>3,907,364 sectores (1907 MB)[cite: 29, 30, 31]</p>
+                <p>3,907,364 sectores (1907 MB)</p>
             </div>
         </div>
 
         <!-- INTEGRIDAD Y VERIFICACIÓN HASH -->
         <h2><i class="fa-solid fa-shield-halved"></i> Parte III: Verificación Criptográfica de Integridad (Hashes)</h2>
-        <p>Al concluir el proceso de lectura bit a bit, FTK Imager realiza la verificación cruzada de valores HASH para garantizar que la copia no sufriera alteración alguna[cite: 29, 30, 31]:</p>
+        <p>Al concluir el proceso de lectura bit a bit, FTK Imager realiza la verificación cruzada de valores HASH para garantizar que la copia no sufriera alteración alguna:</p>
 
         <div class="table-responsive">
             <table>
@@ -391,15 +391,15 @@
                 <tbody>
                     <tr>
                         <td><strong>MD5</strong></td>
-                        <td><code>c1bf046c1e80fc9a73487433d4c3f679</code>[cite: 29, 30]</td>
-                        <td><code>c1bf046c1e80fc9a73487433d4c3f679</code>[cite: 29, 30]</td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">MATCH (VERIFIED)</span>[cite: 29, 30, 31]</td>
+                        <td><code>c1bf046c1e80fc9a73487433d4c3f679</code></td>
+                        <td><code>c1bf046c1e80fc9a73487433d4c3f679</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">MATCH (VERIFIED)</span></td>
                     </tr>
                     <tr>
                         <td><strong>SHA-1</strong></td>
-                        <td><code>95d4b75e5e1605e1e4907c53a8a0d8cbc81187e3</code>[cite: 30, 31]</td>
-                        <td><code>95d4b75e5e1605e1e4907c53a8a0d8cbc81187e3</code>[cite: 30, 31]</td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">MATCH (VERIFIED)</span>[cite: 29, 30, 31]</td>
+                        <td><code>95d4b75e5e1605e1e4907c53a8a0d8cbc81187e3</code></td>
+                        <td><code>95d4b75e5e1605e1e4907c53a8a0d8cbc81187e3</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">MATCH (VERIFIED)</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -407,43 +407,38 @@
 
         <!-- ARCHIVOS GENERADOS Y COMPARATIVA -->
         <h2><i class="fa-solid fa-file-contract"></i> Parte IV: Resultados y Formatos Forenses</h2>
-        <p>Durante la práctica se generaron 3 archivos de evidencia dentro de la ruta <code>InfoCrim13</code>[cite: 28, 30, 31]:</p>
+        <p>Durante la práctica se generaron 3 archivos de evidencia dentro de la ruta <code>InfoCrim13</code>:</p>
 
         <div class="terminal">
-            <span class="highlight">1. infocrim_GuerreroHurtadoLizbeth.001</span> (1,536,000 KB) - Primer segmento de la copia bit a bit[cite: 30, 31].<br>
-            <span class="highlight">2. infocrim_GuerreroHurtadoLizbeth.002</span> (417,682 KB) - Segundo segmento fragmentado de la imagen[cite: 30, 31].<br>
-            <span class="highlight">3. infocrim_GuerreroHurtadoLizbeth.001.txt</span> (2 KB) - Registro técnico formal (Log audit)[cite: 30, 31].
+            <span class="highlight">1. infocrim_GuerreroHurtadoLizbeth.001</span> (1,536,000 KB) - Primer segmento de la copia bit a bit.<br>
+            <span class="highlight">2. infocrim_GuerreroHurtadoLizbeth.002</span> (417,682 KB) - Segundo segmento fragmentado de la imagen.<br>
+            <span class="highlight">3. infocrim_GuerreroHurtadoLizbeth.001.txt</span> (2 KB) - Registro técnico formal (Log audit).
         </div>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-file-binary"></i> Formato Raw (dd)</h3>
-                <p>Copia pura bit a bit sin compresión ni metadatos incrustados. Ofrece compatibilidad universal pero carece de hashes integrados en el archivo[cite: 27, 29].</p>
+                <p>Copia pura bit a bit sin compresión ni metadatos incrustados. Ofrece compatibilidad universal pero carece de hashes integrados en el archivo.</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-file-zipper"></i> Formato E01 (EnCase)</h3>
-                <p>Formato forense avanzado que almacena los datos de imagen junto con metadatos del peritaje, marcas de tiempo y hashes de verificación[cite: 29, 30].</p>
+                <p>Formato forense avanzado que almacena los datos de imagen junto con metadatos del peritaje, marcas de tiempo y hashes de verificación.</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-heart-pulse"></i> Formato SMART vs E01</h3>
-                <p>SMART monitorea la salud del disco duro. E01 es una imagen forense con registros metadatos para investigaciones y juicios[cite: 30].</p>
+                <p>SMART monitorea la salud del disco duro. E01 es una imagen forense con registros metadatos para investigaciones y juicios.</p>
             </div>
         </div>
 
         <!-- REGISTRO TÉCNICO COMPLETO (LOG) -->
         <h2><i class="fa-solid fa-scroll"></i> Parte V: Archivos Generados</h2>
         <div class="terminal">
-
-            <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
-                <h2><i class="fa-solid fa-folder-open"></i> // Evidencia en .RAR</h2>
-                <p>Consulta o descarga la evidencia práctica (.rar):</p>
-                <div style="margin-top: 1rem;">
-                    <a class="btn btn-magenta" href="https://drive.google.com/file/d/1YBBj9BGhtDoZFFl542kZ9CZ10EXwxc5K/view?usp=drivesdk" target="_blank">
-                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver Carpeta Comprimida
-                    </a>
-                </div>
+            <p>Consulta o descarga la evidencia práctica (.rar):</p>
+            <div style="margin-top: 1rem;">
+                <a class="btn btn-magenta" href="https://drive.google.com/file/d/1YBBj9BGhtDoZFFl542kZ9CZ10EXwxc5K/view?usp=drivesdk" target="_blank">
+                    <i class="fa-solid fa-file-pdf"></i> Descargar / Ver Carpeta Comprimida
+                </a>
             </div>
-
         </div>
 
         <!-- SECCIÓN DE DESCARGA E INFORME -->
