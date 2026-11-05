@@ -1,0 +1,369 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 19: Adquisición Forense en Escena del Crimen Digital - Parcial III</title>
+    
+    <!-- Fuentes tipográficas del Portafolio -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #030308;
+            --panel-bg: rgba(10, 8, 20, 0.90);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff0055;
+            --goth-purple: #8a2be2;
+            --neon-green: #00ff66;
+            --neon-orange: #ff9900;
+            --text-main: #e0e0e0;
+            --font-cyber: 'Orbitron', sans-serif;
+            --font-goth: 'Cinzel', serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-cyber);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+        }
+
+        /* Scanlines CRT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--goth-purple);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* HEADER */
+        header {
+            padding: 2.5rem 2rem 1.8rem;
+            border-bottom: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            background: rgba(5, 5, 12, 0.95);
+            text-align: center;
+        }
+
+        .kicker {
+            font-family: var(--font-mono);
+            color: var(--neon-cyan);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: var(--font-goth);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-magenta);
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            font-family: var(--font-mono);
+            color: #ccc;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            max-width: 850px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+
+        nav.back {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.back a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: var(--font-cyber);
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.08);
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.back a:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content {
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        h2 {
+            font-family: var(--font-goth);
+            color: var(--neon-cyan);
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--goth-purple);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            font-family: var(--font-mono);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 1.2rem;
+        }
+
+        /* TARJETAS DE COMANDOS */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-detail {
+            background: rgba(15, 12, 28, 0.85);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            padding: 1.5rem;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .card-detail:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card-detail h3 {
+            font-family: var(--font-cyber);
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-detail h3 i { color: var(--neon-magenta); }
+
+        .card-detail p {
+            font-size: 0.88rem;
+            margin-bottom: 0;
+            color: var(--neon-cyan);
+        }
+
+        /* BLOQUES DE TERMINAL */
+        .terminal {
+            background: #05050b;
+            border: 1px solid var(--goth-purple);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            line-height: 1.5;
+        }
+
+        .terminal .cmd { color: #fff; font-weight: bold; }
+        .terminal .highlight { color: var(--neon-green); font-weight: bold; }
+
+        /* BOTONES */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0.7rem 1.2rem;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .btn-magenta {
+            color: var(--neon-magenta);
+            border-color: var(--neon-magenta);
+        }
+
+        .btn-magenta:hover {
+            background: var(--neon-magenta);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-magenta);
+        }
+
+        /* METADATOS AL PIE */
+        .meta-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--goth-purple);
+            padding: 1rem;
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .meta-info span { color: var(--neon-cyan); }
+
+        footer {
+            background: rgba(5, 5, 12, 0.95);
+            border-top: 1px solid var(--goth-purple);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            color: #888;
+            font-family: var(--font-mono);
+        }
+
+        footer span { color: var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="kicker">// Actividad 19 · Parcial III</div>
+        <h1>Los Primeros Minutos Cuentan: Adquisición Forense en Escenas del Crimen Digital</h1>
+        <p>Como primer respondiente e investigador forense digital, se ejecutó la adquisición en caliente de un sistema Windows comprometido.</p>
+
+        <nav class="back">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </nav>
+    </header>
+
+    <div class="content">
+
+        <!-- INTRODUCCIÓN -->
+        <h2><i class="fa-solid fa-laptop-code"></i> Metodología de Respuesta en Caliente</h2>
+        <p>Ante un incidente en un entorno Windows comprometido, es imperativo recolectar la volatilidad del sistema operativo antes de proceder a apagarlo o aislarlo, asegurando la preservación de evidencias críticas en memoria RAM, procesos activos y registros de red.</p>
+
+        <!-- COMANDOS CLAVE DE ADQUISICIÓN -->
+        <h2><i class="fa-solid fa-terminal"></i> Comandos y Artefactos Recabados</h2>
+        
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-clock"></i> 1. Fecha y Hora del Sistema</h3>
+                <p><code>date > FechaHoraSistema.txt</code><br>Consulta el reloj RTC administrado por el kernel.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-microchip"></i> 2. Procesos Activos (RAM)</h3>
+                <p><code>tasklist > ListaProcesos.txt</code><br>Interroga el administrador de tareas sobre aplicaciones en ejecución.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-network-wired"></i> 3. Servicios del Sistema (CMD vs PowerShell)</h3>
+                <p><code>sc query</code> / <code>Get-Service</code><br>Compara servicios a nivel de kernel vs objetos .NET.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-users"></i> 4. Usuarios Activos e Históricos</h3>
+                <p><code>./NetUsers.exe</code> y <code>net user</code><br>Auditoría de sesiones locales LSA y cuentas autorizadas.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-globe"></i> 5. Configuración y Red (IPConfig)</h3>
+                <p><code>ipconfig /all > RedInfo.txt</code><br>Detalle profundo de interfaces físicas/virtuales.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-plug"></i> 6. Conexiones y Puertos Activos</h3>
+                <p><code>netstat -anob > AppsAbiertas.txt</code><br>Muestra sockets abiertos vinculados al proceso responsable.</p>
+            </div>
+        </div>
+
+        <!-- MUESTRA DE TERMINAL EJEMPLO -->
+        <h2><i class="fa-solid fa-code"></i> Evidencia de Ejecución en Consola (Ejemplo)</h2>
+        <div class="terminal">
+            <span class="cmd">PS C:\Users\COMPAQ\Desktop\Actividad19> ipconfig /all >RedInfo.txt</span><br>
+            Nombre de host . . . . . . . . . . . . : RECEPCION01<br>
+            Sufijo DNS principal . . . . . . . . . : innovacion.edu<br>
+            Dirección física (MAC) . . . . . . . . : 6C-62-6D-6D-6F-57<br>
+            Dirección IPv4 . . . . . . . . . . . . : 10.128.137.61 (Preferido)
+        </div>
+
+        <!-- ARTEFACTOS AVANZADOS EXPORTADOS -->
+        <h2><i class="fa-solid fa-file-shield"></i> Exportación de Registros Críticos (Evidencia Binaria)</h2>
+        <p>Durante la práctica se respaldaron canales de eventos del sistema operativo y configuraciones locales clave:</p>
+        
+        <div class="terminal">
+            <span class="highlight">SystemLogs.evtx</span> (21,041,152 bytes) - Exportación íntegra de los registros de eventos del kernel y sistema mediante <code>wevtutil epl system</code>.<br>
+            <span class="highlight">FicheroHost.txt</span> - Volcado de directivas locales de resolución estática ubicado en <code>C:\Windows\System32\drivers\etc\hosts</code>.<br>
+            <span class="highlight">DirectoriosFicheros.txt</span> - Mapeo cronológico de la estructura de archivos según su fecha de creación (<code>dir /s /t:c</code>).
+        </div>
+
+        <!-- SECCIÓN DE DESCARGA E INFORME -->
+        <section style="margin-top: 2rem;">
+            <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
+                <h2><i class="fa-solid fa-folder-open"></i> // Documento de Evidencia en PDF</h2>
+                <p>Consulta o descarga el reporte ejecutivo completo de la práctica:</p>
+                <div style="margin-top: 1rem;">
+                    <a class="btn btn-magenta" href="Actividad19.pdf" target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- Cierre de .content -->
+
+    <footer>
+        <p>Parcial III · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
+        <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
+    </footer>
+</div><!-- Cierre de .container -->
+
+</body>
+</html>
