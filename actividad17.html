@@ -1,0 +1,481 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Actividad 18: La Memoria del Crimen: Extracción de Evidencia de un Volcado RAM - Parcial III</title>
+    
+    <!-- Fuentes tipográficas del Portafolio -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        :root {
+            --bg-color: #030308;
+            --panel-bg: rgba(10, 8, 20, 0.90);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff0055;
+            --goth-purple: #8a2be2;
+            --neon-green: #00ff66;
+            --neon-orange: #ff9900;
+            --text-main: #e0e0e0;
+            --font-cyber: 'Orbitron', sans-serif;
+            --font-goth: 'Cinzel', serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-cyber);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+        }
+
+        /* Scanlines CRT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--goth-purple);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* HEADER */
+        header {
+            padding: 2.5rem 2rem 1.8rem;
+            border-bottom: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            background: rgba(5, 5, 12, 0.95);
+            text-align: center;
+        }
+
+        .kicker {
+            font-family: var(--font-mono);
+            color: var(--neon-cyan);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: var(--font-goth);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-magenta);
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            font-family: var(--font-mono);
+            color: #ccc;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            max-width: 850px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+
+        nav.back {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.back a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: var(--font-cyber);
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.08);
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.back a:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content {
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        h2 {
+            font-family: var(--font-goth);
+            color: var(--neon-cyan);
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--goth-purple);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            font-family: var(--font-mono);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 1.2rem;
+        }
+
+        /* TARJETAS DE DATOS */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-detail {
+            background: rgba(15, 12, 28, 0.85);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            padding: 1.5rem;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .card-detail:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card-detail h3 {
+            font-family: var(--font-cyber);
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-detail h3 i { color: var(--neon-magenta); }
+
+        .card-detail p {
+            font-size: 0.88rem;
+            margin-bottom: 0;
+            color: var(--neon-cyan);
+        }
+
+        /* BLOQUES DE TERMINAL */
+        .terminal {
+            background: #05050b;
+            border: 1px solid var(--goth-purple);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            line-height: 1.5;
+        }
+
+        .terminal .cmd { color: #fff; font-weight: bold; }
+        .terminal .highlight { color: var(--neon-green); font-weight: bold; }
+        .terminal .warn { color: var(--neon-orange); }
+
+        /* TABLAS DE HALLAZGOS */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            background: rgba(5, 5, 12, 0.9);
+            border: 1px solid var(--goth-purple);
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        th {
+            background: rgba(138, 43, 226, 0.2);
+            color: var(--neon-cyan);
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+        }
+
+        /* BOTONES DE ACCIÓN */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0.7rem 1.2rem;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .btn-magenta {
+            color: var(--neon-magenta);
+            border-color: var(--neon-magenta);
+        }
+
+        .btn-magenta:hover {
+            background: var(--neon-magenta);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-magenta);
+        }
+
+        /* METADATOS AL PIE */
+        .meta-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--goth-purple);
+            padding: 1rem;
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .meta-info span { color: var(--neon-cyan); }
+
+        footer {
+            background: rgba(5, 5, 12, 0.95);
+            border-top: 1px solid var(--goth-purple);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            color: #888;
+            font-family: var(--font-mono);
+        }
+
+        footer span { color: var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="kicker">// Actividad 17 · Parcial III</div>
+        <h1>La Memoria del Crimen: Extracción de Evidencia de un Volcado RAM</h1>
+        <p>Análisis forense de memoria volátil mediante Volatility Framework 2.6 sobre la muestra <code>OtterCTF.vmem</code> en un caso de cibercrimen y ransomware.</p>
+
+        <nav class="back">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </nav>
+    </header>
+
+    <div class="content">
+
+        <!-- PARTE I: ANÁLISIS DEL CASO Y PERFIL DE MEMORIA -->
+        <h2><i class="fa-solid fa-user-ninja"></i> Parte I: Antecedentes del Caso e Identificación de Imagen</h2>
+        <p>Elementos de la FGM especializada obtuvieron la imagen de memoria RAM <code>OtterCTF.vmem</code> perteneciente al cibercriminal alias <strong>"Morty"</strong> (vinculado a ataques de ingeniería social, botnets y extorsión por ransomware). Mediante el plugin <code>imageinfo</code> se determinaron los parámetros de adquisición:</p>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-clock"></i> Marca de Tiempo Local</h3>
+                <p>2018-08-04 22:34:22 +0300 (UTC: 19:34:22)</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-desktop"></i> Perfiles Sugeridos (OS)</h3>
+                <p>Win7SP1x64, Win7SP0x64, Win2008R2SP1x64</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-microchip"></i> Arquitectura del Kernel</h3>
+                <p>Windows AMD64PagedMemory (64-bit, 2 CPUs)</p>
+            </div>
+        </div>
+
+        <div class="terminal">
+            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem imageinfo</span><br>
+            Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP1x64<br>
+            Image date and time  : 2018-08-04 19:34:22 UTC+0000<br>
+            Image local date/time: <span class="highlight">2018-08-04 22:34:22 +0300</span>
+        </div>
+
+        <p><strong>Análisis de Marca de Tiempo:</strong> La fecha y hora local son cruciales para construir la línea de tiempo de eventos (timeline), correlacionar actividades maliciosas con logs del sistema, tráfico de red e interacciones en redes sociales en momentos específicos del ataque.</p>
+
+        <!-- PARTE II: EXTRACCIÓN DE CREDENCIALES Y REGISTRO -->
+        <h2><i class="fa-solid fa-key"></i> Parte II: Extracción de Hashes, Contraseñas y Registro</h2>
+        <p>Mediante los plugins <code>hashdump</code>, <code>lsadump</code> y <code>printkey</code> se logró recuperar la contraseña guardada en memoria y el nombre exacto de la máquina:</p>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-lock"></i> Contraseña en Texto Plano</h3>
+                <p><strong>MortyIsReallyAnOtter</strong> (obtenida via LSA DefaultPassword)</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-network-wired"></i> Nombre del Ordenador</h3>
+                <p><strong>WIN-L06FAF3DTFE</strong> (Key ComputerName)</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-user"></i> Hashes SAM Detectados</h3>
+                <p>Administrator (500), Guest (501), Rick (1000)</p>
+            </div>
+        </div>
+
+        <div class="terminal">
+            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" lsadump</span><br>
+            DefaultPassword: <span class="highlight">M.o.r.t.y.I.s.R.e.a.l.l.y.A.n.O.t.t.e.r.</span><br><br>
+            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" printkey -o 0xfffff8a000024010 -K "ControlSet001\Control\ComputerName\ComputerName"</span><br>
+            ComputerName : <span class="highlight">WIN-L06FAF3DTFE</span>
+        </div>
+
+        <!-- PARTE III: ANÁLISIS DE PROCESOS Y RED -->
+        <h2><i class="fa-solid fa-diagram-project"></i> Parte III: Árbol de Procesos y Conexiones de Red</h2>
+        <p>El análisis con <code>pstree</code> y <code>netscan</code> permitió rastrear la actividad operativa del sistema y la infraestructura de comando y control (C2):</p>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Proceso</th>
+                        <th>PID</th>
+                        <th>PPID</th>
+                        <th>Importancia / Justificación Forense</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>chrome.exe</strong></td>
+                        <td>4076</td>
+                        <td>4876</td>
+                        <td>Permitió al atacante investigar víctimas, acceder a paneles C2 y operar servicios web maliciosos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>explorer.exe</strong></td>
+                        <td>2728</td>
+                        <td>2696</td>
+                        <td>Shell principal de Windows usada para manipular archivos, ejecutar binarios y ocultar artefactos.</td>
+                    </tr>
+                    <tr>
+                        <td><strong>Rick And Morty</strong></td>
+                        <td>3820</td>
+                        <td>2728</td>
+                        <td>Software sospechoso camuflado como ejecutable inofensivo; oculta el binario de Ransomware.</td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-server"></i> Servidor C2 Detectado (LunarMS.exe)</h3>
+                <p>IP: <code>77.102.199.102</code> | Puerto: <code>7575</code> (PID: 708)</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-map-location-dot"></i> Geolocalización del Servidor</h3>
+                <p>Londres, Reino Unido (ISP: Virgin Media Limited / Lat: 51.50853, Long: -0.12574)</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-envelope"></i> Correos de Ingeniería Social</h3>
+                <p><code>rickopicko@mail.com</code> / <code>rickypinky@mail.com</code> (Google Chrome en Windows)</p>
+            </div>
+        </div>
+
+        <div class="terminal">
+            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" netscan | grep LunarMS</span><br>
+            0x7e413a40 TCPv4 <span class="warn">192.168.202.131:49530  77.102.199.102:7575</span> CLOSED 708 LunarMS.exe<br><br>
+            <span class="cmd">root@kali:~/Desktop# grep "@mail.com" OtterCTF.vmem.strings</span><br>
+            rickopicko@mail.com &lt;rickopicko@mail.com&gt;<br>
+            usernamerickypinky@mail.com[cite: 60]
+        </div>
+
+        <!-- PARTE IV: EXTRACCIÓN Y ANÁLISIS DEL RANSOMWARE -->
+        <h2><i class="fa-solid fa-biohazard"></i> Parte IV: Volcado de Memoria del Ransomware (PID 3720)</h2>
+        <p>Al volcar el proceso <code>3720</code> (vmware-tray.exe) con el plugin <code>memdump</code> y extraer cadenas imprimibles, se reveló el mensaje de extorsión y la billetera de rescate:</p>
+
+        <div class="terminal">
+            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" memdump -p 3720 -D .</span><br>
+            Writing vmware-tray.ex [3720] to 3720.dmp<br><br>
+            <span class="warn">"This is Ransomware. It locks your files until you pay for them... Send 0.16 to the address below."</span><br>
+            Cartera BTC de Rescate: <span class="highlight">1MmpEmebJkqXG8nQv4cjJSnxZQFVmFa63M</span>
+        </div>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-brands fa-bitcoin"></i> Cartera de Criptomonedas</h3>
+                <p><code>1MmpEmebJkqXG8nQv4cjJSnxZQFVmFa63M</code></p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-shield-virus"></i> Verificación en Listas Negras</h3>
+                <p>Verificada en BTCBlack (btcblack.it). Estado: <strong>NOT Blacklisted</strong>.</p>
+            </div>
+        </div>
+
+        <!-- SECCIÓN DE DESCARGA E INFORME -->
+        <section style="margin-top: 2rem;">
+            <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
+                <h2><i class="fa-solid fa-folder-open"></i> // Documento de Evidencia en PDF</h2>
+                <p>Consulta o descarga el reporte práctico completo en formato PDF:</p>
+                <div style="margin-top: 1rem;">
+                    <a class="btn btn-magenta" href="Actividad 18 - La memoria del crimen.pdf" target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF Actividad 17
+                    </a>
+                </div>
+            </div>
+        </section>
+
+
+    </div><!-- Cierre de .content -->
+
+    <footer>
+        <p>Parcial III · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
+        <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
+    </footer>
+</div><!-- Cierre de .container -->
+
+</body>
+</html>
