@@ -1,1 +1,467 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Proyecto Actividad 18: La Investigación Forense: La Huella Digital de un Cibercriminal - Parcial III</title>
+    
+    <!-- Fuentes tipográficas del Portafolio -->
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+    <!-- FontAwesome para Iconos -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
+    <style>
+        :root {
+            --bg-color: #030308;
+            --panel-bg: rgba(10, 8, 20, 0.90);
+            --neon-cyan: #00f3ff;
+            --neon-magenta: #ff0055;
+            --goth-purple: #8a2be2;
+            --neon-green: #00ff66;
+            --neon-orange: #ff9900;
+            --text-main: #e0e0e0;
+            --font-cyber: 'Orbitron', sans-serif;
+            --font-goth: 'Cinzel', serif;
+            --font-mono: 'Share Tech Mono', monospace;
+        }
+
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        html { scroll-behavior: smooth; }
+
+        body {
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            font-family: var(--font-cyber);
+            overflow-x: hidden;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            padding: 20px 10px;
+        }
+
+        /* Scanlines CRT */
+        body::before {
+            content: "";
+            position: fixed;
+            top: 0; left: 0; width: 100vw; height: 100vh;
+            background: linear-gradient(rgba(18, 16, 16, 0) 50%, rgba(0, 0, 0, 0.4) 50%);
+            background-size: 100% 4px;
+            z-index: 100;
+            pointer-events: none;
+        }
+
+        .container {
+            max-width: 1100px;
+            width: 100%;
+            margin: 0 auto;
+            background: var(--panel-bg);
+            border: 1px solid var(--goth-purple);
+            clip-path: polygon(0 0, calc(100% - 20px) 0, 100% 20px, 100% 100%, 20px 100%, 0 calc(100% - 20px));
+            box-shadow: 0 0 25px rgba(138, 43, 226, 0.2);
+            overflow: hidden;
+            flex-grow: 1;
+        }
+
+        /* HEADER */
+        header {
+            padding: 2.5rem 2rem 1.8rem;
+            border-bottom: 2px solid var(--neon-magenta);
+            box-shadow: 0 0 20px rgba(255, 0, 85, 0.3);
+            background: rgba(5, 5, 12, 0.95);
+            text-align: center;
+        }
+
+        .kicker {
+            font-family: var(--font-mono);
+            color: var(--neon-cyan);
+            font-size: clamp(0.8rem, 2vw, 1rem);
+            letter-spacing: 2px;
+            margin-bottom: 0.5rem;
+            text-transform: uppercase;
+        }
+
+        header h1 {
+            font-family: var(--font-goth);
+            font-size: clamp(1.4rem, 4vw, 2.2rem);
+            color: #fff;
+            text-transform: uppercase;
+            text-shadow: 0 0 10px var(--neon-magenta);
+            margin-bottom: 0.8rem;
+        }
+
+        header p {
+            font-family: var(--font-mono);
+            color: #ccc;
+            font-size: clamp(0.85rem, 2vw, 1rem);
+            max-width: 850px;
+            margin: 0 auto 1.5rem;
+            line-height: 1.5;
+        }
+
+        nav.back {
+            display: flex;
+            justify-content: center;
+        }
+
+        nav.back a {
+            color: var(--neon-cyan);
+            text-decoration: none;
+            font-family: var(--font-cyber);
+            font-size: 0.85rem;
+            padding: 0.5rem 1.2rem;
+            border: 1px solid var(--neon-cyan);
+            background: rgba(0, 243, 255, 0.08);
+            transition: all 0.3s ease;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        nav.back a:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        /* CONTENIDO PRINCIPAL */
+        .content {
+            padding: clamp(1.5rem, 4vw, 3rem);
+        }
+
+        h2 {
+            font-family: var(--font-goth);
+            color: var(--neon-cyan);
+            font-size: clamp(1.1rem, 3vw, 1.35rem);
+            margin-top: 2rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 0.5rem;
+            border-bottom: 1px dashed var(--goth-purple);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        p {
+            font-family: var(--font-mono);
+            font-size: clamp(0.85rem, 2vw, 0.95rem);
+            line-height: 1.6;
+            color: #ccc;
+            margin-bottom: 1.2rem;
+        }
+
+        /* TARJETAS DE DATOS */
+        .grid-cards {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin-top: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-detail {
+            background: rgba(15, 12, 28, 0.85);
+            border: 1px solid rgba(138, 43, 226, 0.5);
+            padding: 1.5rem;
+            clip-path: polygon(0 0, calc(100% - 15px) 0, 100% 15px, 100% 100%, 0 100%);
+            transition: all 0.3s ease;
+        }
+
+        .card-detail:hover {
+            border-color: var(--neon-cyan);
+            box-shadow: 0 0 15px rgba(0, 243, 255, 0.15);
+            transform: translateY(-3px);
+        }
+
+        .card-detail h3 {
+            font-family: var(--font-cyber);
+            color: #fff;
+            font-size: 0.95rem;
+            margin-bottom: 0.8rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .card-detail h3 i { color: var(--neon-magenta); }
+
+        .card-detail p {
+            font-size: 0.88rem;
+            margin-bottom: 0;
+            color: var(--neon-cyan);
+        }
+
+        /* BLOQUES DE TERMINAL Y LOGS */
+        .terminal {
+            background: #05050b;
+            border: 1px solid var(--goth-purple);
+            border-left: 3px solid var(--neon-cyan);
+            padding: 1.2rem;
+            font-family: 'Share Tech Mono', monospace;
+            font-size: 0.85rem;
+            color: var(--neon-cyan);
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+            box-shadow: inset 0 0 10px rgba(0,0,0,0.8);
+            line-height: 1.5;
+        }
+
+        .terminal .cmd { color: #fff; font-weight: bold; }
+        .terminal .highlight { color: var(--neon-green); font-weight: bold; }
+        .terminal .warn { color: var(--neon-orange); }
+
+        /* TABLAS DE METADATOS Y HASHES */
+        .table-responsive {
+            overflow-x: auto;
+            margin: 1rem 0 1.5rem;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-family: var(--font-mono);
+            font-size: 0.85rem;
+            background: rgba(5, 5, 12, 0.9);
+            border: 1px solid var(--goth-purple);
+        }
+
+        th, td {
+            padding: 0.75rem;
+            text-align: left;
+            border: 1px solid rgba(138, 43, 226, 0.3);
+        }
+
+        th {
+            background: rgba(138, 43, 226, 0.2);
+            color: var(--neon-cyan);
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+        }
+
+        /* BOTONES DE ACCIÓN */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 6px;
+            padding: 0.7rem 1.2rem;
+            background: transparent;
+            color: var(--neon-cyan);
+            border: 1px solid var(--neon-cyan);
+            font-family: var(--font-cyber);
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            cursor: pointer;
+            transition: 0.3s;
+            text-decoration: none;
+            clip-path: polygon(10px 0, 100% 0, calc(100% - 10px) 100%, 0 100%);
+        }
+
+        .btn:hover {
+            background: var(--neon-cyan);
+            color: #000;
+            box-shadow: 0 0 15px var(--neon-cyan);
+        }
+
+        .btn-magenta {
+            color: var(--neon-magenta);
+            border-color: var(--neon-magenta);
+        }
+
+        .btn-magenta:hover {
+            background: var(--neon-magenta);
+            color: #fff;
+            box-shadow: 0 0 15px var(--neon-magenta);
+        }
+
+        /* METADATOS AL PIE */
+        .meta-info {
+            background: rgba(0, 0, 0, 0.8);
+            border: 1px solid var(--goth-purple);
+            padding: 1rem;
+            margin-top: 2.5rem;
+            display: flex;
+            justify-content: space-around;
+            flex-wrap: wrap;
+            gap: 15px;
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+            color: #aaa;
+        }
+
+        .meta-info span { color: var(--neon-cyan); }
+
+        footer {
+            background: rgba(5, 5, 12, 0.95);
+            border-top: 1px solid var(--goth-purple);
+            padding: 1.5rem;
+            text-align: center;
+            font-size: clamp(0.75rem, 2vw, 0.85rem);
+            color: #888;
+            font-family: var(--font-mono);
+        }
+
+        footer span { color: var(--neon-cyan); }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <header>
+        <div class="kicker">// Actividad 18 · Parcial III</div>
+        <h1>La Investigación Forense: La Huella Digital de un Cibercriminal</h1>
+        <p>Análisis forense pericial con Autopsy sobre la imagen de evidencia <code>SCHARDT.001</code> (NSA / NIST CFREDS Hacking Case: Greg Schardt / Mr. Evil).</p>
+
+        <nav class="back">
+            <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
+        </nav>
+    </header>
+
+    <div class="content">
+
+        <!-- PARTE I: ANÁLISIS DEL ESCENARIO Y PARÁMETROS -->
+        <h2><i class="fa-solid fa-user-secret"></i> Parte I: Contexto del Caso y Configuración del Proyecto</h2>
+        <p>El 20/09/2004 se recuperó una computadora portátil Dell CPi (S/N: VLQLW) abandonada junto a una tarjeta PCMCIA inalámbrica y una antena 802.11b casera[cite: 72]. Se sospecha su uso en interceptación de datos corporativos y fraudes con tarjetas de crédito (carding) vinculados al usuario <strong>Greg Schardt</strong> (alias <strong>"Mr. Evil"</strong>).</p>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-folder-tree"></i> Proyecto Autopsy</h3>
+                <p>INV01INFOCRIM (Caso #01)</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-building-columns"></i> Organización</h3>
+                <p>Universidad Politécnica de San Luis Potosí</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-user-ninja"></i> Sospechoso / Alias</h3>
+                <p>Greg Schardt / Mr. Evil</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-file-code"></i> Imagen Analizada</h3>
+                <p>Raw Single (SCHARDT.001 - 4.87 GB)</p>
+            </div>
+        </div>
+
+        <!-- CONCEPTO DE ORIGEN DE DATOS -->
+        <h2><i class="fa-solid fa-layer-group"></i> Tipos de Origen de Datos en Autopsy</h2>
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-folder-open"></i> Logical Files</h3>
+                <p>Archivos y estructuras de carpetas seleccionadas manualmente de forma abstracta para análisis individual sin requerir la clonación completa de la unidad.</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-hard-drive"></i> Local Disk</h3>
+                <p>Dispositivo de almacenamiento físico conectado directamente al equipo pericial (HDD, SSD o unidad extraíble) para análisis en directo.</p>
+            </div>
+        </div>
+
+        <!-- PARTE II: VERIFICACIÓN CRIPTOGRÁFICA DE INTEGRIDAD -->
+        <h2><i class="fa-solid fa-shield-halved"></i> Parte II: Verificación de Hashes Criptográficos</h2>
+        <p>Mediante PowerShell (<code>Get-FileHash</code>) y Autopsy se verificó la integridad del contenedor forense <code>SCHARDT.001</code>, confirmando coincidencia exacta entre la adquisición y la verificación:</p>
+
+        <div class="table-responsive">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Algoritmo</th>
+                        <th>Suma de Verificación HASH Calculada</th>
+                        <th>Resultado</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <td><strong>MD5</strong></td>
+                        <td><code>28A9B613D6EEFE8A0515EF0A675BDEBD</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>SHA-1</strong></td>
+                        <td><code>4553C87B818518F9DFE13ADD1DBC334EDD7B31B9</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
+                    </tr>
+                    <tr>
+                        <td><strong>SHA-256</strong></td>
+                        <td><code>358C23312927693A916D0D514E3B44AFD45D9358F0622AA0DAC7E1E1008A8F0C</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+
+        <div class="terminal">
+            <span class="cmd">PS C:\Users\Dell\Desktop\PTercer> Get-FileHash SCHARDT.001 -Algorithm MD5</span><br>
+            MD5 Hash: <span class="highlight">28A9B613D6EEFE8A0515EF0A675BDEBD</span><br><br>
+            <span class="cmd">PS C:\Users\Dell\Desktop\PTercer> Get-FileHash SCHARDT.001 -Algorithm SHA1</span><br>
+            SHA1 Hash: <span class="highlight">4553C87B818518F9DFE13ADD1DBC334EDD7B31B9</span>
+        </div>
+
+        <!-- PARTE III: HALLAZGOS FORENSES DEL SISTEMA OPERATIVO -->
+        <h2><i class="fa-solid fa-magnifying-glass-location"></i> Parte III: Hallazgos del Sistema Operativo y Cuentas</h2>
+        <p>A través de la extracción de artefactos recientes en Autopsy se identificaron los parámetros clave del sistema investigado:</p>
+
+        <div class="grid-cards">
+            <div class="card-detail">
+                <h3><i class="fa-brands fa-windows"></i> Sistema Operativo</h3>
+                <p><strong>Microsoft Windows XP (x86 / 32-bits)</strong></p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-calendar-check"></i> Fecha de Instalación</h3>
+                <p>2004-08-19 17:53:08 CDT</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-globe"></i> Zona Horaria Configurada</h3>
+                <p>America/Mexico_City</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-user-check"></i> Propietario Registrado</h3>
+                <p><strong>Greg Schardt</strong></p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-laptop"></i> Nombre de la Computadora</h3>
+                <p><strong>N-1A90DN6ZXK4LQ</strong></p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-network-wired"></i> Dominio Principal / Alias</h3>
+                <p>Dominio: <strong>Evil</strong> | Cookie: <strong>mr. evil</strong></p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-power-off"></i> Último Apagado Registrado</h3>
+                <p>08/27/04 10:46:33</p>
+            </div>
+            <div class="card-detail">
+                <h3><i class="fa-solid fa-users"></i> Total de Cuentas Registradas</h3>
+                <p><strong>8 Cuentas</strong> (mr. evil, administrator, guest, helpassistant, support_388945a0, SYSTEM, LOCAL SERVICE, NETWORK SERVICE)</p>
+            </div>
+        </div>
+
+        <div class="terminal">
+            <span class="cmd">// Artefactos extraídos de la colmena del registro SAM / SOFTWARE:</span><br>
+            Product ID     : <span class="highlight">55274-640-0147306-23684</span><br>
+            Owner          : <span class="highlight">Greg Schardt</span><br>
+            Computer Name  : <span class="highlight">N-1A90DN6ZXK4LQ</span><br>
+            SID Mr. Evil   : <span class="highlight">S-1-5-21-2000478354-688789844-1708537768-1003</span>
+        </div>
+
+        <!-- SECCIÓN DE DESCARGA E INFORME -->
+        <section style="margin-top: 2rem;">
+            <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
+                <h2><i class="fa-solid fa-folder-open"></i> // Documento de Evidencia en PDF</h2>
+                <p>Consulta o descarga la evidencia práctica completa en formato PDF:</p>
+                <div style="margin-top: 1rem;">
+                    <a class="btn btn-magenta" href="Proyecto - La investigación forense.pdf" target="_blank">
+                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF Proyecto Actividad 18
+                    </a>
+                </div>
+            </div>
+        </section>
+
+    </div><!-- Cierre de .content -->
+
+    <footer>
+        <p>Parcial III · Mtro. Servando López Contreras · CNO IV — Seguridad Informática</p>
+        <p style="margin-top: 5px; color: var(--neon-cyan);">&copy; 2026 Lizbeth Guerrero Hurtado | UPSLP</p>
+    </footer>
+</div><!-- Cierre de .container -->
+
+</body>
+</html>
