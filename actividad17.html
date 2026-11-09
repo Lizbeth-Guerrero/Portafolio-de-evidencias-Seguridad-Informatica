@@ -310,7 +310,7 @@
     <header>
         <div class="kicker">// Actividad 17 · Parcial III</div>
         <h1>La Memoria del Crimen: Extracción de Evidencia de un Volcado RAM</h1>
-        <p>Análisis forense de memoria volátil mediante Volatility Framework 2.6 sobre la muestra <code>OtterCTF.vmem</code> en un caso de cibercrimen y ransomware.</p>
+        <p>Análisis forense de memoria volátil con Volatility Framework 2.6 sobre la muestra <code>OtterCTF.vmem</code> en un caso de cibercrimen y extorsión.</p>
 
         <nav class="back">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
@@ -320,8 +320,8 @@
     <div class="content">
 
         <!-- PARTE I: ANÁLISIS DEL CASO Y PERFIL DE MEMORIA -->
-        <h2><i class="fa-solid fa-user-ninja"></i> Parte I: Antecedentes del Caso e Identificación de Imagen</h2>
-        <p>Elementos de la FGM especializada obtuvieron la imagen de memoria RAM <code>OtterCTF.vmem</code> perteneciente al cibercriminal alias <strong>"Morty"</strong> (vinculado a ataques de ingeniería social, botnets y extorsión por ransomware). Mediante el plugin <code>imageinfo</code> se determinaron los parámetros de adquisición:</p>
+        <h2><i class="fa-solid fa-user-ninja"></i> Parte I: Antecedentes e Identificación del Volcado</h2>
+        <p>Elementos de la FGM especializada recabaron la muestra de memoria RAM <code>OtterCTF.vmem</code> asignada al presunto cibercriminal alias <strong>"Morty"</strong>, vinculado a campañas de ingeniería social, grupos secretos en Telegram, botnets y extorsión por ransomware[cite: 63]. Mediante el plugin <code>imageinfo</code> se determinaron los metadatos de adquisición:</p>
 
         <div class="grid-cards">
             <div class="card-detail">
@@ -339,43 +339,45 @@
         </div>
 
         <div class="terminal">
-            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem imageinfo</span><br>
-            Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP1x64<br>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem imageinfo</span><br>
+            Suggested Profile(s) : Win7SP1x64, Win7SP0x64, Win2008R2SP1x64 23418<br>
             Image date and time  : 2018-08-04 19:34:22 UTC+0000<br>
             Image local date/time: <span class="highlight">2018-08-04 22:34:22 +0300</span>
         </div>
 
-        <p><strong>Análisis de Marca de Tiempo:</strong> La fecha y hora local son cruciales para construir la línea de tiempo de eventos (timeline), correlacionar actividades maliciosas con logs del sistema, tráfico de red e interacciones en redes sociales en momentos específicos del ataque.</p>
+        <p><strong>Análisis de Marca de Tiempo:</strong> La fecha y hora local del sistema permiten establecer la línea de tiempo (timeline) de eventos, verificar la simultaneidad de ataques y correlacionar logs de eventos con registros de red e interacciones en plataformas de ingeniería social.</p>
 
         <!-- PARTE II: EXTRACCIÓN DE CREDENCIALES Y REGISTRO -->
-        <h2><i class="fa-solid fa-key"></i> Parte II: Extracción de Hashes, Contraseñas y Registro</h2>
-        <p>Mediante los plugins <code>hashdump</code>, <code>lsadump</code> y <code>printkey</code> se logró recuperar la contraseña guardada en memoria y el nombre exacto de la máquina:</p>
+        <h2><i class="fa-solid fa-key"></i> Parte II: Extracción de Credenciales, Hashes y Registro</h2>
+        <p>Haciendo uso de los módulos <code>hashdump</code>, <code>lsadump</code> y <code>printkey</code> se extrajeron los hashes NTLM, la clave guardada en memoria y el identificador de la máquina:</p>
 
         <div class="grid-cards">
             <div class="card-detail">
-                <h3><i class="fa-solid fa-lock"></i> Contraseña en Texto Plano</h3>
-                <p><strong>MortyIsReallyAnOtter</strong> (obtenida via LSA DefaultPassword)</p>
+                <h3><i class="fa-solid fa-lock"></i> Contraseña en Texto Claro</h3>
+                <p><strong>MortyIsReallyAnOtter</strong> (obtenida mediante LSA DefaultPassword)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-network-wired"></i> Nombre del Ordenador</h3>
-                <p><strong>WIN-L06FAF3DTFE</strong> (Key ComputerName)</p>
+                <p><strong>WIN-L06FAF3DTFE</strong> (Clave ComputerName en Registro)</p>
             </div>
             <div class="card-detail">
-                <h3><i class="fa-solid fa-user"></i> Hashes SAM Detectados</h3>
-                <p>Administrator (500), Guest (501), Rick (1000)</p>
+                <h3><i class="fa-solid fa-users-gear"></i> Cuentas SAM Identificadas</h3>
+                <p>Administrator:500, Guest:501, Rick:1000</p>
             </div>
         </div>
 
         <div class="terminal">
-            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" lsadump</span><br>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem --profile=Win7SP1x64 hashdump</span><br>
+            Rick:1000:aad3b435b51404eeaad3b435b51404ee:518172d012f97d3a8fcc089615283940:::<br><br>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem --profile=Win7SP1x64 lsadump</span><br>
             DefaultPassword: <span class="highlight">M.o.r.t.y.I.s.R.e.a.l.l.y.A.n.O.t.t.e.r.</span><br><br>
-            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" printkey -o 0xfffff8a000024010 -K "ControlSet001\Control\ComputerName\ComputerName"</span><br>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem --profile=Win7SP1x64 printkey -o 0xfffff8a000024010 -K "ControlSet001\Control\ComputerName\ComputerName"</span><br>
             ComputerName : <span class="highlight">WIN-L06FAF3DTFE</span>
         </div>
 
         <!-- PARTE III: ANÁLISIS DE PROCESOS Y RED -->
         <h2><i class="fa-solid fa-diagram-project"></i> Parte III: Árbol de Procesos y Conexiones de Red</h2>
-        <p>El análisis con <code>pstree</code> y <code>netscan</code> permitió rastrear la actividad operativa del sistema y la infraestructura de comando y control (C2):</p>
+        <p>El análisis de la estructura de procesos con <code>pstree</code> y sockets activos mediante <code>netscan</code> reveló la infraestructura operacional y el servidor C2 de la amenaza:</p>
 
         <div class="table-responsive">
             <table>
@@ -391,20 +393,20 @@
                     <tr>
                         <td><strong>chrome.exe</strong></td>
                         <td>4076</td>
-                        <td>4876</td>
-                        <td>Permitió al atacante investigar víctimas, acceder a paneles C2 y operar servicios web maliciosos.</td>
+                        <td>2728</td>
+                        <td>Navegador principal utilizado para ataques de ingeniería social, acceso a botnets y descarga de malware.</td>
                     </tr>
                     <tr>
                         <td><strong>explorer.exe</strong></td>
                         <td>2728</td>
                         <td>2696</td>
-                        <td>Shell principal de Windows usada para manipular archivos, ejecutar binarios y ocultar artefactos.</td>
+                        <td>Proceso ejecutor del entorno gráfico de Windows; permite la manipulación de archivos y accesos directos.</td>
                     </tr>
                     <tr>
                         <td><strong>Rick And Morty</strong></td>
                         <td>3820</td>
                         <td>2728</td>
-                        <td>Software sospechoso camuflado como ejecutable inofensivo; oculta el binario de Ransomware.</td>
+                        <td>Proceso sospechoso camuflado como ejecutable benigno; actúa como vector para desencadenar el ransomware.</td>
                     </tr>
                 </tbody>
             </table>
@@ -412,36 +414,38 @@
 
         <div class="grid-cards">
             <div class="card-detail">
-                <h3><i class="fa-solid fa-server"></i> Servidor C2 Detectado (LunarMS.exe)</h3>
+                <h3><i class="fa-solid fa-server"></i> Servidor C2 Malicioso (LunarMS.exe)</h3>
                 <p>IP: <code>77.102.199.102</code> | Puerto: <code>7575</code> (PID: 708)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-map-location-dot"></i> Geolocalización del Servidor</h3>
-                <p>Londres, Reino Unido (ISP: Virgin Media Limited / Lat: 51.50853, Long: -0.12574)</p>
+                <p>Londres / Edimburgo, Reino Unido (ISP: Virgin Media Limited / Lat: 51.50853, Long: -0.12574)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-envelope"></i> Correos de Ingeniería Social</h3>
-                <p><code>rickopicko@mail.com</code> / <code>rickypinky@mail.com</code> (Google Chrome en Windows)</p>
+                <p><code>rickopicko@mail.com</code> / <code>rickypinky@mail.com</code> (Google Chrome / Windows)</p>
             </div>
         </div>
 
         <div class="terminal">
-            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" netscan | grep LunarMS</span><br>
-            0x7e413a40 TCPv4 <span class="warn">192.168.202.131:49530  77.102.199.102:7575</span> CLOSED 708 LunarMS.exe<br><br>
-            <span class="cmd">root@kali:~/Desktop# grep "@mail.com" OtterCTF.vmem.strings</span><br>
-            rickopicko@mail.com &lt;rickopicko@mail.com&gt;<br>
-            usernamerickypinky@mail.com[cite: 60]
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem --profile=Win7SP1x64 netscan | findstr LunarMS</span><br>
+            0x7d6124d0 TCPv4 <span class="warn">192.168.202.131:49530  77.102.199.102:7575</span> CLOSED 708 LunarMS.exe<br><br>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem --profile=Win7SP1x64 yarascan -Y "@mail.com"</span><br>
+            Owner: Process chrome.exe Pid 4076<br>
+            nrickopicko@mail.com &lt;rickopicko@mail.com&gt;<br>
+            usernamerickypinky@mail.com
         </div>
 
         <!-- PARTE IV: EXTRACCIÓN Y ANÁLISIS DEL RANSOMWARE -->
-        <h2><i class="fa-solid fa-biohazard"></i> Parte IV: Volcado de Memoria del Ransomware (PID 3720)</h2>
-        <p>Al volcar el proceso <code>3720</code> (vmware-tray.exe) con el plugin <code>memdump</code> y extraer cadenas imprimibles, se reveló el mensaje de extorsión y la billetera de rescate:</p>
+        <h2><i class="fa-solid fa-biohazard"></i> Parte IV: Volcado del Ransomware (PID 3720) y Billetera Crypto</h2>
+        <p>Al extraer la memoria del proceso malicioso <code>3720</code> (vmware-tray.exe / Rick And Morty) mediante <code>memdump</code> y buscar las cadenas de texto del secuestro, se recuperó la nota de rescate y la dirección de la billetera Bitcoin:</p>
 
         <div class="terminal">
-            <span class="cmd">root@kali:~/Desktop# volatility -f OtterCTF.vmem --profile="Win7SP1x64" memdump -p 3720 -D .</span><br>
-            Writing vmware-tray.ex [3720] to 3720.dmp<br><br>
-            <span class="warn">"This is Ransomware. It locks your files until you pay for them... Send 0.16 to the address below."</span><br>
-            Cartera BTC de Rescate: <span class="highlight">1MmpEmebJkqXG8nQv4cjJSnxZQFVmFa63M</span>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>volatility_2.6_win64_standalone.exe -f OtterCTF.vmem --profile=Win7SP1x64 memdump -p 3720 -D .</span><br>
+            Writing vmware-tray.ex [ 3720] to 3720.dmp<br><br>
+            <span class="cmd">C:\Users\COMPAQ\Desktop\volatility>findstr /I /C:"This is Ransomware" /C:"Send 0.16" 3720.dmp > resultado_billetera.txt</span><br>
+            <span class="warn">"This is Ransomware. It locks your files until you pay for them... Send 0.16 to the address below."</span>[cite: 71]<br>
+            Dirección BTC de Rescate: <span class="highlight">1MmpEmebJkqXG8nQv4cjJSnxZQFVmFa63M</span>
         </div>
 
         <div class="grid-cards">
@@ -450,8 +454,8 @@
                 <p><code>1MmpEmebJkqXG8nQv4cjJSnxZQFVmFa63M</code></p>
             </div>
             <div class="card-detail">
-                <h3><i class="fa-solid fa-shield-virus"></i> Verificación en Listas Negras</h3>
-                <p>Verificada en BTCBlack (btcblack.it). Estado: <strong>NOT Blacklisted</strong>.</p>
+                <h3><i class="fa-solid fa-shield-virus"></i> Verificación RBL (BTCBlack)</h3>
+                <p>Estado en <code>btcblack.it</code>: <strong>NOT Blacklisted</strong> (No figura reportada en lista negra al momento de la consulta).</p>
             </div>
         </div>
 
@@ -459,15 +463,14 @@
         <section style="margin-top: 2rem;">
             <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
                 <h2><i class="fa-solid fa-folder-open"></i> // Documento de Evidencia en PDF</h2>
-                <p>Consulta o descarga el reporte práctico completo en formato PDF:</p>
+                <p>Consulta o descarga la evidencia práctica completa en formato PDF:</p>
                 <div style="margin-top: 1rem;">
-                    <a class="btn btn-magenta" href="Actividad 18 - La memoria del crimen.pdf" target="_blank">
+                    <a class="btn btn-magenta" href="Actividad17.pdf" target="_blank">
                         <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF Actividad 17
                     </a>
                 </div>
             </div>
         </section>
-
 
     </div><!-- Cierre de .content -->
 
