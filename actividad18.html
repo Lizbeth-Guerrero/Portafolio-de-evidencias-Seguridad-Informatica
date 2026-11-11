@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Proyecto Actividad 18: La Investigación Forense: La Huella Digital de un Cibercriminal - Parcial III</title>
+    <title>Actividad 18: La Investigación Forense: La Huella Digital de un Cibercriminal - Parcial III</title>
     
     <!-- Fuentes tipográficas del Portafolio -->
     <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700;900&family=Cinzel:wght@600;900&family=Share+Tech+Mono&display=swap" rel="stylesheet">
@@ -310,7 +310,7 @@
     <header>
         <div class="kicker">// Actividad 18 · Parcial III</div>
         <h1>La Investigación Forense: La Huella Digital de un Cibercriminal</h1>
-        <p>Análisis forense pericial con Autopsy sobre la imagen de evidencia <code>SCHARDT.001</code> (NSA / NIST CFREDS Hacking Case: Greg Schardt / Mr. Evil).</p>
+        <p>Análisis forense pericial con Autopsy sobre el caso de prueba pericial NIST CFREDS: <code>SCHARDT.001</code> (NSA / Hacking Case: Greg Schardt / Mr. Evil).</p>
 
         <nav class="back">
             <a href="index.html"><i class="fa-solid fa-arrow-left"></i> Volver al Inicio</a>
@@ -321,24 +321,24 @@
 
         <!-- PARTE I: ANÁLISIS DEL ESCENARIO Y PARÁMETROS -->
         <h2><i class="fa-solid fa-user-secret"></i> Parte I: Contexto del Caso y Configuración del Proyecto</h2>
-        <p>El 20/09/2004 se recuperó una computadora portátil Dell CPi (S/N: VLQLW) abandonada junto a una tarjeta PCMCIA inalámbrica y una antena 802.11b casera[cite: 72]. Se sospecha su uso en interceptación de datos corporativos y fraudes con tarjetas de crédito (carding) vinculados al usuario <strong>Greg Schardt</strong> (alias <strong>"Mr. Evil"</strong>).</p>
+        <p>El 20/09/2004 se recuperó una computadora portátil Dell CPi (S/N: VLQLW) abandonada junto con una tarjeta PCMCIA inalámbrica y una antena 802.11b casera[cite: 79]. Se sospecha su uso en robos de credenciales y fraudes financieros (carding) vinculados al sospechoso <strong>Greg Schardt</strong> (alias <strong>"Mr. Evil"</strong>)[cite: 79].</p>
 
         <div class="grid-cards">
             <div class="card-detail">
-                <h3><i class="fa-solid fa-folder-tree"></i> Proyecto Autopsy</h3>
-                <p>INV01INFOCRIM (Caso #01)</p>
+                <h3><i class="fa-solid fa-folder-tree"></i> Nombre del Caso Autopsy</h3>
+                <p>INV01UPSLP (Caso #01)[cite: 79, 80]</p>
             </div>
             <div class="card-detail">
-                <h3><i class="fa-solid fa-building-columns"></i> Organización</h3>
-                <p>Universidad Politécnica de San Luis Potosí</p>
+                <h3><i class="fa-solid fa-building-columns"></i> Organización Registrada</h3>
+                <p>Universidad Politécnica de San Luis Potosí[cite: 80, 81]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-ninja"></i> Sospechoso / Alias</h3>
-                <p>Greg Schardt / Mr. Evil</p>
+                <p>Greg Schardt / Mr. Evil[cite: 79, 84]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-file-code"></i> Imagen Analizada</h3>
-                <p>Raw Single (SCHARDT.001 - 4.87 GB)</p>
+                <p>Raw Single (SCHARDT.001 - 8 partes)[cite: 79, 84]</p>
             </div>
         </div>
 
@@ -347,17 +347,17 @@
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-folder-open"></i> Logical Files</h3>
-                <p>Archivos y estructuras de carpetas seleccionadas manualmente de forma abstracta para análisis individual sin requerir la clonación completa de la unidad.</p>
+                <p>Archivos y estructuras de carpetas seleccionadas manualmente de forma abstracta para análisis individual sin requerir una clonación física completa[cite: 81].</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-hard-drive"></i> Local Disk</h3>
-                <p>Dispositivo de almacenamiento físico conectado directamente al equipo pericial (HDD, SSD o unidad extraíble) para análisis en directo.</p>
+                <p>Dispositivo de almacenamiento físico (HDD o SSD) conectado directamente a la estación de trabajo para auditoría en directo[cite: 81].</p>
             </div>
         </div>
 
         <!-- PARTE II: VERIFICACIÓN CRIPTOGRÁFICA DE INTEGRIDAD -->
-        <h2><i class="fa-solid fa-shield-halved"></i> Parte II: Verificación de Hashes Criptográficos</h2>
-        <p>Mediante PowerShell (<code>Get-FileHash</code>) y Autopsy se verificó la integridad del contenedor forense <code>SCHARDT.001</code>, confirmando coincidencia exacta entre la adquisición y la verificación:</p>
+        <h2><i class="fa-solid fa-shield-halved"></i> Parte II: Verificación Criptográfica de la Evidencia</h2>
+        <p>Al procesar la imagen <code>SCHARDT.001</code> (con un conteo total de 9,514,260 sectores), los valores HASH calculados coinciden plenamente con los de adquisición, garantizando la inalterabilidad de la prueba forense[cite: 83, 84]:</p>
 
         <div class="table-responsive">
             <table>
@@ -365,96 +365,109 @@
                     <tr>
                         <th>Algoritmo</th>
                         <th>Suma de Verificación HASH Calculada</th>
-                        <th>Resultado</th>
+                        <th>Resultado de Verificación</th>
                     </tr>
                 </thead>
                 <tbody>
                     <tr>
                         <td><strong>MD5</strong></td>
-                        <td><code>28A9B613D6EEFE8A0515EF0A675BDEBD</code></td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
+                        <td><code>aee4fcd9301c03b3b054623ca261959a</code>[cite: 83, 84]</td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span>[cite: 83]</td>
                     </tr>
                     <tr>
                         <td><strong>SHA-1</strong></td>
-                        <td><code>4553C87B818518F9DFE13ADD1DBC334EDD7B31B9</code></td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
+                        <td><code>da2fe30fe21711edf42310873af475859a68f300</code>[cite: 83, 84]</td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span>[cite: 83]</td>
                     </tr>
                     <tr>
                         <td><strong>SHA-256</strong></td>
-                        <td><code>358C23312927693A916D0D514E3B44AFD45D9358F0622AA0DAC7E1E1008A8F0C</code></td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
+                        <td><code>65e2002fed0b286f49541c7e97dcec0dda913d51a063ceeed86782bdacda2312</code>[cite: 83, 84]</td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span>[cite: 83]</td>
                     </tr>
                 </tbody>
             </table>
         </div>
 
         <div class="terminal">
-            <span class="cmd">PS C:\Users\Dell\Desktop\PTercer> Get-FileHash SCHARDT.001 -Algorithm MD5</span><br>
-            MD5 Hash: <span class="highlight">28A9B613D6EEFE8A0515EF0A675BDEBD</span><br><br>
-            <span class="cmd">PS C:\Users\Dell\Desktop\PTercer> Get-FileHash SCHARDT.001 -Algorithm SHA1</span><br>
-            SHA1 Hash: <span class="highlight">4553C87B818518F9DFE13ADD1DBC334EDD7B31B9</span>
+            <span class="cmd">Drive/Image Verify Results [SCHARDT.001]</span><br>
+            Sector count : 9514260[cite: 83]<br>
+            MD5 Hash     : <span class="highlight">aee4fcd9301c03b3b054623ca261959a</span>[cite: 83]<br>
+            SHA1 Hash    : <span class="highlight">da2fe30fe21711edf42310873af475859a68f300</span>[cite: 83]<br>
+            Bad Blocks   : No bad blocks found in image[cite: 83]
         </div>
 
-        <!-- PARTE III: HALLAZGOS FORENSES DEL SISTEMA OPERATIVO -->
-        <h2><i class="fa-solid fa-magnifying-glass-location"></i> Parte III: Hallazgos del Sistema Operativo y Cuentas</h2>
-        <p>A través de la extracción de artefactos recientes en Autopsy se identificaron los parámetros clave del sistema investigado:</p>
+        <!-- PARTE III: HALLAZGOS FORENSES Y DECODIFICACIÓN EN REGISTRO -->
+        <h2><i class="fa-solid fa-magnifying-glass-location"></i> Parte III: Artefactos Forenses y Registro de Windows</h2>
+        <p>A través de Autopsy y la decodificación de valores en PowerShell se respondieron las interrogantes clave del análisis[cite: 84, 85, 87, 88]:</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-brands fa-windows"></i> Sistema Operativo</h3>
-                <p><strong>Microsoft Windows XP (x86 / 32-bits)</strong></p>
+                <p><strong>Microsoft Windows XP Professional (x86 / 32-bits)</strong>[cite: 84]</p>
             </div>
             <div class="card-detail">
-                <h3><i class="fa-solid fa-calendar-check"></i> Fecha de Instalación</h3>
-                <p>2004-08-19 17:53:08 CDT</p>
+                <h3><i class="fa-solid fa-calendar-check"></i> Fecha Exacta de Instalación</h3>
+                <p><strong>Jueves 19/08/2004 22:48:27 UTC</strong> (17:48:27 CDT)[cite: 84, 85]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-globe"></i> Zona Horaria Configurada</h3>
-                <p>America/Mexico_City</p>
+                <p>Central Standard Time / CDT (UTC -06:00 / -05:00)[cite: 84, 85, 88]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-check"></i> Propietario Registrado</h3>
-                <p><strong>Greg Schardt</strong></p>
+                <p><strong>Greg Schardt</strong>[cite: 84, 86]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-laptop"></i> Nombre de la Computadora</h3>
-                <p><strong>N-1A90DN6ZXK4LQ</strong></p>
+                <p><strong>N-1A90DN6ZXK4LQ</strong>[cite: 84, 87]</p>
             </div>
             <div class="card-detail">
-                <h3><i class="fa-solid fa-network-wired"></i> Dominio Principal / Alias</h3>
-                <p>Dominio: <strong>Evil</strong> | Cookie: <strong>mr. evil</strong></p>
+                <h3><i class="fa-solid fa-network-wired"></i> Dominio Principal (Primary Domain)</h3>
+                <p><strong>EVIL</strong>[cite: 87]</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-power-off"></i> Último Apagado Registrado</h3>
-                <p>08/27/04 10:46:33</p>
+                <p><strong>27/08/2004 10:46:33 AM CDT</strong> (15:46:33 UTC)[cite: 88]</p>
             </div>
             <div class="card-detail">
-                <h3><i class="fa-solid fa-users"></i> Total de Cuentas Registradas</h3>
-                <p><strong>8 Cuentas</strong> (mr. evil, administrator, guest, helpassistant, support_388945a0, SYSTEM, LOCAL SERVICE, NETWORK SERVICE)</p>
+                <h3><i class="fa-solid fa-users"></i> Cuentas Registradas en SAM</h3>
+                <p><strong>5 Cuentas</strong> (Administrator, Guest, HelpAssistant, Mr. Evil, SUPPORT_388945a0)[cite: 88, 89]</p>
             </div>
         </div>
 
+        <!-- DEMOSTRACIÓN DE COMANDOS DE DECODIFICACIÓN -->
+        <h2><i class="fa-solid fa-terminal"></i> Decodificación Forense mediante Scripts de PowerShell</h2>
+        
+        <p><strong>1. Análisis de Fecha de Instalación (Unix Epoch):</strong> Se extrajo el valor REG_DWORD <code>0x41252e3b</code> (1092955707 s) de la clave <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion\InstallDate</code>[cite: 85]:</p>
         <div class="terminal">
-            <span class="cmd">// Artefactos extraídos de la colmena del registro SAM / SOFTWARE:</span><br>
-            Product ID     : <span class="highlight">55274-640-0147306-23684</span><br>
-            Owner          : <span class="highlight">Greg Schardt</span><br>
-            Computer Name  : <span class="highlight">N-1A90DN6ZXK4LQ</span><br>
-            SID Mr. Evil   : <span class="highlight">S-1-5-21-2000478354-688789844-1708537768-1003</span>
+            <span class="cmd">PS C:\Users\COMPAQ> [DateTimeOffset]::FromUnixTimeSeconds(1092955707).UtcDateTime</span><br>
+            jueves, 19 de agosto de 2004 10:48:27 p. m.[cite: 85]
+        </div>
+
+        <p><strong>2. Análisis de Dominio Principal (Binary Unicode):</strong> Se leyó el valor binario de <code>SECURITY\Policy\PolPrDmN</code> correspondiente a los bytes en hexadecimal <code>45 00 56 00 49 00 4C 00</code>[cite: 87]:</p>
+        <div class="terminal">
+            <span class="cmd">PS C:\Users\COMPAQ> [System.Text.Encoding]::Unicode.GetString([byte[]](0x45,0x00,0x56,0x00,0x49,0x00,0x4C,0x00))</span><br>
+            <span class="highlight">EVIL</span>[cite: 87]
+        </div>
+
+        <p><strong>3. Análisis de Marca de Apagado (Windows FILETIME):</strong> Se procesó la clave binaria <code>SYSTEM\ControlSet001\Control\Windows\ShutdownTime</code> (bytes: <code>C4 FC 00 07 4D 8C C4 01</code>)[cite: 88]:</p>
+        <div class="terminal">
+            <span class="cmd">PS C:\Users\COMPAQ> [DateTime]::FromFileTimeUtc(...)</span><br>
+            UTC: 08/27/2004 15:46:33 | <span class="highlight">Local (CDT -05:00): 08/27/2004 10:46:33 AM</span>[cite: 88]
         </div>
 
         <!-- SECCIÓN DE DESCARGA E INFORME -->
         <section style="margin-top: 2rem;">
             <div class="card-detail" style="background: rgba(138, 43, 226, 0.1); border-color: var(--neon-cyan);">
                 <h2><i class="fa-solid fa-folder-open"></i> // Documento de Evidencia en PDF</h2>
-                <p>Consulta o descarga la evidencia práctica completa en formato PDF:</p>
+                <p>Consulta o descarga el reporte práctico completo en formato PDF:</p>
                 <div style="margin-top: 1rem;">
                     <a class="btn btn-magenta" href="Actividad18.pdf" target="_blank">
-                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF Proyecto Actividad 18
+                        <i class="fa-solid fa-file-pdf"></i> Descargar / Ver PDF Actividad 18
                     </a>
                 </div>
             </div>
         </section>
-
     </div><!-- Cierre de .content -->
 
     <footer>
