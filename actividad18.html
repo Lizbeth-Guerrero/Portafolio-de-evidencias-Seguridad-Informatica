@@ -321,24 +321,24 @@
 
         <!-- PARTE I: ANÁLISIS DEL ESCENARIO Y PARÁMETROS -->
         <h2><i class="fa-solid fa-user-secret"></i> Parte I: Contexto del Caso y Configuración del Proyecto</h2>
-        <p>El 20/09/2004 se recuperó una computadora portátil Dell CPi (S/N: VLQLW) abandonada junto con una tarjeta PCMCIA inalámbrica y una antena 802.11b casera[cite: 79]. Se sospecha su uso en robos de credenciales y fraudes financieros (carding) vinculados al sospechoso <strong>Greg Schardt</strong> (alias <strong>"Mr. Evil"</strong>)[cite: 79].</p>
+        <p>El 20/09/2004 se recuperó una computadora portátil Dell CPi (S/N: VLQLW) abandonada junto con una tarjeta PCMCIA inalámbrica y una antena 802.11b casera. Se sospecha su uso en robos de credenciales y fraudes financieros (carding) vinculados al sospechoso <strong>Greg Schardt</strong> (alias <strong>"Mr. Evil"</strong>).</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-folder-tree"></i> Nombre del Caso Autopsy</h3>
-                <p>INV01UPSLP (Caso #01)[cite: 79, 80]</p>
+                <p>INV01UPSLP (Caso #01)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-building-columns"></i> Organización Registrada</h3>
-                <p>Universidad Politécnica de San Luis Potosí[cite: 80, 81]</p>
+                <p>Universidad Politécnica de San Luis Potosí</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-ninja"></i> Sospechoso / Alias</h3>
-                <p>Greg Schardt / Mr. Evil[cite: 79, 84]</p>
+                <p>Greg Schardt / Mr. Evil</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-file-code"></i> Imagen Analizada</h3>
-                <p>Raw Single (SCHARDT.001 - 8 partes)[cite: 79, 84]</p>
+                <p>Raw Single (SCHARDT.001 - 8 partes)</p>
             </div>
         </div>
 
@@ -347,17 +347,17 @@
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-solid fa-folder-open"></i> Logical Files</h3>
-                <p>Archivos y estructuras de carpetas seleccionadas manualmente de forma abstracta para análisis individual sin requerir una clonación física completa[cite: 81].</p>
+                <p>Archivos y estructuras de carpetas seleccionadas manualmente de forma abstracta para análisis individual sin requerir una clonación física completa.</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-hard-drive"></i> Local Disk</h3>
-                <p>Dispositivo de almacenamiento físico (HDD o SSD) conectado directamente a la estación de trabajo para auditoría en directo[cite: 81].</p>
+                <p>Dispositivo de almacenamiento físico (HDD o SSD) conectado directamente a la estación de trabajo para auditoría en directo.</p>
             </div>
         </div>
 
         <!-- PARTE II: VERIFICACIÓN CRIPTOGRÁFICA DE INTEGRIDAD -->
         <h2><i class="fa-solid fa-shield-halved"></i> Parte II: Verificación Criptográfica de la Evidencia</h2>
-        <p>Al procesar la imagen <code>SCHARDT.001</code> (con un conteo total de 9,514,260 sectores), los valores HASH calculados coinciden plenamente con los de adquisición, garantizando la inalterabilidad de la prueba forense[cite: 83, 84]:</p>
+        <p>Al procesar la imagen <code>SCHARDT.001</code> (con un conteo total de 9,514,260 sectores), los valores HASH calculados coinciden plenamente con los de adquisición, garantizando la inalterabilidad de la prueba forense:</p>
 
         <div class="table-responsive">
             <table>
@@ -371,18 +371,18 @@
                 <tbody>
                     <tr>
                         <td><strong>MD5</strong></td>
-                        <td><code>aee4fcd9301c03b3b054623ca261959a</code>[cite: 83, 84]</td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span>[cite: 83]</td>
+                        <td><code>aee4fcd9301c03b3b054623ca261959a</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
                     </tr>
                     <tr>
                         <td><strong>SHA-1</strong></td>
-                        <td><code>da2fe30fe21711edf42310873af475859a68f300</code>[cite: 83, 84]</td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span>[cite: 83]</td>
+                        <td><code>da2fe30fe21711edf42310873af475859a68f300</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
                     </tr>
                     <tr>
                         <td><strong>SHA-256</strong></td>
-                        <td><code>65e2002fed0b286f49541c7e97dcec0dda913d51a063ceeed86782bdacda2312</code>[cite: 83, 84]</td>
-                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span>[cite: 83]</td>
+                        <td><code>65e2002fed0b286f49541c7e97dcec0dda913d51a063ceeed86782bdacda2312</code></td>
+                        <td><span style="color: var(--neon-green); font-weight: bold;">VERIFIED (MATCH)</span></td>
                     </tr>
                 </tbody>
             </table>
@@ -390,70 +390,69 @@
 
         <div class="terminal">
             <span class="cmd">Drive/Image Verify Results [SCHARDT.001]</span><br>
-            Sector count : 9514260[cite: 83]<br>
-            MD5 Hash     : <span class="highlight">aee4fcd9301c03b3b054623ca261959a</span>[cite: 83]<br>
-            SHA1 Hash    : <span class="highlight">da2fe30fe21711edf42310873af475859a68f300</span>[cite: 83]<br>
-            Bad Blocks   : No bad blocks found in image[cite: 83]
+            Sector count : 9514260<br>
+            MD5 Hash     : <span class="highlight">aee4fcd9301c03b3b054623ca261959a</span><br>
+            SHA1 Hash    : <span class="highlight">da2fe30fe21711edf42310873af475859a68f300</span><br>
         </div>
 
         <!-- PARTE III: HALLAZGOS FORENSES Y DECODIFICACIÓN EN REGISTRO -->
         <h2><i class="fa-solid fa-magnifying-glass-location"></i> Parte III: Artefactos Forenses y Registro de Windows</h2>
-        <p>A través de Autopsy y la decodificación de valores en PowerShell se respondieron las interrogantes clave del análisis[cite: 84, 85, 87, 88]:</p>
+        <p>A través de Autopsy y la decodificación de valores en PowerShell se respondieron las interrogantes clave del análisis:</p>
 
         <div class="grid-cards">
             <div class="card-detail">
                 <h3><i class="fa-brands fa-windows"></i> Sistema Operativo</h3>
-                <p><strong>Microsoft Windows XP Professional (x86 / 32-bits)</strong>[cite: 84]</p>
+                <p><strong>Microsoft Windows XP Professional (x86 / 32-bits)</strong></p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-calendar-check"></i> Fecha Exacta de Instalación</h3>
-                <p><strong>Jueves 19/08/2004 22:48:27 UTC</strong> (17:48:27 CDT)[cite: 84, 85]</p>
+                <p><strong>Jueves 19/08/2004 22:48:27 UTC</strong> (17:48:27 CDT)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-globe"></i> Zona Horaria Configurada</h3>
-                <p>Central Standard Time / CDT (UTC -06:00 / -05:00)[cite: 84, 85, 88]</p>
+                <p>Central Standard Time / CDT (UTC -06:00 / -05:00)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-user-check"></i> Propietario Registrado</h3>
-                <p><strong>Greg Schardt</strong>[cite: 84, 86]</p>
+                <p><strong>Greg Schardt</strong></p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-laptop"></i> Nombre de la Computadora</h3>
-                <p><strong>N-1A90DN6ZXK4LQ</strong>[cite: 84, 87]</p>
+                <p><strong>N-1A90DN6ZXK4LQ</strong></p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-network-wired"></i> Dominio Principal (Primary Domain)</h3>
-                <p><strong>EVIL</strong>[cite: 87]</p>
+                <p><strong>EVIL</strong></p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-power-off"></i> Último Apagado Registrado</h3>
-                <p><strong>27/08/2004 10:46:33 AM CDT</strong> (15:46:33 UTC)[cite: 88]</p>
+                <p><strong>27/08/2004 10:46:33 AM CDT</strong> (15:46:33 UTC)</p>
             </div>
             <div class="card-detail">
                 <h3><i class="fa-solid fa-users"></i> Cuentas Registradas en SAM</h3>
-                <p><strong>5 Cuentas</strong> (Administrator, Guest, HelpAssistant, Mr. Evil, SUPPORT_388945a0)[cite: 88, 89]</p>
+                <p><strong>5 Cuentas</strong> (Administrator, Guest, HelpAssistant, Mr. Evil, SUPPORT_388945a0)</p>
             </div>
         </div>
 
         <!-- DEMOSTRACIÓN DE COMANDOS DE DECODIFICACIÓN -->
         <h2><i class="fa-solid fa-terminal"></i> Decodificación Forense mediante Scripts de PowerShell</h2>
         
-        <p><strong>1. Análisis de Fecha de Instalación (Unix Epoch):</strong> Se extrajo el valor REG_DWORD <code>0x41252e3b</code> (1092955707 s) de la clave <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion\InstallDate</code>[cite: 85]:</p>
+        <p><strong>1. Análisis de Fecha de Instalación (Unix Epoch):</strong> Se extrajo el valor REG_DWORD <code>0x41252e3b</code> (1092955707 s) de la clave <code>SOFTWARE\Microsoft\Windows NT\CurrentVersion\InstallDate</code>:</p>
         <div class="terminal">
             <span class="cmd">PS C:\Users\COMPAQ> [DateTimeOffset]::FromUnixTimeSeconds(1092955707).UtcDateTime</span><br>
-            jueves, 19 de agosto de 2004 10:48:27 p. m.[cite: 85]
+            jueves, 19 de agosto de 2004 10:48:27 p. m.
         </div>
 
-        <p><strong>2. Análisis de Dominio Principal (Binary Unicode):</strong> Se leyó el valor binario de <code>SECURITY\Policy\PolPrDmN</code> correspondiente a los bytes en hexadecimal <code>45 00 56 00 49 00 4C 00</code>[cite: 87]:</p>
+        <p><strong>2. Análisis de Dominio Principal (Binary Unicode):</strong> Se leyó el valor binario de <code>SECURITY\Policy\PolPrDmN</code> correspondiente a los bytes en hexadecimal <code>45 00 56 00 49 00 4C 00</code>:</p>
         <div class="terminal">
             <span class="cmd">PS C:\Users\COMPAQ> [System.Text.Encoding]::Unicode.GetString([byte[]](0x45,0x00,0x56,0x00,0x49,0x00,0x4C,0x00))</span><br>
-            <span class="highlight">EVIL</span>[cite: 87]
+            <span class="highlight">EVIL</span>
         </div>
 
-        <p><strong>3. Análisis de Marca de Apagado (Windows FILETIME):</strong> Se procesó la clave binaria <code>SYSTEM\ControlSet001\Control\Windows\ShutdownTime</code> (bytes: <code>C4 FC 00 07 4D 8C C4 01</code>)[cite: 88]:</p>
+        <p><strong>3. Análisis de Marca de Apagado (Windows FILETIME):</strong> Se procesó la clave binaria <code>SYSTEM\ControlSet001\Control\Windows\ShutdownTime</code> (bytes: <code>C4 FC 00 07 4D 8C C4 01</code>):</p>
         <div class="terminal">
             <span class="cmd">PS C:\Users\COMPAQ> [DateTime]::FromFileTimeUtc(...)</span><br>
-            UTC: 08/27/2004 15:46:33 | <span class="highlight">Local (CDT -05:00): 08/27/2004 10:46:33 AM</span>[cite: 88]
+            UTC: 08/27/2004 15:46:33 | <span class="highlight">Local (CDT -05:00): 08/27/2004 10:46:33 AM</span>
         </div>
 
         <!-- SECCIÓN DE DESCARGA E INFORME -->
